@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My CV Analyses - AI Career Assistant{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h1><i class="fas fa-history"></i> My CV Analyses</h1>
+            <a href="{% url 'upload_cv_analysis' %}" class="btn btn-primary float-end">
+                <i class="fas fa-plus"></i> New Analysis
+            </a>
+        </div>
+    </div>
+    
+    <!-- Filters -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <form method="GET" class="row g-3">
+                        <div class="col-md-4">
+                            {{ form.score_min }}
+                        </div>
+                        <div class="col-md-4">
+                            {{ form.score_max }}
+                        </div>
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-primary w-100">Filter</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Analyses List -->
+    {% if analyses %}
+        <div class="row">
+            {% for analysis in analyses %}
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h5 class="card-title">Analysis #{{ analysis.pk }}</h5>
+                                <span class="badge bg-primary">{{ analysis.overall_score }}/100</span>
+                            </div>
+                            
+                            <p class="card-text text-muted small">
+                                <i class="fas fa-calendar"></i> {{ analysis.created_at|date:"M d, Y" }}
+                            </p>
+                            
+                            <div class="progress mb-3" style="height: 20px;">
+                                <div class="progress-bar" style="width: {{ analysis.overall_score }}%;">
+                                    {{ analysis.overall_score }}%
+                                </div>
+                            </div>
+                            
+                            <div class="row text-center small mb-3">
+                                <div class="col-3">
+                                    <div><strong>{{ analysis.format_score }}</strong></div>
+                                    <div class="text-muted">Format</div>
+                                </div>
+                                <div class="col-3">
+                                    <div><strong>{{ analysis.content_score }}</strong></div>
+                                    <div class="text-muted">Content</div>
+                                </div>
+                                <div class="col-3">
+                                    <div><strong>{{ analysis.keyword_score }}</strong></div>
+                                    <div class="text-muted">Keywords</div>
+                                </div>
+                                <div class="col-3">
+                                    <div><strong>{{ analysis.readability_score }}</strong></div>
+                                    <div class="text-muted">Readable</div>
+                                </div>
+                            </div>
+                            
+                            <a href="{% url 'cv_analysis_detail' analysis.pk %}" class="btn btn-sm btn-primary w-100 mb-2">
+                                <i class="fas fa-eye"></i> View Details
+                            </a>
+                            <a href="{% url 'cv_comparison' %}?cv1={{ analysis.pk }}" class="btn btn-sm btn-outline-secondary w-100">
+                                <i class="fas fa-exchange-alt"></i> Compare
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center">
+            <i class="fas fa-inbox"></i> No analyses yet.
+            <a href="{% url 'upload_cv_analysis' %}">Start analyzing your CV now!</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

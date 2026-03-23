@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Activity Log - AI Career Assistant{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1><i class="fas fa-history"></i> Activity Log</h1>
+        </div>
+        <div class="col-md-4">
+            <form method="GET" class="input-group">
+                <select name="type" class="form-select">
+                    <option value="">All Activities</option>
+                    <option value="cv_analysis" {% if activity_type == 'cv_analysis' %}selected{% endif %}>CV Analysis</option>
+                    <option value="job_applied" {% if activity_type == 'job_applied' %}selected{% endif %}>Job Applied</option>
+                    <option value="job_saved" {% if activity_type == 'job_saved' %}selected{% endif %}>Job Saved</option>
+                    <option value="forum_post" {% if activity_type == 'forum_post' %}selected{% endif %}>Forum Post</option>
+                    <option value="profile_updated" {% if activity_type == 'profile_updated' %}selected{% endif %}>Profile Updated</option>
+                </select>
+                <button class="btn btn-primary" type="submit">Filter</button>
+            </form>
+        </div>
+    </div>
+    
+    {% if activities %}
+        <div class="timeline">
+            {% for activity in activities %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <h5>{{ activity.get_activity_type_display }}</h5>
+                                <p class="card-text">{{ activity.description }}</p>
+                            </div>
+                            <div class="col-md-3 text-end">
+                                <small class="text-muted">{{ activity.created_at|date:"M d, Y H:i" }}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            <i class="fas fa-inbox"></i> No activities found.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

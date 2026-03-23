@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ company.name }} - Company Detail{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <a href="{% url 'companies' %}" class="btn btn-outline-secondary mb-3">
+                <i class="fas fa-arrow-left"></i> Back to Companies
+            </a>
+            <h1 class="mb-1">{{ company.name }}</h1>
+            <p class="text-muted mb-0">{{ company.industry }} | {{ company.location }}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5>About Company</h5>
+                    <p>{{ company.description|default:'No description available.'|linebreaks }}</p>
+
+                    {% if company.website %}
+                        <a href="{{ company.website }}" target="_blank" rel="noopener" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-globe"></i> Visit Website
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6 class="mb-3">Company Info</h6>
+                    <p class="mb-2"><strong>Industry:</strong> {{ company.industry }}</p>
+                    <p class="mb-2"><strong>Location:</strong> {{ company.location }}</p>
+                    <p class="mb-0"><strong>Open Roles:</strong> {{ total_jobs }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h4 class="mb-3">Open Jobs</h4>
+            {% if jobs %}
+                {% for job in jobs %}
+                    <div class="card mb-3">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">{{ job.title }}</h6>
+                                <p class="text-muted small mb-0">{{ job.location }} | {{ job.get_job_type_display }}</p>
+                            </div>
+                            <a href="{% url 'job_detail' job.pk %}" class="btn btn-primary btn-sm">View Job</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-info">No active jobs from this company right now.</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

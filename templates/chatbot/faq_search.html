@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}FAQ Search - AI Career Assistant{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h1><i class="fas fa-search"></i> FAQ Search</h1>
+            <p class="text-muted mb-0">Results for "{{ search_query }}"</p>
+        </div>
+    </div>
+
+    {% if faqs %}
+        <div class="row">
+            <div class="col-md-12">
+                {% for item in faqs %}
+                    <div class="card mb-3 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.question }}</h5>
+                            <p class="card-text">{{ item.answer|truncatewords:40 }}</p>
+                            <a href="{% url 'faq_detail' item.pk %}" class="btn btn-outline-primary btn-sm">Read More</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-warning">No matching FAQs found.</div>
+    {% endif %}
+
+    <a href="{% url 'faq' %}" class="btn btn-secondary mt-2">
+        <i class="fas fa-arrow-left"></i> Back to FAQ
+    </a>
+</div>
+{% endblock %}

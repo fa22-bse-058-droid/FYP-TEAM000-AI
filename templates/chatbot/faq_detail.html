@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}FAQ Detail - AI Career Assistant{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <a href="{% url 'faq' %}" class="btn btn-outline-secondary mb-3">
+        <i class="fas fa-arrow-left"></i> Back to FAQ
+    </a>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h3 class="mb-3">{{ faq.question }}</h3>
+            <div class="mb-3">{{ faq.answer|linebreaks }}</div>
+            <p class="small text-muted mb-0">Views: {{ faq.views_count }}</p>
+        </div>
+    </div>
+
+    <h5>Related FAQs</h5>
+    {% if related_faqs %}
+        <div class="list-group">
+            {% for item in related_faqs %}
+                <a class="list-group-item list-group-item-action" href="{% url 'faq_detail' item.pk %}">
+                    {{ item.question }}
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-light">No related FAQs available.</div>
+    {% endif %}
+</div>
+{% endblock %}

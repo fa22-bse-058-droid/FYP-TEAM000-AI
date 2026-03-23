@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Create Job Alert - AI Career Assistant{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="mb-0"><i class="fas fa-plus-circle"></i> Create Job Alert</h1>
+                <a href="{% url 'my_job_alerts' %}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to Alerts
+                </a>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+                        {% endif %}
+
+                        <div class="mb-3">
+                            <label class="form-label">Title</label>
+                            {{ form.title }}
+                            {% if form.title.errors %}<div class="text-danger small">{{ form.title.errors }}</div>{% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Keywords</label>
+                            {{ form.keywords }}
+                            {% if form.keywords.errors %}<div class="text-danger small">{{ form.keywords.errors }}</div>{% endif %}
+                            <div class="form-text">Use comma-separated keywords like Python, Django, Backend.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Location</label>
+                            {{ form.location }}
+                            {% if form.location.errors %}<div class="text-danger small">{{ form.location.errors }}</div>{% endif %}
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Job Type</label>
+                                {{ form.job_type }}
+                                {% if form.job_type.errors %}<div class="text-danger small">{{ form.job_type.errors }}</div>{% endif %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Experience Level</label>
+                                {{ form.experience_level }}
+                                {% if form.experience_level.errors %}<div class="text-danger small">{{ form.experience_level.errors }}</div>{% endif %}
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Frequency</label>
+                            {{ form.frequency }}
+                            {% if form.frequency.errors %}<div class="text-danger small">{{ form.frequency.errors }}</div>{% endif %}
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save Alert
+                            </button>
+                            <a href="{% url 'my_job_alerts' %}" class="btn btn-outline-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

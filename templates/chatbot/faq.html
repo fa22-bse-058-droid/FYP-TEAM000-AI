@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}FAQ - AI Career Assistant{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4"><i class="fas fa-question-circle"></i> Frequently Asked Questions</h1>
+    
+    <!-- Search -->
+    <div class="row mb-4">
+        <div class="col-md-8 mx-auto">
+            <form method="GET" class="input-group">
+                <input type="text" name="search" class="form-control" placeholder="Search FAQs...">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- FAQ Categories -->
+    <div class="row">
+        {% for category in categories %}
+            <div class="col-md-12 mb-4">
+                <h3><i class="fas fa-{{ category.icon }}"></i> {{ category.name }}</h3>
+                <div class="accordion mb-4">
+                    {% for faq in category.faqs %}
+                        {% if faq.is_active %}
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq{{ faq.id }}">
+                                        {{ faq.question }}
+                                    </button>
+                                </h2>
+                                <div id="faq{{ faq.id }}" class="accordion-collapse collapse" data-bs-parent="#accordion">
+                                    <div class="accordion-body">
+                                        {{ faq.answer|linebreaks }}
+                                        <small class="text-muted">👁️ {{ faq.views_count }} views</small>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

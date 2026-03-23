@@ -27,18 +27,25 @@ urlpatterns = [
     # Admin
     path('admin/', admin.site.urls),
     
-    # Authentication/User URLs (includes all your user app routes)
+    # Authentication/User URLs
     path('auth/', include('users.urls')),
     
-    # Other app URLs (add these when ready)
-    # path('cv-analyzer/', include('cv_analyzer.urls')),
-    # path('jobs/', include('jobs.urls')),
-    # path('chatbot/', include('chatbot.urls')),
-    # path('forum/', include('forum.urls')),
-    # path('dashboard/', include('dashboard.urls')),
+    # CV Analyzer URLs
+    path('cv-analyzer/', include('cv_analyzer.urls')),
+    
+    # Jobs URLs
+    path('jobs/', include('jobs.urls')),
+    
+    # Chatbot URLs
+    path('chatbot/', include('chatbot.urls')),
+    
+    # Forum URLs
+    path('forum/', include('forum.urls')),
+    
+    # Dashboard URLs
+    path('dashboard/', include('dashboard.urls')),
 ]
 
-# Serve media and static files in development
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

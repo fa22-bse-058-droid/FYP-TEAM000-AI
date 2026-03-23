@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Career Tip - AI Career Assistant{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <a href="{% url 'career_tips' %}" class="btn btn-outline-secondary mb-3">
+        <i class="fas fa-arrow-left"></i> Back to Career Tips
+    </a>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <span class="badge bg-primary mb-2">{{ tip.get_category_display }}</span>
+            <h2 class="mb-3">{{ tip.title }}</h2>
+            <div class="mb-3">{{ tip.content|linebreaks }}</div>
+            <p class="small text-muted mb-0">Views: {{ tip.views_count }}</p>
+        </div>
+    </div>
+
+    <h5>Related Tips</h5>
+    {% if related_tips %}
+        <div class="row">
+            {% for item in related_tips %}
+                <div class="col-md-6 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h6>{{ item.title }}</h6>
+                            <p class="small text-muted">{{ item.get_category_display }}</p>
+                            <a href="{% url 'career_tip_detail' item.pk %}" class="btn btn-outline-primary btn-sm">Read Tip</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-light">No related tips available.</div>
+    {% endif %}
+</div>
+{% endblock %}

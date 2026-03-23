@@ -155,3 +155,12 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = 5242880  # 5MB
 # 🔑 DEFAULT PRIMARY KEY
 # ================================
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+
+# Install required packages
+# pip install PyPDF2 python-docx
+
+# CV Analyzer settings
+CV_ANALYSIS_MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB
+ALLOWED_CV_FORMATS = ['pdf', 'doc', 'docx']

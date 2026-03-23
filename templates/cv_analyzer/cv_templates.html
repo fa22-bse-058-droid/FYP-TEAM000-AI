@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}CV Templates - AI Career Assistant{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h1><i class="fas fa-file-alt"></i> CV Templates</h1>
+            <p class="text-muted">Choose from professionally designed CV templates</p>
+        </div>
+    </div>
+    
+    {% if templates %}
+        <div class="row">
+            {% for template in templates %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        {% if template.preview_image %}
+                            <img src="{{ template.preview_image.url }}" class="card-img-top" alt="{{ template.name }}">
+                        {% else %}
+                            <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                                <i class="fas fa-file-alt fa-4x text-secondary"></i>
+                            </div>
+                        {% endif %}
+                        
+                        <div class="card-body">
+                            <h5 class="card-title">{{ template.name }}</h5>
+                            <p class="card-text text-muted small">{{ template.description }}</p>
+                            <span class="badge bg-primary">{{ template.category }}</span>
+                            <a href="#" class="btn btn-primary btn-sm mt-3 w-100">Download Template</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            No templates available at the moment.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -4,71 +4,341 @@
 {% block title %}Home - AI Career Assistant{% endblock %}
 
 {% block content %}
-<div class="hero-section" style="background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); color: white; padding: 100px 0; text-align: center;">
+<!-- Hero Section -->
+<section class="hero-section">
     <div class="container">
-        <h1 class="display-4 fw-bold mb-4">AI-Powered Career Assistant</h1>
-        <p class="lead mb-4">Your intelligent platform for job searching, CV optimization, and career guidance</p>
+        <h1><i class="fas fa-rocket"></i> Welcome to CareerAI</h1>
+        <p>Your AI-Powered Career Intelligence Platform</p>
+        <p class="lead">Get smarter job recommendations, optimize your CV, and accelerate your career growth</p>
+        
+        <div class="mt-5">
+            {% if user.is_authenticated %}
+                <a href="{% url 'dashboard' %}" class="btn btn-light btn-lg me-3">
+                    <i class="fas fa-chart-bar"></i> Go to Dashboard
+                </a>
+                <a href="{% url 'recommended_jobs' %}" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-star"></i> Find Jobs
+                </a>
+            {% else %}
+                <a href="{% url 'login' %}" class="btn btn-light btn-lg me-3">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </a>
+                <a href="{% url 'register' %}" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-user-plus"></i> Get Started
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Why Choose CareerAI?</h2>
+        
+        <div class="row">
+            <!-- Feature 1 -->
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <i class="fas fa-file-pdf"></i>
+                    <h5>CV Analysis</h5>
+                    <p>Get AI-powered feedback on your resume. Improve formatting, content, keywords, and readability with actionable insights.</p>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'upload_cv_analysis' %}" class="btn btn-primary btn-sm">
+                            Analyze Now
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Feature 2 -->
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <i class="fas fa-briefcase"></i>
+                    <h5>Smart Job Matching</h5>
+                    <p>Discover jobs perfectly suited to your skills and preferences. Get personalized job recommendations with match scores.</p>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'recommended_jobs' %}" class="btn btn-primary btn-sm">
+                            Explore Jobs
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Feature 3 -->
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <i class="fas fa-robot"></i>
+                    <h5>AI Career Coach</h5>
+                    <p>Chat with our intelligent AI assistant. Get personalized career guidance, interview prep tips, and salary negotiation help.</p>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'chat' %}" class="btn btn-primary btn-sm">
+                            Start Chat
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-5">
+            <!-- Feature 4 -->
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <i class="fas fa-users"></i>
+                    <h5>Community Forum</h5>
+                    <p>Connect with thousands of job seekers. Share experiences, get advice, and build professional networks.</p>
+                    <a href="{% url 'forum_home' %}" class="btn btn-primary btn-sm">
+                        Join Community
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Feature 5 -->
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <i class="fas fa-lightbulb"></i>
+                    <h5>Career Resources</h5>
+                    <p>Access curated career tips, interview guides, and industry insights. Learn from experts and enhance your skills.</p>
+                    <a href="{% url 'career_tips' %}" class="btn btn-primary btn-sm">
+                        View Tips
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Feature 6 -->
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h5>Analytics Dashboard</h5>
+                    <p>Track your progress with detailed analytics. Monitor applications, goals, and career metrics in real-time.</p>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'dashboard' %}" class="btn btn-primary btn-sm">
+                            View Dashboard
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">How It Works</h2>
+        
+        <div class="row">
+            <div class="col-md-3 text-center mb-4">
+                <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; margin: 0 auto 1rem;">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <h5>1. Create Profile</h5>
+                <p>Sign up and build your professional profile with skills and preferences.</p>
+            </div>
+            
+            <div class="col-md-3 text-center mb-4">
+                <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; margin: 0 auto 1rem;">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                <h5>2. Analyze CV</h5>
+                <p>Upload your CV and get comprehensive AI-powered feedback for improvement.</p>
+            </div>
+            
+            <div class="col-md-3 text-center mb-4">
+                <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #17a2b8 0%, #138496 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; margin: 0 auto 1rem;">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h5>3. Find Jobs</h5>
+                <p>Discover personalized job matches from our database of thousands of positions.</p>
+            </div>
+            
+            <div class="col-md-3 text-center mb-4">
+                <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; margin: 0 auto 1rem;">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <h5>4. Land Job</h5>
+                <p>Apply with confidence using AI guidance and track your progress.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Statistics Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3 mb-4">
+                <h3 class="text-primary">10K+</h3>
+                <p class="text-muted">Active Users</p>
+            </div>
+            <div class="col-md-3 mb-4">
+                <h3 class="text-success">50K+</h3>
+                <p class="text-muted">Job Listings</p>
+            </div>
+            <div class="col-md-3 mb-4">
+                <h3 class="text-info">2K+</h3>
+                <p class="text-muted">Companies</p>
+            </div>
+            <div class="col-md-3 mb-4">
+                <h3 class="text-warning">95%</h3>
+                <p class="text-muted">Success Rate</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">What Users Say</h2>
+        
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                        </div>
+                        <p class="card-text">
+                            "CareerAI helped me optimize my CV and land my dream job within 3 weeks. Highly recommended!"
+                        </p>
+                        <footer class="blockquote-footer">Sarah Ahmed</footer>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                        </div>
+                        <p class="card-text">
+                            "The AI career coach is amazing. Got valuable insights on interview preparation."
+                        </p>
+                        <footer class="blockquote-footer">John Doe</footer>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                        </div>
+                        <p class="card-text">
+                            "Best job search platform I've used. Smart matching and great community support."
+                        </p>
+                        <footer class="blockquote-footer">Emily Smith</footer>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5" style="background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); color: white;">
+    <div class="container text-center">
+        <h2 class="mb-4">Ready to Transform Your Career?</h2>
+        <p class="lead mb-4">Join thousands of successful job seekers using CareerAI</p>
         
         {% if user.is_authenticated %}
-            <a href="{% url 'dashboard' %}" class="btn btn-light btn-lg me-3">Go to Dashboard</a>
-            <a href="{% url 'logout' %}" class="btn btn-outline-light btn-lg">Logout</a>
+            <a href="{% url 'dashboard' %}" class="btn btn-light btn-lg">
+                <i class="fas fa-chart-bar"></i> Go to Dashboard
+            </a>
         {% else %}
-            <a href="{% url 'login' %}" class="btn btn-light btn-lg me-3">Login</a>
-            <a href="{% url 'register' %}" class="btn btn-outline-light btn-lg">Register Now</a>
+            <a href="{% url 'register' %}" class="btn btn-light btn-lg me-3">
+                <i class="fas fa-user-plus"></i> Sign Up Free
+            </a>
+            <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </a>
         {% endif %}
     </div>
-</div>
+</section>
 
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-4 text-center mb-4">
-            <i class="fas fa-file-pdf fa-3x text-primary mb-3"></i>
-            <h5>CV Analysis</h5>
-            <p>Get AI-powered feedback on your CV and improve your candidacy</p>
-        </div>
-        <div class="col-md-4 text-center mb-4">
-            <i class="fas fa-briefcase fa-3x text-success mb-3"></i>
-            <h5>Job Matching</h5>
-            <p>Find jobs that match your skills and preferences</p>
-        </div>
-        <div class="col-md-4 text-center mb-4">
-            <i class="fas fa-robot fa-3x text-info mb-3"></i>
-            <h5>AI Chatbot</h5>
-            <p>Get instant career guidance from our AI assistant</p>
-        </div>
-    </div>
-    
-    <hr class="my-5">
-    
-    <div class="row mt-5">
-        <div class="col-md-6 mb-4">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-check-circle text-success"></i> For Job Seekers</h5>
-                    <p class="card-text">Optimize your CV, discover relevant jobs, and get personalized career guidance all in one place.</p>
-                    <ul class="list-unstyled">
-                        <li><i class="fas fa-arrow-right text-primary"></i> CV Analysis & Optimization</li>
-                        <li><i class="fas fa-arrow-right text-primary"></i> Smart Job Matching</li>
-                        <li><i class="fas fa-arrow-right text-primary"></i> Interview Preparation</li>
-                        <li><i class="fas fa-arrow-right text-primary"></i> Career Guidance</li>
-                    </ul>
+<!-- FAQ Preview -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Frequently Asked Questions</h2>
+        
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                Is CareerAI free to use?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Yes! CareerAI is completely free. All features including CV analysis, job matching, and AI coaching are available to all users at no cost.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                How accurate is the CV analysis?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Our AI analysis is trained on data from thousands of successful CVs and hiring patterns. It provides comprehensive feedback on formatting, content, keywords, and readability.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                How do job recommendations work?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Our AI analyzes your skills, experience, and preferences to match you with the most suitable jobs. The match score shows compatibility with each position.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                Can I talk to the AI coach?
+                            </button>
+                        </h2>
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Absolutely! Our AI coach is available 24/7 to answer questions about resumes, interviews, salary negotiation, and career development.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <a href="{% url 'faq' %}" class="btn btn-primary">
+                        View More FAQs
+                    </a>
                 </div>
             </div>
         </div>
-        <div class="col-md-6 mb-4">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-users text-info"></i> Community Features</h5>
-                    <p class="card-text">Connect with other job seekers, share experiences, and learn from the community forum.</p>
-                    <ul class="list-unstyled">
-                        <li><i class="fas fa-arrow-right text-primary"></i> Community Forum</li>
-                        <li><i class="fas fa-arrow-right text-primary"></i> Resource Hub</li>
-                        <li><i class="fas fa-arrow-right text-primary"></i> Peer Learning</li>
-                        <li><i class="fas fa-arrow-right text-primary"></i> Notifications</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
     </div>
-</div>
+</section>
 {% endblock %}

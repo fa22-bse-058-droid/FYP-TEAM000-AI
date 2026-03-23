@@ -98,6 +98,23 @@
             padding-left: 1.5rem;
         }
         
+        /* Badge Style */
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background-color: #dc3545;
+            color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        
         /* Card Styles */
         .card {
             border: none;
@@ -320,28 +337,6 @@
             margin-bottom: 1rem;
         }
         
-        /* Notification Badge */
-        .notification-badge {
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            background-color: #dc3545;
-            color: white;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: bold;
-        }
-        
-        /* Loading Spinner */
-        .spinner-border {
-            color: #007bff;
-        }
-        
         /* Responsive */
         @media (max-width: 768px) {
             .navbar-brand {
@@ -426,6 +421,8 @@
                     
                     {% if user.is_authenticated %}
                         <!-- Authenticated Links -->
+                        
+                        <!-- Jobs Dropdown -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="jobsDropdown" role="button" data-bs-toggle="dropdown">
                                 <i class="fas fa-briefcase"></i> Jobs
@@ -450,6 +447,7 @@
                             </ul>
                         </li>
                         
+                        <!-- Career Dropdown -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="careerDropdown" role="button" data-bs-toggle="dropdown">
                                 <i class="fas fa-chart-line"></i> Career
@@ -462,12 +460,37 @@
                                     <i class="fas fa-history"></i> My Analyses
                                 </a></li>
                                 <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{% url 'interview_home' %}">
+                                    <i class="fas fa-microphone"></i> Mock Interviews
+                                </a></li>
                                 <li><a class="dropdown-item" href="{% url 'career_tips' %}">
                                     <i class="fas fa-lightbulb"></i> Career Tips
                                 </a></li>
                             </ul>
                         </li>
                         
+                        <!-- Learning Dropdown -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="learningDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-book"></i> Learn
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="learningDropdown">
+                                <li><a class="dropdown-item" href="{% url 'resource_hub' %}">
+                                    <i class="fas fa-book"></i> Resources
+                                </a></li>
+                                <li><a class="dropdown-item" href="{% url 'browse_resources' %}">
+                                    <i class="fas fa-search"></i> Browse All
+                                </a></li>
+                                <li><a class="dropdown-item" href="{% url 'skill_paths' %}">
+                                    <i class="fas fa-road"></i> Learning Paths
+                                </a></li>
+                                <li><a class="dropdown-item" href="{% url 'my_learning' %}">
+                                    <i class="fas fa-chart-bar"></i> My Progress
+                                </a></li>
+                            </ul>
+                        </li>
+                        
+                        <!-- Community Dropdown -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="communityDropdown" role="button" data-bs-toggle="dropdown">
                                 <i class="fas fa-users"></i> Community
@@ -489,9 +512,20 @@
                             </ul>
                         </li>
                         
+                        <!-- Dashboard Link -->
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'dashboard' %}">
                                 <i class="fas fa-chart-bar"></i> Dashboard
+                            </a>
+                        </li>
+                        
+                        <!-- Notifications -->
+                        <li class="nav-item">
+                            <a class="nav-link position-relative" href="{% url 'notifications' %}">
+                                <i class="fas fa-bell"></i>
+                                {% if unread_notifications %}
+                                    <span class="notification-badge">{{ unread_notifications }}</span>
+                                {% endif %}
                             </a>
                         </li>
                         
@@ -508,9 +542,15 @@
                                 <li><a class="dropdown-item" href="{% url 'chat_list' %}">
                                     <i class="fas fa-history"></i> Chat History
                                 </a></li>
+                                <li><a class="dropdown-item" href="{% url 'activity_log' %}">
+                                    <i class="fas fa-history"></i> Activity Log
+                                </a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="{% url 'change_password' %}">
                                     <i class="fas fa-key"></i> Change Password
+                                </a></li>
+                                <li><a class="dropdown-item" href="{% url 'notification_preferences' %}">
+                                    <i class="fas fa-cog"></i> Notification Settings
                                 </a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="{% url 'logout' %}">
@@ -576,6 +616,7 @@
                         <li><a href="{% url 'upload_cv_analysis' %}">Analyze CV</a></li>
                         <li><a href="{% url 'forum_home' %}">Community</a></li>
                         <li><a href="{% url 'career_tips' %}">Career Tips</a></li>
+                        <li><a href="{% url 'resource_hub' %}">Learning Resources</a></li>
                     </ul>
                 </div>
                 
@@ -583,9 +624,10 @@
                     <h5>Resources</h5>
                     <ul class="list-unstyled">
                         <li><a href="{% url 'faq' %}">FAQ</a></li>
+                        <li><a href="{% url 'interview_home' %}">Mock Interviews</a></li>
+                        <li><a href="{% url 'skill_paths' %}">Skill Paths</a></li>
+                        <li><a href="{% url 'chat' %}">AI Assistant</a></li>
                         <li><a href="#">Blog</a></li>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Contact</a></li>
                     </ul>
                 </div>
                 

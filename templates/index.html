@@ -8,8 +8,8 @@
 <section class="hero-section">
     <div class="container">
         <h1><i class="fas fa-rocket"></i> Welcome to CareerAI</h1>
-        <p>Your AI-Powered Career Intelligence Platform</p>
-        <p class="lead">Get smarter job recommendations, optimize your CV, and accelerate your career growth</p>
+        <p>Your Complete AI-Powered Career Intelligence Platform</p>
+        <p class="lead">Get smarter job recommendations, optimize your CV, practice interviews, and access world-class learning resources</p>
         
         <div class="mt-5">
             {% if user.is_authenticated %}
@@ -34,7 +34,7 @@
 <!-- Features Section -->
 <section class="py-5">
     <div class="container">
-        <h2 class="text-center mb-5">Why Choose CareerAI?</h2>
+        <h2 class="text-center mb-5">Complete Career Solution</h2>
         
         <div class="row">
             <!-- Feature 1 -->
@@ -84,6 +84,32 @@
             <!-- Feature 4 -->
             <div class="col-md-4 mb-4">
                 <div class="feature-card">
+                    <i class="fas fa-microphone"></i>
+                    <h5>Mock Interviews</h5>
+                    <p>Practice with AI-powered mock interviews. Get real-time feedback, identify weaknesses, and build confidence for real interviews.</p>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'interview_home' %}" class="btn btn-primary btn-sm">
+                            Practice Now
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Feature 5 -->
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <i class="fas fa-book"></i>
+                    <h5>Learning Resources</h5>
+                    <p>Access curated courses, articles, and tutorials. Follow structured learning paths tailored to your career goals.</p>
+                    <a href="{% url 'resource_hub' %}" class="btn btn-primary btn-sm">
+                        Browse Resources
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Feature 6 -->
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
                     <i class="fas fa-users"></i>
                     <h5>Community Forum</h5>
                     <p>Connect with thousands of job seekers. Share experiences, get advice, and build professional networks.</p>
@@ -92,24 +118,40 @@
                     </a>
                 </div>
             </div>
-            
-            <!-- Feature 5 -->
+        </div>
+
+        <div class="row mt-5">
+            <!-- Feature 7 -->
             <div class="col-md-4 mb-4">
                 <div class="feature-card">
                     <i class="fas fa-lightbulb"></i>
-                    <h5>Career Resources</h5>
-                    <p>Access curated career tips, interview guides, and industry insights. Learn from experts and enhance your skills.</p>
+                    <h5>Career Tips & FAQs</h5>
+                    <p>Access expert advice on resumes, interviews, salary negotiation, and career development strategies.</p>
                     <a href="{% url 'career_tips' %}" class="btn btn-primary btn-sm">
                         View Tips
                     </a>
                 </div>
             </div>
             
-            <!-- Feature 6 -->
+            <!-- Feature 8 -->
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <i class="fas fa-bell"></i>
+                    <h5>Smart Notifications</h5>
+                    <p>Never miss important updates. Get notified about job matches, application status, and community activity.</p>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'notification_preferences' %}" class="btn btn-primary btn-sm">
+                            Customize
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Feature 9 -->
             <div class="col-md-4 mb-4">
                 <div class="feature-card">
                     <i class="fas fa-chart-line"></i>
-                    <h5>Analytics Dashboard</h5>
+                    <h5>Advanced Analytics</h5>
                     <p>Track your progress with detailed analytics. Monitor applications, goals, and career metrics in real-time.</p>
                     {% if user.is_authenticated %}
                         <a href="{% url 'dashboard' %}" class="btn btn-primary btn-sm">
@@ -140,7 +182,7 @@
                 <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; margin: 0 auto 1rem;">
                     <i class="fas fa-file-pdf"></i>
                 </div>
-                <h5>2. Analyze CV</h5>
+                <h5>2. Optimize CV</h5>
                 <p>Upload your CV and get comprehensive AI-powered feedback for improvement.</p>
             </div>
             
@@ -166,6 +208,7 @@
 <!-- Statistics Section -->
 <section class="py-5">
     <div class="container">
+        <h2 class="text-center mb-5">By The Numbers</h2>
         <div class="row text-center">
             <div class="col-md-3 mb-4">
                 <h3 class="text-primary">10K+</h3>
@@ -204,9 +247,9 @@
                             <i class="fas fa-star text-warning"></i>
                         </div>
                         <p class="card-text">
-                            "CareerAI helped me optimize my CV and land my dream job within 3 weeks. Highly recommended!"
+                            "CareerAI helped me optimize my CV and land my dream job within 3 weeks. The AI feedback was incredibly valuable!"
                         </p>
-                        <footer class="blockquote-footer">Sarah Ahmed</footer>
+                        <footer class="blockquote-footer">Sarah Ahmed - Software Engineer</footer>
                     </div>
                 </div>
             </div>
@@ -222,9 +265,9 @@
                             <i class="fas fa-star text-warning"></i>
                         </div>
                         <p class="card-text">
-                            "The AI career coach is amazing. Got valuable insights on interview preparation."
+                            "The mock interviews were game-changing. I felt completely prepared for my final interview thanks to the realistic practice!"
                         </p>
-                        <footer class="blockquote-footer">John Doe</footer>
+                        <footer class="blockquote-footer">John Doe - Product Manager</footer>
                     </div>
                 </div>
             </div>
@@ -240,9 +283,99 @@
                             <i class="fas fa-star text-warning"></i>
                         </div>
                         <p class="card-text">
-                            "Best job search platform I've used. Smart matching and great community support."
+                            "The learning resources helped me upskill quickly. The structured learning paths are exactly what I needed for my transition!"
                         </p>
-                        <footer class="blockquote-footer">Emily Smith</footer>
+                        <footer class="blockquote-footer">Emily Smith - Data Scientist</footer>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modules Showcase -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">All 10 Modules Included</h2>
+        
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h6><i class="fas fa-lock text-primary"></i> Module 1: Authentication & User Profile</h6>
+                        <p class="small text-muted">Secure login, registration, profile management, and CV upload</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h6><i class="fas fa-file-pdf text-success"></i> Module 2: CV Analyzer</h6>
+                        <p class="small text-muted">AI-powered CV analysis, quality scoring, and improvement suggestions</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h6><i class="fas fa-briefcase text-info"></i> Module 3: Job Listing & Matching</h6>
+                        <p class="small text-muted">Smart job search, filtering, and AI-based job matching</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h6><i class="fas fa-robot text-warning"></i> Module 4: AI Chatbot</h6>
+                        <p class="small text-muted">Career guidance, FAQ, tips, and intelligent Q&A support</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h6><i class="fas fa-book text-danger"></i> Module 5: Resource Hub</h6>
+                        <p class="small text-muted">Courses, articles, tutorials, and curated learning paths</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h6><i class="fas fa-comments text-secondary"></i> Module 6: Community Forum</h6>
+                        <p class="small text-muted">Discussion threads, peer learning, and knowledge sharing</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h6><i class="fas fa-paper-plane text-primary"></i> Module 7: Auto-Apply System</h6>
+                        <p class="small text-muted">Simulated automated job applications based on matching</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h6><i class="fas fa-bell text-success"></i> Module 8: Notification System</h6>
+                        <p class="small text-muted">Smart notifications for jobs, applications, and updates</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h6><i class="fas fa-cogs text-info"></i> Module 9: Admin Panel</h6>
+                        <p class="small text-muted">Django admin with custom views for content management</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h6><i class="fas fa-microphone text-warning"></i> Module 10: AI Mock Interview</h6>
+                        <p class="small text-muted">Practice interviews with AI feedback and scoring</p>
                     </div>
                 </div>
             </div>
@@ -287,7 +420,7 @@
                         </h2>
                         <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
-                                Yes! CareerAI is completely free. All features including CV analysis, job matching, and AI coaching are available to all users at no cost.
+                                Yes! CareerAI is completely free. All 10 modules including CV analysis, job matching, mock interviews, learning resources, and community forum are available to all users at no cost.
                             </div>
                         </div>
                     </div>
@@ -300,7 +433,7 @@
                         </h2>
                         <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
-                                Our AI analysis is trained on data from thousands of successful CVs and hiring patterns. It provides comprehensive feedback on formatting, content, keywords, and readability.
+                                Our AI analysis is trained on data from thousands of successful CVs and hiring patterns. It provides comprehensive feedback on formatting, content, keywords, and readability to help you create an ATS-optimized resume.
                             </div>
                         </div>
                     </div>
@@ -308,12 +441,12 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
-                                How do job recommendations work?
+                                How realistic are the mock interviews?
                             </button>
                         </h2>
                         <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
-                                Our AI analyzes your skills, experience, and preferences to match you with the most suitable jobs. The match score shows compatibility with each position.
+                                Our mock interviews include real questions asked in actual interviews across various industries. You'll get detailed feedback on communication, technical knowledge, and problem-solving skills to prepare effectively.
                             </div>
                         </div>
                     </div>
@@ -321,12 +454,25 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
-                                Can I talk to the AI coach?
+                                Can I access learning resources offline?
                             </button>
                         </h2>
                         <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
-                                Absolutely! Our AI coach is available 24/7 to answer questions about resumes, interviews, salary negotiation, and career development.
+                                Currently, resources are available online. However, you can bookmark your learning paths and progress is saved to your profile for continuous access.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                                How does job matching work?
+                            </button>
+                        </h2>
+                        <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Our AI analyzes your skills, experience, education, and preferences to calculate a match percentage for each job. Jobs are ranked by relevance and presented with insights on why they're a good fit for you.
                             </div>
                         </div>
                     </div>

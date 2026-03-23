@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ path.name }} - Skill Path{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <a href="{% url 'skill_paths' %}" class="btn btn-outline-secondary mb-3">
+        <i class="fas fa-arrow-left"></i> Back to Skill Paths
+    </a>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <span class="badge bg-info text-dark mb-2">{{ path.get_difficulty_level_display }}</span>
+            <h2 class="mb-1">{{ path.name }}</h2>
+            <p class="text-muted mb-2">Target Skill: {{ path.target_skill }}</p>
+            <p class="mb-3">{{ path.description }}</p>
+            <p class="mb-0"><strong>Estimated Time:</strong> {{ path.estimated_hours }} hours</p>
+        </div>
+    </div>
+
+    <h4 class="mb-3">Resources in this Path</h4>
+    {% if resources %}
+        {% for resource in resources %}
+            <div class="card mb-3">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="mb-1">{{ resource.title }}</h6>
+                        <p class="small text-muted mb-0">{{ resource.get_resource_type_display }} | {{ resource.get_difficulty_level_display }}</p>
+                    </div>
+                    <a href="{% url 'resource_detail' resource.pk %}" class="btn btn-primary btn-sm">Open Resource</a>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-light">No active resources are linked to this path yet.</div>
+    {% endif %}
+</div>
+{% endblock %}

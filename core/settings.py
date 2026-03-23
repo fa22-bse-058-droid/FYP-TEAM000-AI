@@ -36,6 +36,9 @@ INSTALLED_APPS = [
     'chatbot',
     'forum',
     'dashboard',
+    'resource_hub',      
+    'notifications',     
+    'ai_interview', 
 ]
 
 

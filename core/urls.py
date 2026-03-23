@@ -21,29 +21,21 @@ from django.conf.urls.static import static
 from django.views.generic import TemplateView
 
 urlpatterns = [
-    # Home page
     path('', TemplateView.as_view(template_name='index.html'), name='home'),
-    
-    # Admin
     path('admin/', admin.site.urls),
     
-    # Authentication/User URLs
+    # Authentication
     path('auth/', include('users.urls')),
     
-    # CV Analyzer URLs
+    # All Modules
     path('cv-analyzer/', include('cv_analyzer.urls')),
-    
-    # Jobs URLs
     path('jobs/', include('jobs.urls')),
-    
-    # Chatbot URLs
     path('chatbot/', include('chatbot.urls')),
-    
-    # Forum URLs
     path('forum/', include('forum.urls')),
-    
-    # Dashboard URLs
     path('dashboard/', include('dashboard.urls')),
+    path('resources/', include('resource_hub.urls')),
+    path('notifications/', include('notifications.urls')),
+    path('interview/', include('ai_interview.urls')),
 ]
 
 if settings.DEBUG:

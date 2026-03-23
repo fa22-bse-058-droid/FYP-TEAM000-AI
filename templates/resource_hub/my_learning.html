@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Learning - AI Career Assistant{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col-md-12 d-flex justify-content-between align-items-center">
+            <div>
+                <h1><i class="fas fa-graduation-cap"></i> My Learning</h1>
+                <p class="text-muted mb-0">Track your progress across saved and completed resources</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <div class="btn-group" role="group" aria-label="Progress filter">
+                <a href="{% url 'my_learning' %}" class="btn btn-outline-primary {% if not status %}active{% endif %}">All</a>
+                <a href="{% url 'my_learning' %}?status=in_progress" class="btn btn-outline-primary {% if status == 'in_progress' %}active{% endif %}">In Progress</a>
+                <a href="{% url 'my_learning' %}?status=completed" class="btn btn-outline-primary {% if status == 'completed' %}active{% endif %}">Completed</a>
+            </div>
+        </div>
+    </div>
+
+    {% if progress %}
+        <div class="row">
+            {% for item in progress %}
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title mb-1">{{ item.resource.title }}</h5>
+                            <p class="small text-muted mb-2">{{ item.resource.get_resource_type_display }} | {{ item.resource.get_difficulty_level_display }}</p>
+
+                            {% if item.is_completed %}
+                                <span class="badge bg-success mb-2">Completed</span>
+                            {% else %}
+                                <span class="badge bg-warning text-dark mb-2">In Progress</span>
+                            {% endif %}
+
+                            <div class="mb-2">
+                                <progress value="{{ item.progress_percentage }}" max="100" class="w-100"></progress>
+                                <p class="small mb-0">{{ item.progress_percentage }}%</p>
+                            </div>
+
+                            <p class="small text-muted mb-3">Started: {{ item.started_at|date:'M d, Y' }}</p>
+                            <a href="{% url 'resource_detail' item.resource.pk %}" class="btn btn-outline-primary btn-sm">Continue</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">No learning progress records found for this filter.</div>
+    {% endif %}
+</div>
+{% endblock %}

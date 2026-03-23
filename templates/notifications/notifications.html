@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Notifications - AI Career Assistant{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col-md-9">
+            <h1><i class="fas fa-bell"></i> Notifications</h1>
+            <p class="text-muted">{{ unread_count }} unread notification(s)</p>
+        </div>
+        <div class="col-md-3 text-end">
+            <a href="{% url 'notification_preferences' %}" class="btn btn-outline-primary">
+                <i class="fas fa-cog"></i> Preferences
+            </a>
+        </div>
+    </div>
+    
+    {% if notifications %}
+        <div class="row">
+            <div class="col-md-8">
+                {% for notif in notifications %}
+                    <div class="card mb-3 {% if not notif.is_read %}bg-light{% endif %}">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-1 text-center">
+                                    <i class="fas {{ notif.icon }} fa-2x text-primary"></i>
+                                </div>
+                                <div class="col-md-9">
+                                    <h5>{{ notif.title }}</h5>
+                                    <p class="card-text">{{ notif.message }}</p>
+                                    <small class="text-muted">{{ notif.created_at|date:"M d, Y H:i" }}</small>
+                                    
+                                    {% if notif.related_url %}
+                                        <br>
+                                        <a href="{{ notif.related_url }}" class="btn btn-sm btn-primary mt-2">
+                                            View
+                                        </a>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-2 text-end">
+                                    {% if not notif.is_read %}
+                                        <button class="btn btn-sm btn-outline-primary mark-read" data-id="{{ notif.id }}">
+                                            Mark Read
+                                        </button>
+                                    {% endif %}
+                                    <button class="btn btn-sm btn-outline-danger archive" data-id="{{ notif.id }}">
+                                        Archive
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            <i class="fas fa-inbox"></i> No notifications.
+        </div>
+    {% endif %}
+</div>
+
+<script>
+    document.querySelectorAll('.mark-read').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const notifId = this.dataset.id;
+            fetch(`/notifications/${notifId}/read/`, { method: 'POST', headers: { 'X-CSRFToken': getCookie('csrftoken') } })
+                .then(() => location.reload());
+        });
+    });
+    
+    document.querySelectorAll('.archive').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const notifId = this.dataset.id;
+            fetch(`/notifications/${notifId}/archive/`, { method: 'POST', headers: { 'X-CSRFToken': getCookie('csrftoken') } })
+                .then(() => location.reload());
+        });
+    });
+    
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
+{% endblock %}

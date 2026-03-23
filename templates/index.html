@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - AI Career Assistant{% endblock %}
+
+{% block content %}
+<div class="hero-section" style="background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); color: white; padding: 100px 0; text-align: center;">
+    <div class="container">
+        <h1 class="display-4 fw-bold mb-4">AI-Powered Career Assistant</h1>
+        <p class="lead mb-4">Your intelligent platform for job searching, CV optimization, and career guidance</p>
+        
+        {% if user.is_authenticated %}
+            <a href="{% url 'dashboard' %}" class="btn btn-light btn-lg me-3">Go to Dashboard</a>
+            <a href="{% url 'logout' %}" class="btn btn-outline-light btn-lg">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}" class="btn btn-light btn-lg me-3">Login</a>
+            <a href="{% url 'register' %}" class="btn btn-outline-light btn-lg">Register Now</a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4 text-center mb-4">
+            <i class="fas fa-file-pdf fa-3x text-primary mb-3"></i>
+            <h5>CV Analysis</h5>
+            <p>Get AI-powered feedback on your CV and improve your candidacy</p>
+        </div>
+        <div class="col-md-4 text-center mb-4">
+            <i class="fas fa-briefcase fa-3x text-success mb-3"></i>
+            <h5>Job Matching</h5>
+            <p>Find jobs that match your skills and preferences</p>
+        </div>
+        <div class="col-md-4 text-center mb-4">
+            <i class="fas fa-robot fa-3x text-info mb-3"></i>
+            <h5>AI Chatbot</h5>
+            <p>Get instant career guidance from our AI assistant</p>
+        </div>
+    </div>
+    
+    <hr class="my-5">
+    
+    <div class="row mt-5">
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-check-circle text-success"></i> For Job Seekers</h5>
+                    <p class="card-text">Optimize your CV, discover relevant jobs, and get personalized career guidance all in one place.</p>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-arrow-right text-primary"></i> CV Analysis & Optimization</li>
+                        <li><i class="fas fa-arrow-right text-primary"></i> Smart Job Matching</li>
+                        <li><i class="fas fa-arrow-right text-primary"></i> Interview Preparation</li>
+                        <li><i class="fas fa-arrow-right text-primary"></i> Career Guidance</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-users text-info"></i> Community Features</h5>
+                    <p class="card-text">Connect with other job seekers, share experiences, and learn from the community forum.</p>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-arrow-right text-primary"></i> Community Forum</li>
+                        <li><i class="fas fa-arrow-right text-primary"></i> Resource Hub</li>
+                        <li><i class="fas fa-arrow-right text-primary"></i> Peer Learning</li>
+                        <li><i class="fas fa-arrow-right text-primary"></i> Notifications</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

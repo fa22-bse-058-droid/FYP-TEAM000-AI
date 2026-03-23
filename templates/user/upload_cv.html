@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Upload CV - AI Career Assistant{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-body p-5">
+                    <h2 class="mb-4">Upload Your CV</h2>
+                    
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    
+                    <div class="alert alert-info" role="alert">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>Accepted Formats:</strong> PDF, DOC, DOCX (Max size: 5MB)
+                    </div>
+                    
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="mb-4">
+                            <label for="{{ form.cv.id_for_label }}" class="form-label">Select CV File</label>
+                            <div class="input-group mb-3">
+                                {{ form.cv }}
+                            </div>
+                            {% if form.cv.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.cv.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="{{ form.job_preference.id_for_label }}" class="form-label">Job Preference (Optional)</label>
+                            {{ form.job_preference }}
+                            <small class="form-text text-muted">This helps us match you with relevant jobs</small>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">
+                            <i class="fas fa-upload"></i> Upload CV
+                        </button>
+                        <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary w-100">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

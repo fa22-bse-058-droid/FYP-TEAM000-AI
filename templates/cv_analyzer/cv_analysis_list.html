@@ -79,9 +79,12 @@
                             <a href="{% url 'cv_analysis_detail' analysis.pk %}" class="btn btn-sm btn-primary w-100 mb-2">
                                 <i class="fas fa-eye"></i> View Details
                             </a>
-                            <a href="{% url 'cv_comparison' %}?cv1={{ analysis.pk }}" class="btn btn-sm btn-outline-secondary w-100">
-                                <i class="fas fa-exchange-alt"></i> Compare
-                            </a>
+                            <form method="POST" action="{% url 'delete_cv_analysis' analysis.pk %}" style="display: inline-block; width: 100%;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-outline-danger w-100" onclick="return confirm('Delete this analysis?')">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>

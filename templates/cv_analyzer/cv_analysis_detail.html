@@ -21,7 +21,15 @@
                     <div class="score-circle" style="width: 150px; height: 150px; margin: 0 auto; border-radius: 50%; background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); display: flex; align-items: center; justify-content: center; color: white;">
                         <span style="font-size: 48px; font-weight: bold;">{{ analysis.overall_score }}/100</span>
                     </div>
-                    <p class="mt-3 text-muted">{{ analysis.get_score_rating|upper }}</p>
+                    <p class="mt-3 text-muted">
+                        {% if analysis.overall_score >= 80 %}
+                            <strong class="text-success">EXCELLENT</strong>
+                        {% elif analysis.overall_score >= 60 %}
+                            <strong class="text-info">GOOD</strong>
+                        {% else %}
+                            <strong class="text-warning">NEEDS IMPROVEMENT</strong>
+                        {% endif %}
+                    </p>
                 </div>
             </div>
         </div>

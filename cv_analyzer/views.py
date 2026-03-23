@@ -44,27 +44,30 @@ def analyze_cv_format(text):
     score = 0
     feedback = []
     
-    # Check for common sections
     sections = ['experience', 'education', 'skills', 'summary', 'contact']
     found_sections = sum(1 for section in sections if section.lower() in text.lower())
     
     score += (found_sections / len(sections)) * 25
     
-    # Check length
     word_count = len(text.split())
     if 300 <= word_count <= 1000:
         score += 25
-        feedback.append("Good CV length")
+        feedback.append("✓ Good CV length (300-1000 words)")
     elif word_count < 300:
-        feedback.append("CV is too short. Aim for 300-1000 words.")
+        feedback.append("⚠ CV is too short. Aim for 300+ words.")
     else:
-        feedback.append("CV is too long. Keep it concise.")
+        feedback.append("⚠ CV is too long. Try to keep it concise.")
     
-    # Check formatting
     lines = text.split('\n')
     if len(lines) > 10:
         score += 25
-        feedback.append("Good structure with multiple sections")
+        feedback.append("✓ Good structure with multiple sections")
+    else:
+        feedback.append("⚠ Consider adding more sections for clarity")
+    
+    if score > 0:
+        score += 25
+        feedback.append("✓ Basic formatting is good")
     
     return int(score), " ".join(feedback)
 
@@ -76,27 +79,29 @@ def analyze_cv_content(text):
     
     text_lower = text.lower()
     
-    # Check for action verbs
-    action_verbs = ['achieved', 'implemented', 'developed', 'managed', 'led', 'created', 'improved']
+    action_verbs = ['achieved', 'implemented', 'developed', 'managed', 'led', 'created', 'improved', 'designed', 'built', 'launched']
     verb_count = sum(1 for verb in action_verbs if verb in text_lower)
     
     if verb_count >= 5:
         score += 30
-        feedback.append("Great use of action verbs")
+        feedback.append(f"✓ Great use of action verbs ({verb_count} found)")
+    elif verb_count > 0:
+        score += 15
+        feedback.append(f"⚠ Use more action verbs (found {verb_count}, aim for 5+)")
     else:
-        feedback.append(f"Use more action verbs (found {verb_count})")
+        feedback.append("⚠ Missing action verbs. Use words like 'achieved', 'implemented', 'developed'")
     
-    # Check for quantifiable achievements
     if any(char.isdigit() for char in text):
         score += 35
-        feedback.append("Good use of metrics and numbers")
+        feedback.append("✓ Good use of metrics and numbers")
     else:
-        feedback.append("Add quantifiable achievements with numbers")
+        feedback.append("⚠ Add quantifiable achievements with numbers and percentages")
     
-    # Check for keywords
-    if len(text) > 100:
+    if len(text) > 500:
         score += 35
-        feedback.append("Sufficient content detail")
+        feedback.append("✓ Sufficient content detail")
+    else:
+        feedback.append("⚠ Add more detailed descriptions of achievements")
     
     return int(score), " ".join(feedback)
 
@@ -106,7 +111,6 @@ def analyze_cv_keywords(text, user):
     score = 0
     feedback = []
     
-    # Get user's job preference
     job_preference = user.profile.job_preference or "Software Engineer"
     
     try:
@@ -115,10 +119,14 @@ def analyze_cv_keywords(text, user):
             required_keywords = keywords_obj.get_keywords_list()
             found_keywords = [kw for kw in required_keywords if kw.lower() in text.lower()]
             
-            score = int((len(found_keywords) / len(required_keywords)) * 100)
-            feedback = f"Found {len(found_keywords)} out of {len(required_keywords)} recommended keywords for {job_preference}"
+            score = int((len(found_keywords) / len(required_keywords)) * 100) if required_keywords else 0
+            feedback = f"Found {len(found_keywords)} out of {len(required_keywords)} recommended keywords for '{job_preference}'"
+        else:
+            score = 50
+            feedback = f"No specific keywords found for {job_preference}. Add relevant industry terms."
     except:
         feedback = "Could not analyze keywords"
+        score = 0
     
     return score, feedback
 
@@ -128,26 +136,27 @@ def analyze_cv_readability(text):
     score = 0
     feedback = []
     
-    # Check sentence length
     sentences = text.split('.')
     avg_length = len(text.split()) / len(sentences) if sentences else 0
     
     if 10 <= avg_length <= 20:
         score += 30
-        feedback.append("Good sentence structure")
+        feedback.append("✓ Good sentence structure")
     else:
-        feedback.append("Vary sentence length for better readability")
+        feedback.append("⚠ Vary sentence length (aim for 10-20 words per sentence)")
     
-    # Check for paragraphs
     paragraphs = text.split('\n\n')
     if len(paragraphs) >= 3:
         score += 35
-        feedback.append("Good paragraph structure")
+        feedback.append("✓ Good paragraph structure")
+    else:
+        feedback.append("⚠ Organize content into clear paragraphs")
     
-    # Check for bullet points
-    if '\n' in text:
+    if text.count('\n') > 10:
         score += 35
-        feedback.append("Well-organized with bullet points")
+        feedback.append("✓ Well-organized with good formatting")
+    else:
+        feedback.append("⚠ Use bullet points and line breaks for readability")
     
     return int(score), " ".join(feedback)
 
@@ -162,12 +171,10 @@ def upload_cv_analysis(request):
             try:
                 start_time = time.time()
                 
-                # Create CV analysis object
                 cv_analysis = form.save(commit=False)
                 cv_analysis.user = request.user
                 cv_analysis.save()
                 
-                # Extract text based on file type
                 file_path = cv_analysis.cv_file.path
                 file_extension = cv_analysis.cv_file.name.split('.')[-1].lower()
                 
@@ -184,16 +191,13 @@ def upload_cv_analysis(request):
                     cv_analysis.delete()
                     return redirect('upload_cv_analysis')
                 
-                # Analyze CV
                 format_score, format_feedback = analyze_cv_format(text)
                 content_score, content_feedback = analyze_cv_content(text)
                 keyword_score, keyword_feedback = analyze_cv_keywords(text, request.user)
                 readability_score, readability_feedback = analyze_cv_readability(text)
                 
-                # Calculate overall score
                 overall_score = int((format_score + content_score + keyword_score + readability_score) / 4)
                 
-                # Update analysis object
                 cv_analysis.format_score = format_score
                 cv_analysis.content_score = content_score
                 cv_analysis.keyword_score = keyword_score
@@ -205,7 +209,14 @@ def upload_cv_analysis(request):
                 cv_analysis.keyword_feedback = keyword_feedback
                 cv_analysis.readability_feedback = readability_feedback
                 
-                cv_analysis.overall_feedback = f"Your CV scored {overall_score}/100. {format_feedback}"
+                cv_analysis.overall_feedback = f"Your CV scored {overall_score}/100. "
+                if overall_score >= 80:
+                    cv_analysis.overall_feedback += "Excellent! Your CV is well-structured."
+                elif overall_score >= 60:
+                    cv_analysis.overall_feedback += "Good start! Review the feedback below to improve."
+                else:
+                    cv_analysis.overall_feedback += "There's room for improvement. Follow the suggestions to enhance your CV."
+                
                 cv_analysis.is_analyzed = True
                 cv_analysis.analysis_time_taken = time.time() - start_time
                 cv_analysis.save()
@@ -229,7 +240,6 @@ def cv_analysis_list(request):
     """List all CV analyses"""
     analyses = CVAnalysis.objects.filter(user=request.user)
     
-    # Apply filters
     form = CVFilterForm(request.GET)
     if form.is_valid():
         if form.cleaned_data.get('score_min'):
@@ -255,11 +265,9 @@ def cv_analysis_list(request):
 def cv_analysis_detail(request, pk):
     """View detailed CV analysis"""
     analysis = get_object_or_404(CVAnalysis, pk=pk, user=request.user)
-    feedback_items = analysis.feedback_items.all()
     
     context = {
         'analysis': analysis,
-        'feedback_items': feedback_items,
         'score_percentage': analysis.overall_score
     }
     return render(request, 'cv_analyzer/cv_analysis_detail.html', context)
@@ -275,7 +283,7 @@ def cv_comparison(request):
     
     comparison_data = None
     
-    if request.method == 'GET' and 'cv1' in request.GET and 'cv2' in request.GET:
+    if 'cv1' in request.GET and 'cv2' in request.GET:
         cv1_id = request.GET.get('cv1')
         cv2_id = request.GET.get('cv2')
         

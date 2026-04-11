@@ -109,16 +109,16 @@
             </div>
           </div>
 
-          <!-- Remember me -->
-          {% if form.remember_me %}
-          <div class="remember-me-row">
-            {{ form.remember_me }}
-            <label for="{{ form.remember_me.id_for_label }}">Remember me for 30 days</label>
+          <!-- Remember me + Forgot password row -->
+          <div class="auth-utility-row">
+            {% if form.remember_me %}
+            <div class="remember-me-row">
+              {{ form.remember_me }}
+              <label for="{{ form.remember_me.id_for_label }}">Remember me for 30 days</label>
+            </div>
+            {% endif %}
+            <a href="{% url 'password_reset_request' %}" class="forgot-link">Forgot password?</a>
           </div>
-          {% endif %}
-
-          <!-- Forgot password -->
-          <a href="{% url 'password_reset_request' %}" class="forgot-link">Forgot password?</a>
 
           <!-- Submit -->
           <button type="submit" class="auth-submit-btn">Sign in</button>

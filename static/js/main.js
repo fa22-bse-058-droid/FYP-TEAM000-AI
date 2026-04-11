@@ -148,50 +148,62 @@ document.documentElement.classList.add('js-enabled');
 
     // Feature cards stagger
     gsap.utils.toArray('.features-grid .feature-card').forEach((card, i) => {
-      gsap.from(card, {
-        opacity: 0,
-        y: 24,
-        duration: 0.6,
-        delay: i * 0.1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: card,
-          start: 'top 88%',
-          once: true,
-        },
-      });
+      gsap.fromTo(card,
+        { opacity: 0, y: 24 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          delay: i * 0.1,
+          ease: 'power3.out',
+          overwrite: true,
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 88%',
+            once: true,
+          },
+        }
+      );
     });
 
     // Stats cards stagger
     gsap.utils.toArray('.stat-card').forEach((card, i) => {
-      gsap.from(card, {
-        opacity: 0,
-        y: 20,
-        duration: 0.5,
-        delay: i * 0.08,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: card,
-          start: 'top 90%',
-          once: true,
-        },
-      });
+      gsap.fromTo(card,
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          delay: i * 0.08,
+          ease: 'power3.out',
+          overwrite: true,
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 90%',
+            once: true,
+          },
+        }
+      );
     });
 
     // How-it-works steps
     gsap.utils.toArray('.howto-step').forEach((step, i) => {
-      gsap.from(step, {
-        opacity: 0,
-        y: 20,
-        duration: 0.6,
-        delay: i * 0.15,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: step,
-          start: 'top 88%',
-          once: true,
-        },
-      });
+      gsap.fromTo(step,
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          delay: i * 0.15,
+          ease: 'power3.out',
+          overwrite: true,
+          scrollTrigger: {
+            trigger: step,
+            start: 'top 88%',
+            once: true,
+          },
+        }
+      );
     });
   }
 

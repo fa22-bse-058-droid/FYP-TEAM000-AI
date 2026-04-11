@@ -1596,6 +1596,16 @@ main > .container-fluid {
   transform: translateY(20px);
 }
 
+/* Feature cards, stat cards, and how-to steps have their own
+   GSAP fromTo animations with explicit end values.
+   Ensure they are visible if GSAP fails to fire (e.g. CDN timeout). */
+.js-enabled .features-grid .feature-card,
+.js-enabled .stat-card,
+.js-enabled .howto-step {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* =========================================
    Container util
    ========================================= */

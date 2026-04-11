@@ -1,490 +1,181 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Home - AI Career Assistant{% endblock %}
+{% block title %}CareerAI — Build the career you actually want{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
+
+<!-- ══ HERO ══ -->
 <section class="hero-section">
-    <div class="container">
-        <h1><i class="fas fa-rocket"></i> Welcome to CareerAI</h1>
-        <p>Your Complete AI-Powered Career Intelligence Platform</p>
-        <p class="lead">Get smarter job recommendations, optimize your CV, practice interviews, and access world-class learning resources</p>
-        
-        <div class="mt-5">
-            {% if user.is_authenticated %}
-                <a href="{% url 'dashboard' %}" class="btn btn-light btn-lg me-3">
-                    <i class="fas fa-chart-bar"></i> Go to Dashboard
-                </a>
-                <a href="{% url 'recommended_jobs' %}" class="btn btn-outline-light btn-lg">
-                    <i class="fas fa-star"></i> Find Jobs
-                </a>
-            {% else %}
-                <a href="{% url 'login' %}" class="btn btn-light btn-lg me-3">
-                    <i class="fas fa-sign-in-alt"></i> Login
-                </a>
-                <a href="{% url 'register' %}" class="btn btn-outline-light btn-lg">
-                    <i class="fas fa-user-plus"></i> Get Started
-                </a>
-            {% endif %}
-        </div>
+  <!-- Aurora -->
+  <div class="aurora" aria-hidden="true"></div>
+  <div class="aurora-green" aria-hidden="true"></div>
+
+  <div class="hero-content">
+    <!-- Eyebrow label -->
+    <span class="hero-eyebrow">AI-Powered · Career Platform</span>
+
+    <!-- Headline -->
+    <h1 class="hero-headline">
+      Build the career<br>
+      you <em>actually</em> want.
+    </h1>
+
+    <!-- Subtext -->
+    <p class="hero-sub">
+      AI-driven CV analysis, skill gap detection, and smart job matching
+      — built for Pakistani graduates.
+    </p>
+
+    <!-- CTA Buttons -->
+    <div class="hero-ctas">
+      {% if user.is_authenticated %}
+        <a href="{% url 'dashboard' %}" class="btn-primary">Go to Dashboard →</a>
+        <a href="{% url 'upload_cv_analysis' %}" class="btn-ghost">Analyze My CV</a>
+      {% else %}
+        <a href="{% url 'register' %}" class="btn-primary">Get Started Free →</a>
+        <a href="#how-it-works" class="btn-ghost">See How It Works</a>
+      {% endif %}
     </div>
+
+    <!-- Social proof -->
+    <div class="hero-social-proof">
+      <div class="avatar-stack">
+        <div class="avatar avatar-a">AK</div>
+        <div class="avatar avatar-b">SM</div>
+        <div class="avatar avatar-c">FS</div>
+        <div class="avatar avatar-d">RH</div>
+      </div>
+      <p class="social-proof-text">
+        Trusted by <strong>500+ students</strong> across Pakistan
+      </p>
+    </div>
+  </div>
 </section>
 
-<!-- Features Section -->
-<section class="py-5">
-    <div class="container">
-        <h2 class="text-center mb-5">Complete Career Solution</h2>
-        
-        <div class="row">
-            <!-- Feature 1 -->
-            <div class="col-md-4 mb-4">
-                <div class="feature-card">
-                    <i class="fas fa-file-pdf"></i>
-                    <h5>CV Analysis</h5>
-                    <p>Get AI-powered feedback on your resume. Improve formatting, content, keywords, and readability with actionable insights.</p>
-                    {% if user.is_authenticated %}
-                        <a href="{% url 'upload_cv_analysis' %}" class="btn btn-primary btn-sm">
-                            Analyze Now
-                        </a>
-                    {% endif %}
-                </div>
-            </div>
-            
-            <!-- Feature 2 -->
-            <div class="col-md-4 mb-4">
-                <div class="feature-card">
-                    <i class="fas fa-briefcase"></i>
-                    <h5>Smart Job Matching</h5>
-                    <p>Discover jobs perfectly suited to your skills and preferences. Get personalized job recommendations with match scores.</p>
-                    {% if user.is_authenticated %}
-                        <a href="{% url 'recommended_jobs' %}" class="btn btn-primary btn-sm">
-                            Explore Jobs
-                        </a>
-                    {% endif %}
-                </div>
-            </div>
-            
-            <!-- Feature 3 -->
-            <div class="col-md-4 mb-4">
-                <div class="feature-card">
-                    <i class="fas fa-robot"></i>
-                    <h5>AI Career Coach</h5>
-                    <p>Chat with our intelligent AI assistant. Get personalized career guidance, interview prep tips, and salary negotiation help.</p>
-                    {% if user.is_authenticated %}
-                        <a href="{% url 'chat' %}" class="btn btn-primary btn-sm">
-                            Start Chat
-                        </a>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-        
-        <div class="row mt-5">
-            <!-- Feature 4 -->
-            <div class="col-md-4 mb-4">
-                <div class="feature-card">
-                    <i class="fas fa-microphone"></i>
-                    <h5>Mock Interviews</h5>
-                    <p>Practice with AI-powered mock interviews. Get real-time feedback, identify weaknesses, and build confidence for real interviews.</p>
-                    {% if user.is_authenticated %}
-                        <a href="{% url 'interview_home' %}" class="btn btn-primary btn-sm">
-                            Practice Now
-                        </a>
-                    {% endif %}
-                </div>
-            </div>
-            
-            <!-- Feature 5 -->
-            <div class="col-md-4 mb-4">
-                <div class="feature-card">
-                    <i class="fas fa-book"></i>
-                    <h5>Learning Resources</h5>
-                    <p>Access curated courses, articles, and tutorials. Follow structured learning paths tailored to your career goals.</p>
-                    <a href="{% url 'resource_hub' %}" class="btn btn-primary btn-sm">
-                        Browse Resources
-                    </a>
-                </div>
-            </div>
-            
-            <!-- Feature 6 -->
-            <div class="col-md-4 mb-4">
-                <div class="feature-card">
-                    <i class="fas fa-users"></i>
-                    <h5>Community Forum</h5>
-                    <p>Connect with thousands of job seekers. Share experiences, get advice, and build professional networks.</p>
-                    <a href="{% url 'forum_home' %}" class="btn btn-primary btn-sm">
-                        Join Community
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="row mt-5">
-            <!-- Feature 7 -->
-            <div class="col-md-4 mb-4">
-                <div class="feature-card">
-                    <i class="fas fa-lightbulb"></i>
-                    <h5>Career Tips & FAQs</h5>
-                    <p>Access expert advice on resumes, interviews, salary negotiation, and career development strategies.</p>
-                    <a href="{% url 'career_tips' %}" class="btn btn-primary btn-sm">
-                        View Tips
-                    </a>
-                </div>
-            </div>
-            
-            <!-- Feature 8 -->
-            <div class="col-md-4 mb-4">
-                <div class="feature-card">
-                    <i class="fas fa-bell"></i>
-                    <h5>Smart Notifications</h5>
-                    <p>Never miss important updates. Get notified about job matches, application status, and community activity.</p>
-                    {% if user.is_authenticated %}
-                        <a href="{% url 'notification_preferences' %}" class="btn btn-primary btn-sm">
-                            Customize
-                        </a>
-                    {% endif %}
-                </div>
-            </div>
-            
-            <!-- Feature 9 -->
-            <div class="col-md-4 mb-4">
-                <div class="feature-card">
-                    <i class="fas fa-chart-line"></i>
-                    <h5>Advanced Analytics</h5>
-                    <p>Track your progress with detailed analytics. Monitor applications, goals, and career metrics in real-time.</p>
-                    {% if user.is_authenticated %}
-                        <a href="{% url 'dashboard' %}" class="btn btn-primary btn-sm">
-                            View Dashboard
-                        </a>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
+<!-- ══ FEATURES ══ -->
+<section class="features-section">
+  <div class="container-xl">
+    <div class="section-header animate-on-scroll">
+      <span class="section-label">What We Do</span>
+      <h2 class="section-heading">
+        Everything you need to land your <span class="highlight-green">dream</span> job
+      </h2>
     </div>
+
+    <div class="features-grid">
+      <!-- Card 1 — large -->
+      <div class="feature-card feature-card-large animate-on-scroll">
+        <div class="feature-icon">
+          <!-- FileText icon -->
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14,2 14,8 20,8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+            <polyline points="10,9 9,9 8,9"/>
+          </svg>
+        </div>
+        <h3 class="feature-title">CV Analyzer</h3>
+        <p class="feature-desc">
+          Upload your CV and receive instant AI-powered feedback on formatting, content quality,
+          ATS keywords, and readability. Get a detailed score with actionable improvement suggestions
+          tailored for the Pakistani job market.
+        </p>
+        <span class="feature-tag tag-green">AI Powered</span>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="feature-card animate-on-scroll">
+        <div class="feature-icon">
+          <!-- Briefcase icon -->
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+          </svg>
+        </div>
+        <h3 class="feature-title">Smart Job Matching</h3>
+        <p class="feature-desc">
+          Discover roles perfectly aligned with your skills and experience using live scraped
+          listings and AI match scores.
+        </p>
+        <span class="feature-tag tag-indigo">Live Scraping</span>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="feature-card animate-on-scroll">
+        <div class="feature-icon">
+          <!-- BookOpen icon -->
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+          </svg>
+        </div>
+        <h3 class="feature-title">Auto-Apply</h3>
+        <p class="feature-desc">
+          Submit applications to multiple matching roles in one click using your saved CV
+          and profile data.
+        </p>
+        <span class="feature-tag tag-blue">Automated</span>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- How It Works -->
-<section class="py-5 bg-light">
-    <div class="container">
-        <h2 class="text-center mb-5">How It Works</h2>
-        
-        <div class="row">
-            <div class="col-md-3 text-center mb-4">
-                <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; margin: 0 auto 1rem;">
-                    <i class="fas fa-user-plus"></i>
-                </div>
-                <h5>1. Create Profile</h5>
-                <p>Sign up and build your professional profile with skills and preferences.</p>
-            </div>
-            
-            <div class="col-md-3 text-center mb-4">
-                <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; margin: 0 auto 1rem;">
-                    <i class="fas fa-file-pdf"></i>
-                </div>
-                <h5>2. Optimize CV</h5>
-                <p>Upload your CV and get comprehensive AI-powered feedback for improvement.</p>
-            </div>
-            
-            <div class="col-md-3 text-center mb-4">
-                <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #17a2b8 0%, #138496 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; margin: 0 auto 1rem;">
-                    <i class="fas fa-search"></i>
-                </div>
-                <h5>3. Find Jobs</h5>
-                <p>Discover personalized job matches from our database of thousands of positions.</p>
-            </div>
-            
-            <div class="col-md-3 text-center mb-4">
-                <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; margin: 0 auto 1rem;">
-                    <i class="fas fa-rocket"></i>
-                </div>
-                <h5>4. Land Job</h5>
-                <p>Apply with confidence using AI guidance and track your progress.</p>
-            </div>
-        </div>
+<!-- ══ HOW IT WORKS ══ -->
+<section class="howto-section" id="how-it-works">
+  <div class="aurora-green" aria-hidden="true"></div>
+  <div class="container-xl">
+    <div class="section-header animate-on-scroll">
+      <span class="section-label">The Process</span>
+      <h2 class="section-heading">
+        From CV to hired in <span class="highlight-green">three</span> steps
+      </h2>
     </div>
+
+    <div class="howto-steps">
+      <div class="howto-step">
+        <div class="step-number">01</div>
+        <h3 class="step-title">Upload your CV</h3>
+        <p class="step-desc">
+          Drop your PDF or DOCX and our AI instantly parses your experience, skills, and
+          education to build a detailed profile.
+        </p>
+      </div>
+      <div class="howto-step">
+        <div class="step-number">02</div>
+        <h3 class="step-title">Get your score</h3>
+        <p class="step-desc">
+          Receive an ATS compatibility score, skill gap analysis, and keyword optimisation
+          suggestions ranked by impact.
+        </p>
+      </div>
+      <div class="howto-step">
+        <div class="step-number">03</div>
+        <h3 class="step-title">Apply with <span class="highlight-green">confidence</span></h3>
+        <p class="step-desc">
+          Browse matched jobs, prep for interviews with our AI coach, and apply — all from
+          one unified dashboard.
+        </p>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- Statistics Section -->
-<section class="py-5">
-    <div class="container">
-        <h2 class="text-center mb-5">By The Numbers</h2>
-        <div class="row text-center">
-            <div class="col-md-3 mb-4">
-                <h3 class="text-primary">10K+</h3>
-                <p class="text-muted">Active Users</p>
-            </div>
-            <div class="col-md-3 mb-4">
-                <h3 class="text-success">50K+</h3>
-                <p class="text-muted">Job Listings</p>
-            </div>
-            <div class="col-md-3 mb-4">
-                <h3 class="text-info">2K+</h3>
-                <p class="text-muted">Companies</p>
-            </div>
-            <div class="col-md-3 mb-4">
-                <h3 class="text-warning">95%</h3>
-                <p class="text-muted">Success Rate</p>
-            </div>
-        </div>
-    </div>
+<!-- ══ CTA BAND ══ -->
+<section class="cta-section">
+  <div class="aurora" aria-hidden="true"></div>
+  <div class="container-xl" style="position:relative;z-index:1;">
+    <h2 class="cta-heading animate-on-scroll">Ready to supercharge your career?</h2>
+    <p class="cta-sub animate-on-scroll">
+      Join thousands of Pakistani graduates already using CareerAI.
+    </p>
+    {% if user.is_authenticated %}
+      <a href="{% url 'dashboard' %}" class="btn-primary">Go to Dashboard →</a>
+    {% else %}
+      <a href="{% url 'register' %}" class="btn-primary">Get Started Free →</a>
+    {% endif %}
+  </div>
 </section>
 
-<!-- Testimonials Section -->
-<section class="py-5 bg-light">
-    <div class="container">
-        <h2 class="text-center mb-5">What Users Say</h2>
-        
-        <div class="row">
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-warning"></i>
-                        </div>
-                        <p class="card-text">
-                            "CareerAI helped me optimize my CV and land my dream job within 3 weeks. The AI feedback was incredibly valuable!"
-                        </p>
-                        <footer class="blockquote-footer">Sarah Ahmed - Software Engineer</footer>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-warning"></i>
-                        </div>
-                        <p class="card-text">
-                            "The mock interviews were game-changing. I felt completely prepared for my final interview thanks to the realistic practice!"
-                        </p>
-                        <footer class="blockquote-footer">John Doe - Product Manager</footer>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-warning"></i>
-                        </div>
-                        <p class="card-text">
-                            "The learning resources helped me upskill quickly. The structured learning paths are exactly what I needed for my transition!"
-                        </p>
-                        <footer class="blockquote-footer">Emily Smith - Data Scientist</footer>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Modules Showcase -->
-<section class="py-5">
-    <div class="container">
-        <h2 class="text-center mb-5">All 10 Modules Included</h2>
-        
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h6><i class="fas fa-lock text-primary"></i> Module 1: Authentication & User Profile</h6>
-                        <p class="small text-muted">Secure login, registration, profile management, and CV upload</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h6><i class="fas fa-file-pdf text-success"></i> Module 2: CV Analyzer</h6>
-                        <p class="small text-muted">AI-powered CV analysis, quality scoring, and improvement suggestions</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h6><i class="fas fa-briefcase text-info"></i> Module 3: Job Listing & Matching</h6>
-                        <p class="small text-muted">Smart job search, filtering, and AI-based job matching</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h6><i class="fas fa-robot text-warning"></i> Module 4: AI Chatbot</h6>
-                        <p class="small text-muted">Career guidance, FAQ, tips, and intelligent Q&A support</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h6><i class="fas fa-book text-danger"></i> Module 5: Resource Hub</h6>
-                        <p class="small text-muted">Courses, articles, tutorials, and curated learning paths</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h6><i class="fas fa-comments text-secondary"></i> Module 6: Community Forum</h6>
-                        <p class="small text-muted">Discussion threads, peer learning, and knowledge sharing</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h6><i class="fas fa-paper-plane text-primary"></i> Module 7: Auto-Apply System</h6>
-                        <p class="small text-muted">Simulated automated job applications based on matching</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h6><i class="fas fa-bell text-success"></i> Module 8: Notification System</h6>
-                        <p class="small text-muted">Smart notifications for jobs, applications, and updates</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h6><i class="fas fa-cogs text-info"></i> Module 9: Admin Panel</h6>
-                        <p class="small text-muted">Django admin with custom views for content management</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h6><i class="fas fa-microphone text-warning"></i> Module 10: AI Mock Interview</h6>
-                        <p class="small text-muted">Practice interviews with AI feedback and scoring</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- CTA Section -->
-<section class="py-5" style="background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); color: white;">
-    <div class="container text-center">
-        <h2 class="mb-4">Ready to Transform Your Career?</h2>
-        <p class="lead mb-4">Join thousands of successful job seekers using CareerAI</p>
-        
-        {% if user.is_authenticated %}
-            <a href="{% url 'dashboard' %}" class="btn btn-light btn-lg">
-                <i class="fas fa-chart-bar"></i> Go to Dashboard
-            </a>
-        {% else %}
-            <a href="{% url 'register' %}" class="btn btn-light btn-lg me-3">
-                <i class="fas fa-user-plus"></i> Sign Up Free
-            </a>
-            <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg">
-                <i class="fas fa-sign-in-alt"></i> Login
-            </a>
-        {% endif %}
-    </div>
-</section>
-
-<!-- FAQ Preview -->
-<section class="py-5">
-    <div class="container">
-        <h2 class="text-center mb-5">Frequently Asked Questions</h2>
-        
-        <div class="row">
-            <div class="col-md-8 mx-auto">
-                <div class="accordion" id="faqAccordion">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
-                                Is CareerAI free to use?
-                            </button>
-                        </h2>
-                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                Yes! CareerAI is completely free. All 10 modules including CV analysis, job matching, mock interviews, learning resources, and community forum are available to all users at no cost.
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
-                                How accurate is the CV analysis?
-                            </button>
-                        </h2>
-                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                Our AI analysis is trained on data from thousands of successful CVs and hiring patterns. It provides comprehensive feedback on formatting, content, keywords, and readability to help you create an ATS-optimized resume.
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
-                                How realistic are the mock interviews?
-                            </button>
-                        </h2>
-                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                Our mock interviews include real questions asked in actual interviews across various industries. You'll get detailed feedback on communication, technical knowledge, and problem-solving skills to prepare effectively.
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
-                                Can I access learning resources offline?
-                            </button>
-                        </h2>
-                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                Currently, resources are available online. However, you can bookmark your learning paths and progress is saved to your profile for continuous access.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
-                                How does job matching work?
-                            </button>
-                        </h2>
-                        <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                Our AI analyzes your skills, experience, education, and preferences to calculate a match percentage for each job. Jobs are ranked by relevance and presented with insights on why they're a good fit for you.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="text-center mt-4">
-                    <a href="{% url 'faq' %}" class="btn btn-primary">
-                        View More FAQs
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 {% endblock %}

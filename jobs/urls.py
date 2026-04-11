@@ -25,4 +25,12 @@ urlpatterns = [
     # Companies
     path('companies/', views.companies, name='companies'),
     path('companies/<int:pk>/', views.company_detail, name='company_detail'),
+
+    # ─── Auto-Apply Agent ───────────────────────────────────────────────────
+    path('auto-apply/', views.auto_apply_settings, name='auto_apply_settings'),
+    path('auto-apply/queue/', views.approval_queue, name='approval_queue'),
+    path('auto-apply/history/', views.application_history, name='application_history'),
+    path('auto-apply/run/', views.run_apply, name='run_apply'),
+    path('auto-apply/approve/<int:pk>/', views.approve_job, name='approve_job'),
+    path('auto-apply/reject/<int:pk>/', views.reject_job, name='reject_job'),
 ]

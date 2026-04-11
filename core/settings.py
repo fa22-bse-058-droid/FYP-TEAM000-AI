@@ -167,3 +167,20 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # CV Analyzer settings
 CV_ANALYSIS_MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB
 ALLOWED_CV_FORMATS = ['pdf', 'doc', 'docx']
+
+
+# ================================
+# ⚙️  CELERY / CELERY-BEAT (optional)
+# Requires: pip install celery redis django-celery-beat
+# ================================
+try:
+    from celery.schedules import crontab  # noqa: F401
+
+    CELERY_BEAT_SCHEDULE = {
+        'auto-apply': {
+            'task': 'jobs.tasks.scheduled_auto_apply',
+            'schedule': crontab(minute=0, hour='*/2'),
+        },
+    }
+except ImportError:
+    pass

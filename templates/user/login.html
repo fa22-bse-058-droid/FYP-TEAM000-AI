@@ -111,11 +111,9 @@
 
           <!-- Remember me -->
           {% if form.remember_me %}
-          <div class="form-field" style="flex-direction:row;align-items:center;gap:8px;">
+          <div class="remember-me-row">
             {{ form.remember_me }}
-            <label for="{{ form.remember_me.id_for_label }}" style="margin-bottom:0;font-size:0.82rem;">
-              Remember me for 30 days
-            </label>
+            <label for="{{ form.remember_me.id_for_label }}">Remember me for 30 days</label>
           </div>
           {% endif %}
 
@@ -139,8 +137,8 @@
 
 {% block extra_scripts %}
 <script>
-  // Style Django form widgets to match design
-  document.querySelectorAll('.auth-form-fields input').forEach(function(input) {
+  // Style Django form widgets to match design (skip checkboxes)
+  document.querySelectorAll('.auth-form-fields input:not([type="checkbox"])').forEach(function(input) {
     if (!input.classList.contains('styled')) {
       input.style.cssText = 'width:100%;padding:11px 14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;color:#F8FAFC;font-family:"DM Sans",sans-serif;font-size:0.9rem;transition:border-color 0.2s;outline:none;';
       input.classList.add('styled');

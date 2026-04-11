@@ -3,6 +3,9 @@
    GSAP scroll animations, password toggles, active nav
 */
 
+// Mark document as JS-enabled so CSS can conditionally hide animated elements
+document.documentElement.classList.add('js-enabled');
+
 (function () {
   'use strict';
 

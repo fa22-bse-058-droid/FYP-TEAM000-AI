@@ -192,10 +192,11 @@
     });
   }
 
-  // Wait for GSAP CDN to load
+  // Delay allows inline GSAP bundle (served from static) to finish evaluating before we register plugins
+  const GSAP_INIT_DELAY = 100;
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => setTimeout(initGSAP, 100));
+    document.addEventListener('DOMContentLoaded', () => setTimeout(initGSAP, GSAP_INIT_DELAY));
   } else {
-    setTimeout(initGSAP, 100);
+    setTimeout(initGSAP, GSAP_INIT_DELAY);
   }
 })();

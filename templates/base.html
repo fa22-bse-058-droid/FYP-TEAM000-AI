@@ -29,10 +29,23 @@
 <body>
 
 <!-- ══ NAVBAR ══ -->
+{% block navbar %}
 <nav class="navbar" role="navigation" aria-label="Main navigation">
   <!-- Logo -->
   <a href="{% url 'home' %}" class="navbar-logo">
-    <span class="logo-bolt">⚡</span>CareerAI
+    <svg class="logo-icon" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M21 9.5C19.2 7.3 16.7 6 14 6C8.5 6 4 10.5 4 16C4 21.5 8.5 26 14 26" stroke="url(#navG1)" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M17 2L14 8H18L15 14" stroke="url(#navG2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <defs>
+        <linearGradient id="navG1" x1="4" y1="16" x2="21" y2="16" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#5B5BD6"/><stop offset="1" stop-color="#00D4FF"/>
+        </linearGradient>
+        <linearGradient id="navG2" x1="14" y1="2" x2="18" y2="14" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#00D4FF"/><stop offset="1" stop-color="#4ADE80"/>
+        </linearGradient>
+      </defs>
+    </svg>
+    CareerAI
   </a>
 
   <!-- Center links (desktop) -->
@@ -77,6 +90,7 @@
     <a href="{% url 'register' %}">Get Started →</a>
   {% endif %}
 </div>
+{% endblock navbar %}
 
 <!-- ══ PAGE CONTENT ══ -->
 <main>
@@ -84,11 +98,24 @@
 </main>
 
 <!-- ══ FOOTER ══ -->
+{% block footer %}
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-row1">
       <a href="{% url 'home' %}" class="navbar-logo">
-        <span class="logo-bolt">⚡</span>CareerAI
+        <svg class="logo-icon" width="24" height="24" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M21 9.5C19.2 7.3 16.7 6 14 6C8.5 6 4 10.5 4 16C4 21.5 8.5 26 14 26" stroke="url(#ftG1)" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M17 2L14 8H18L15 14" stroke="url(#ftG2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <defs>
+            <linearGradient id="ftG1" x1="4" y1="16" x2="21" y2="16" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#5B5BD6"/><stop offset="1" stop-color="#00D4FF"/>
+            </linearGradient>
+            <linearGradient id="ftG2" x1="14" y1="2" x2="18" y2="14" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#00D4FF"/><stop offset="1" stop-color="#4ADE80"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        CareerAI
       </a>
       <ul class="footer-nav" role="list">
         <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
@@ -100,6 +127,7 @@
     <p class="footer-copyright">© 2026 CareerAI · Built for Pakistani graduates</p>
   </div>
 </footer>
+{% endblock footer %}
 
 <!-- GSAP (served from static) -->
 <script src="{% static 'js/gsap.min.js' %}"></script>

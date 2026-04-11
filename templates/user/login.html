@@ -3,6 +3,9 @@
 
 {% block title %}Sign In — CareerAI{% endblock %}
 
+{% block navbar %}{% endblock navbar %}
+{% block footer %}{% endblock footer %}
+
 {% block content %}
 <div class="auth-page">
 
@@ -13,7 +16,18 @@
     <div class="auth-left-content">
       <!-- Logo -->
       <a href="{% url 'home' %}" class="auth-left-logo">
-        <span style="color:var(--accent-blue)">⚡</span>CareerAI
+        <svg width="24" height="24" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="vertical-align:middle;margin-right:6px;">
+          <path d="M21 9.5C19.2 7.3 16.7 6 14 6C8.5 6 4 10.5 4 16C4 21.5 8.5 26 14 26" stroke="url(#authG1)" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M17 2L14 8H18L15 14" stroke="url(#authG2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <defs>
+            <linearGradient id="authG1" x1="4" y1="16" x2="21" y2="16" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#5B5BD6"/><stop offset="1" stop-color="#00D4FF"/>
+            </linearGradient>
+            <linearGradient id="authG2" x1="14" y1="2" x2="18" y2="14" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#00D4FF"/><stop offset="1" stop-color="#4ADE80"/>
+            </linearGradient>
+          </defs>
+        </svg>CareerAI
       </a>
 
       <!-- Middle -->
@@ -37,7 +51,20 @@
   <!-- ── Right panel (form) ── -->
   <div class="auth-right">
     <div class="auth-form-container">
-      <a href="{% url 'home' %}" class="auth-form-icon">⚡</a>
+      <a href="{% url 'home' %}" class="auth-form-icon">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M21 9.5C19.2 7.3 16.7 6 14 6C8.5 6 4 10.5 4 16C4 21.5 8.5 26 14 26" stroke="url(#loginIconG1)" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M17 2L14 8H18L15 14" stroke="url(#loginIconG2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <defs>
+            <linearGradient id="loginIconG1" x1="4" y1="16" x2="21" y2="16" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#5B5BD6"/><stop offset="1" stop-color="#00D4FF"/>
+            </linearGradient>
+            <linearGradient id="loginIconG2" x1="14" y1="2" x2="18" y2="14" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#00D4FF"/><stop offset="1" stop-color="#4ADE80"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </a>
       <h1 class="auth-form-heading">Welcome back</h1>
       <p class="auth-form-subheading">Sign in to continue to CareerAI</p>
 

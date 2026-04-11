@@ -1637,9 +1637,27 @@ main > .container-fluid {
 .auth-form-fields input[type="checkbox"] {
   width: 16px;
   height: 16px;
+  flex-shrink: 0;
   padding: 0;
   accent-color: var(--accent-indigo);
   cursor: pointer;
+}
+
+/* Remember-me row */
+.remember-me-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.remember-me-row label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 0;
+  cursor: pointer;
+  line-height: 1.4;
 }
 
 /* =========================================

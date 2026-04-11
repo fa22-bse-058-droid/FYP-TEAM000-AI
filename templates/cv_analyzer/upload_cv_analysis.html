@@ -1,117 +1,141 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Analyze Your CV - AI Career Assistant{% endblock %}
+{% block title %}Analyze Your CV — CareerAI{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow-lg">
-                <div class="card-body p-5">
-                    <h2 class="mb-4 text-center"><i class="fas fa-file-upload"></i> Analyze Your CV</h2>
-                    
-                    <p class="text-center text-muted mb-4">
-                        Upload your CV and get instant AI-powered feedback on formatting, content, keywords, and readability.
-                    </p>
-                    
-                    {% if messages %}
-                        {% for message in messages %}
-                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                                {{ message }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-                    
-                    <div class="alert alert-info" role="alert">
-                        <strong><i class="fas fa-info-circle"></i> Supported Formats:</strong><br>
-                        PDF, DOC, DOCX (Max size: 5MB)
-                    </div>
-                    
-                    <form method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        
-                        <div class="mb-4">
-                            <label for="{{ form.cv_file.id_for_label }}" class="form-label">
-                                <i class="fas fa-cloud-upload-alt"></i> Choose Your CV File
-                            </label>
-                            <div class="input-group mb-3">
-                                {{ form.cv_file }}
-                            </div>
-                            {% if form.cv_file.errors %}
-                                <div class="text-danger mt-2">
-                                    {% for error in form.cv_file.errors %}
-                                        <i class="fas fa-exclamation-circle"></i> {{ error }}
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                        </div>
-                        
-                        <button type="submit" class="btn btn-primary btn-lg w-100">
-                            <i class="fas fa-analysis"></i> Analyze CV
-                        </button>
-                    </form>
-                    
-                    <hr class="my-4">
-                    
-                    <h5 class="mb-3">What We Analyze:</h5>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <div class="feature-item">
-                                <i class="fas fa-paint-brush text-primary"></i>
-                                <strong>Format & Structure</strong>
-                                <p class="small">Check layout, organization, and presentation</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <div class="feature-item">
-                                <i class="fas fa-align-left text-success"></i>
-                                <strong>Content Quality</strong>
-                                <p class="small">Analyze achievements and descriptions</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <div class="feature-item">
-                                <i class="fas fa-key text-warning"></i>
-                                <strong>Keywords</strong>
-                                <p class="small">Match industry-relevant keywords</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <div class="feature-item">
-                                <i class="fas fa-book text-info"></i>
-                                <strong>Readability</strong>
-                                <p class="small">Ensure easy reading and flow</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <a href="{% url 'cv_analysis_list' %}" class="btn btn-outline-secondary mt-4">
-                <i class="fas fa-history"></i> View Previous Analyses
-            </a>
-        </div>
-    </div>
-</div>
+<div class="cv-page">
 
-<style>
-    .feature-item {
-        text-align: center;
-        padding: 15px;
-        border-radius: 8px;
-        background: #f8f9fa;
-    }
-    
-    .feature-item i {
-        font-size: 2rem;
-        margin-bottom: 10px;
-    }
-    
-    .feature-item strong {
-        display: block;
-        margin: 10px 0;
-    }
-</style>
+  <!-- Aurora -->
+  <div class="aurora" style="position:fixed;top:auto;bottom:-100px;" aria-hidden="true"></div>
+
+  <!-- Hero -->
+  <div class="cv-page-hero animate-on-scroll">
+    <span class="section-label" style="display:inline-block;margin-bottom:1rem;">CV Analyzer</span>
+    <h1 class="cv-page-headline">Analyze your CV with <span class="gradient-text">AI</span></h1>
+    <p class="cv-page-sub">
+      Upload your CV and get instant feedback on formatting, content quality,
+      ATS keywords, and readability with actionable improvement suggestions.
+    </p>
+  </div>
+
+  <!-- Messages -->
+  {% if messages %}
+    <div class="messages-container">
+      {% for message in messages %}
+        <div class="message-item {{ message.tags }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <!-- Supported formats info -->
+  <div class="alert-info-dark">
+    <strong>Supported formats:</strong> PDF, DOC, DOCX &nbsp;·&nbsp; Max size: 5MB
+  </div>
+
+  <!-- Upload zone -->
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="upload-zone animate-on-scroll" id="uploadZone">
+      <div class="upload-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="17,8 12,3 7,8"/>
+          <line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+      </div>
+      <p class="upload-title">Drop your CV here or click to upload</p>
+      <p class="upload-hint">PDF or DOCX · Max 5MB</p>
+      <span class="upload-file-label" id="fileName"></span>
+
+      <!-- Hidden file input from Django form -->
+      {{ form.cv_file }}
+    </div>
+
+    {% if form.cv_file.errors %}
+      <div class="auth-error" style="margin-top:12px;">
+        {% for error in form.cv_file.errors %}{{ error }}{% endfor %}
+      </div>
+    {% endif %}
+
+    <button type="submit" class="btn-primary" style="width:100%;justify-content:center;margin-top:1.5rem;font-size:1rem;padding:16px 28px;border-radius:8px;">
+      Analyze my CV →
+    </button>
+  </form>
+
+  <!-- What we analyze -->
+  <div style="margin-top:3rem;">
+    <p class="section-label" style="text-align:center;margin-bottom:1.5rem;">What we analyze</p>
+    <div class="cv-info-grid">
+      <div class="cv-info-item animate-on-scroll">
+        <div class="cv-info-icon" style="background:rgba(91,91,214,0.12);">
+          <svg viewBox="0 0 24 24" stroke="var(--accent-indigo)" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <line x1="3" y1="9" x2="21" y2="9"/>
+            <line x1="9" y1="21" x2="9" y2="9"/>
+          </svg>
+        </div>
+        <p class="cv-info-label">Format &amp; Structure</p>
+        <p class="cv-info-desc">Layout, organisation and presentation quality</p>
+      </div>
+      <div class="cv-info-item animate-on-scroll">
+        <div class="cv-info-icon" style="background:rgba(74,222,128,0.08);">
+          <svg viewBox="0 0 24 24" stroke="var(--accent-green)" style="opacity:0.8" aria-hidden="true">
+            <line x1="17" y1="10" x2="3" y2="10"/>
+            <line x1="21" y1="6" x2="3" y2="6"/>
+            <line x1="21" y1="14" x2="3" y2="14"/>
+            <line x1="17" y1="18" x2="3" y2="18"/>
+          </svg>
+        </div>
+        <p class="cv-info-label">Content Quality</p>
+        <p class="cv-info-desc">Achievements, action verbs, impact statements</p>
+      </div>
+      <div class="cv-info-item animate-on-scroll">
+        <div class="cv-info-icon" style="background:rgba(0,212,255,0.08);">
+          <svg viewBox="0 0 24 24" stroke="var(--accent-blue)" aria-hidden="true">
+            <path d="m21 21-6-6m6 6v-4.8m0 4.8h-4.8"/>
+            <path d="M3 16.2V21m0 0h4.8M3 21l6-6"/>
+            <path d="M21 7.8V3m0 0h-4.8M21 3l-6 6"/>
+            <path d="M3 7.8V3m0 0h4.8M3 3l6 6"/>
+          </svg>
+        </div>
+        <p class="cv-info-label">ATS Keywords</p>
+        <p class="cv-info-desc">Industry-relevant keywords for applicant tracking</p>
+      </div>
+      <div class="cv-info-item animate-on-scroll">
+        <div class="cv-info-icon" style="background:rgba(245,158,11,0.08);">
+          <svg viewBox="0 0 24 24" stroke="#F59E0B" aria-hidden="true">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+          </svg>
+        </div>
+        <p class="cv-info-label">Readability</p>
+        <p class="cv-info-desc">Easy reading, clear flow and conciseness</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Link to past analyses -->
+  <div style="text-align:center;margin-top:2.5rem;">
+    <a href="{% url 'cv_analysis_list' %}" style="font-family:'DM Sans',sans-serif;font-size:0.85rem;color:var(--accent-indigo);text-decoration:none;">
+      ← View previous analyses
+    </a>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  // Style Django file input inside upload zone
+  var fileInput = document.querySelector('.upload-zone input[type="file"]');
+  if (fileInput) {
+    fileInput.style.cssText = 'position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;';
+    var label = document.getElementById('fileName');
+    fileInput.addEventListener('change', function() {
+      var f = fileInput.files && fileInput.files[0];
+      if (label) label.textContent = f ? f.name : '';
+    });
+  }
+</script>
 {% endblock %}

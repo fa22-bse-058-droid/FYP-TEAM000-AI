@@ -1,143 +1,119 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Jobs - AI Career Assistant{% endblock %}
+{% block title %}Jobs — CareerAI{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="row mb-4">
-        <div class="col-md-12">
-            <h1><i class="fas fa-briefcase"></i> Find Your Next Job</h1>
-            <p class="text-muted">{{ total_jobs }} jobs available</p>
+<div class="page-content">
+
+  <!-- Header -->
+  <div class="animate-on-scroll" style="margin-bottom:2.5rem;">
+    <span class="section-label" style="display:inline-block;margin-bottom:0.5rem;">Opportunities</span>
+    <h1 style="font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;color:var(--text-primary);">Find Your Next Job</h1>
+    <p style="font-family:'DM Sans',sans-serif;font-size:0.9rem;color:var(--text-muted);margin-top:0.5rem;">{{ total_jobs }} jobs available</p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:260px 1fr;gap:24px;align-items:start;" class="jobs-layout">
+
+    <!-- Sidebar Filters -->
+    <div class="dash-card animate-on-scroll" style="position:sticky;top:80px;">
+      <p style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.9rem;color:var(--text-primary);margin-bottom:1.25rem;">Filters</p>
+      <form method="GET" style="display:flex;flex-direction:column;gap:14px;">
+        <div>
+          <label style="font-family:'DM Sans',sans-serif;font-size:0.78rem;color:var(--text-muted);display:block;margin-bottom:6px;">Keyword</label>
+          {{ form.keyword }}
         </div>
+        <div>
+          <label style="font-family:'DM Sans',sans-serif;font-size:0.78rem;color:var(--text-muted);display:block;margin-bottom:6px;">Location</label>
+          {{ form.location }}
+        </div>
+        <div>
+          <label style="font-family:'DM Sans',sans-serif;font-size:0.78rem;color:var(--text-muted);display:block;margin-bottom:6px;">Job Type</label>
+          {{ form.job_type }}
+        </div>
+        <div>
+          <label style="font-family:'DM Sans',sans-serif;font-size:0.78rem;color:var(--text-muted);display:block;margin-bottom:6px;">Experience Level</label>
+          {{ form.experience_level }}
+        </div>
+        <div>
+          <label style="font-family:'DM Sans',sans-serif;font-size:0.78rem;color:var(--text-muted);display:block;margin-bottom:6px;">Salary Range</label>
+          <div style="display:flex;gap:8px;">
+            {{ form.salary_min }}
+            {{ form.salary_max }}
+          </div>
+        </div>
+        <div>
+          <label style="font-family:'DM Sans',sans-serif;font-size:0.78rem;color:var(--text-muted);display:block;margin-bottom:6px;">Sort By</label>
+          {{ form.sort_by }}
+        </div>
+        <button type="submit" class="btn-primary" style="justify-content:center;font-size:0.85rem;padding:11px;">Apply Filters</button>
+        <a href="{% url 'job_list' %}" style="font-family:'DM Sans',sans-serif;font-size:0.82rem;color:var(--text-muted);text-align:center;padding:8px;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-muted)'">Clear filters</a>
+      </form>
     </div>
-    
-    <div class="row">
-        <!-- Sidebar Filters -->
-        <div class="col-md-3 mb-4">
-            <div class="card">
-                <div class="card-header">
-                    <h5>Filters</h5>
+
+    <!-- Job List -->
+    <div>
+      {% if jobs %}
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          {% for job in jobs %}
+            <div class="dash-card animate-on-scroll" style="transition:border-color 0.2s,transform 0.2s;" onmouseover="this.style.borderColor='var(--border-hover)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='rgba(248,250,252,0.07)';this.style.transform='translateY(0)'">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;">
+                <div style="flex:1;min-width:200px;">
+                  <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:var(--text-primary);margin-bottom:6px;">
+                    <a href="{% url 'job_detail' job.pk %}" style="text-decoration:none;color:inherit;transition:color 0.2s;" onmouseover="this.style.color='var(--accent-indigo)'" onmouseout="this.style.color='inherit'">{{ job.title }}</a>
+                  </h3>
+                  <p style="font-family:'DM Sans',sans-serif;font-size:0.82rem;color:var(--text-muted);margin-bottom:8px;">{{ job.company.name }} · {{ job.location }}</p>
+                  <p style="font-family:'DM Sans',sans-serif;font-size:0.82rem;color:var(--text-muted);line-height:1.6;margin-bottom:10px;">{{ job.description|truncatewords:25 }}</p>
+                  <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                    <span class="feature-tag tag-indigo" style="font-size:0.7rem;">{{ job.job_type }}</span>
+                    <span class="feature-tag tag-blue" style="font-size:0.7rem;">{{ job.experience_level }}</span>
+                  </div>
                 </div>
-                <div class="card-body">
-                    <form method="GET">
-                        <div class="mb-3">
-                            <label class="form-label">Keyword</label>
-                            {{ form.keyword }}
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label class="form-label">Location</label>
-                            {{ form.location }}
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label class="form-label">Job Type</label>
-                            <div>{{ form.job_type }}</div>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label class="form-label">Experience Level</label>
-                            <div>{{ form.experience_level }}</div>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label class="form-label">Salary Range</label>
-                            {{ form.salary_min }}
-                            {{ form.salary_max }}
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label class="form-label">Sort By</label>
-                            {{ form.sort_by }}
-                        </div>
-                        
-                        <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
-                        <a href="{% url 'job_list' %}" class="btn btn-outline-secondary w-100 mt-2">Clear</a>
-                    </form>
+                <div style="text-align:right;flex-shrink:0;">
+                  {% if job.salary_min and job.salary_max %}
+                    <p style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;color:var(--accent-green);opacity:0.9;margin-bottom:4px;">${{ job.salary_min|floatformat:0 }}–${{ job.salary_max|floatformat:0 }}</p>
+                  {% endif %}
+                  <p style="font-family:'DM Sans',sans-serif;font-size:0.75rem;color:var(--text-muted);margin-bottom:12px;">{{ job.days_until_deadline }} days left</p>
+                  <a href="{% url 'job_detail' job.pk %}" class="btn-primary" style="font-size:0.82rem;padding:9px 18px;">View Details</a>
                 </div>
+              </div>
             </div>
+          {% endfor %}
         </div>
-        
-        <!-- Job List -->
-        <div class="col-md-9">
-            {% if jobs %}
-                {% for job in jobs %}
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <h5 class="card-title">
-                                        <a href="{% url 'job_detail' job.pk %}" class="text-decoration-none">
-                                            {{ job.title }}
-                                        </a>
-                                    </h5>
-                                    <p class="card-text text-muted">
-                                        <i class="fas fa-building"></i> {{ job.company.name }} |
-                                        <i class="fas fa-map-marker-alt"></i> {{ job.location }}
-                                    </p>
-                                    <p class="card-text small">
-                                        {{ job.description|truncatewords:30 }}
-                                    </p>
-                                    <div class="mb-2">
-                                        <span class="badge bg-primary">{{ job.job_type }}</span>
-                                        <span class="badge bg-secondary">{{ job.experience_level }}</span>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 text-end">
-                                    {% if job.salary_min and job.salary_max %}
-                                        <h6 class="text-success">${{ job.salary_min|floatformat:0 }} - ${{ job.salary_max|floatformat:0 }}</h6>
-                                    {% endif %}
-                                    <p class="small text-muted">{{ job.days_until_deadline }} days left</p>
-                                    <a href="{% url 'job_detail' job.pk %}" class="btn btn-sm btn-primary">
-                                        View Details
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-                
-                <!-- Pagination -->
-                <nav aria-label="Page navigation">
-                    <ul class="pagination justify-content-center">
-                        {% if jobs.has_previous %}
-                            <li class="page-item">
-                                <a class="page-link" href="?page=1">First</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="?page={{ jobs.previous_page_number }}">Previous</a>
-                            </li>
-                        {% endif %}
-                        
-                        {% for num in jobs.paginator.page_range %}
-                            {% if jobs.number == num %}
-                                <li class="page-item active">
-                                    <span class="page-link">{{ num }}</span>
-                                </li>
-                            {% else %}
-                                <li class="page-item">
-                                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-                                </li>
-                            {% endif %}
-                        {% endfor %}
-                        
-                        {% if jobs.has_next %}
-                            <li class="page-item">
-                                <a class="page-link" href="?page={{ jobs.next_page_number }}">Next</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="?page={{ jobs.paginator.num_pages }}">Last</a>
-                            </li>
-                        {% endif %}
-                    </ul>
-                </nav>
-            {% else %}
-                <div class="alert alert-info">
-                    <i class="fas fa-search"></i> No jobs found matching your criteria.
-                </div>
+
+        <!-- Pagination -->
+        {% if jobs.has_other_pages %}
+        <nav aria-label="Page navigation" style="display:flex;justify-content:center;gap:8px;margin-top:2.5rem;flex-wrap:wrap;">
+          {% if jobs.has_previous %}
+            <a href="?page=1" style="font-family:'DM Sans',sans-serif;font-size:0.82rem;color:var(--text-muted);padding:8px 14px;border:1px solid var(--border);border-radius:var(--radius-btn);text-decoration:none;transition:all 0.2s;">First</a>
+            <a href="?page={{ jobs.previous_page_number }}" style="font-family:'DM Sans',sans-serif;font-size:0.82rem;color:var(--text-muted);padding:8px 14px;border:1px solid var(--border);border-radius:var(--radius-btn);text-decoration:none;transition:all 0.2s;">← Prev</a>
+          {% endif %}
+          {% for num in jobs.paginator.page_range %}
+            {% if jobs.number == num %}
+              <span style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.82rem;color:#fff;background:var(--accent-indigo);padding:8px 14px;border-radius:var(--radius-btn);">{{ num }}</span>
+            {% elif num > jobs.number|add:'-3' and num < jobs.number|add:'3' %}
+              <a href="?page={{ num }}" style="font-family:'DM Sans',sans-serif;font-size:0.82rem;color:var(--text-muted);padding:8px 14px;border:1px solid var(--border);border-radius:var(--radius-btn);text-decoration:none;transition:all 0.2s;">{{ num }}</a>
             {% endif %}
+          {% endfor %}
+          {% if jobs.has_next %}
+            <a href="?page={{ jobs.next_page_number }}" style="font-family:'DM Sans',sans-serif;font-size:0.82rem;color:var(--text-muted);padding:8px 14px;border:1px solid var(--border);border-radius:var(--radius-btn);text-decoration:none;transition:all 0.2s;">Next →</a>
+            <a href="?page={{ jobs.paginator.num_pages }}" style="font-family:'DM Sans',sans-serif;font-size:0.82rem;color:var(--text-muted);padding:8px 14px;border:1px solid var(--border);border-radius:var(--radius-btn);text-decoration:none;transition:all 0.2s;">Last</a>
+          {% endif %}
+        </nav>
+        {% endif %}
+
+      {% else %}
+        <div class="dash-card animate-on-scroll" style="text-align:center;padding:48px 24px;">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.5" style="margin:0 auto 16px;" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <p style="font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:var(--text-primary);margin-bottom:0.5rem;">No jobs found</p>
+          <p style="font-family:'DM Sans',sans-serif;font-size:0.85rem;color:var(--text-muted);">Try adjusting your filters to see more results.</p>
         </div>
+      {% endif %}
     </div>
+
+  </div><!-- /jobs-layout -->
+
 </div>
 {% endblock %}

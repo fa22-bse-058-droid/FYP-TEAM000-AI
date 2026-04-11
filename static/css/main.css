@@ -209,12 +209,17 @@ h1, h2, h3, h4, h5, h6 {
   text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
   flex-shrink: 0;
 }
 
 .navbar-logo .logo-bolt {
   color: var(--accent-blue);
+}
+
+.logo-icon {
+  display: block;
+  flex-shrink: 0;
 }
 
 .navbar-links {
@@ -1554,6 +1559,22 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* =========================================
+   Bootstrap container fallback
+   (Bootstrap is not loaded, but classes remain in some templates.
+    This ensures proper nav clearance and base layout.)
+   ========================================= */
+main > .container,
+main > .container-fluid {
+  padding-top: 96px;
+  padding-bottom: 64px;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* =========================================
    Animations (GSAP will override these)
    ========================================= */
 .animate-on-scroll {
@@ -1621,8 +1642,106 @@ h1, h2, h3, h4, h5, h6 {
   cursor: pointer;
 }
 
-/* Password field with toggle — ensure input doesn't go behind button */
-.field-wrapper input[type="password"],
-.field-wrapper input[type="text"] {
-  padding-right: 44px;
+/* =========================================
+   Features Grid — Full (8 cards)
+   ========================================= */
+.features-grid-full {
+  grid-template-columns: 1fr;
 }
+
+@media (min-width: 640px) {
+  .features-grid-full {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 1024px) {
+  .features-grid-full {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .features-grid-full .feature-card-large {
+    grid-column: span 2;
+  }
+}
+
+/* =========================================
+   CV List Grid — responsive 2-col / 1-col
+   ========================================= */
+@media (max-width: 640px) {
+  .cv-list-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* =========================================
+   Jobs Layout — responsive sidebar
+   ========================================= */
+@media (max-width: 768px) {
+  .jobs-layout {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* =========================================
+   Form widget overrides for non-auth pages
+   (Jobs filters, CV comparison selects, etc.)
+   ========================================= */
+.page-content input[type="text"],
+.page-content input[type="email"],
+.page-content input[type="number"],
+.page-content input[type="search"],
+.page-content select,
+.page-content textarea {
+  width: 100%;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-input);
+  color: var(--text-primary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  transition: border-color 0.2s;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.page-content input:focus,
+.page-content select:focus,
+.page-content textarea:focus {
+  border-color: rgba(91, 91, 214, 0.7);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.page-content input::placeholder {
+  color: rgba(248, 250, 252, 0.25);
+}
+
+.page-content select option {
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+
+/* Comparison form inputs */
+.page-content .dash-card input,
+.page-content .dash-card select {
+  width: 100%;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-input);
+  color: var(--text-primary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.page-content .dash-card input:focus,
+.page-content .dash-card select:focus {
+  border-color: rgba(91, 91, 214, 0.7);
+}
+

@@ -6,7 +6,17 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 from django.utils import timezone
 
-from .models import Job, JobApplication, SavedJob, JobAlert, JobMatchScore, Company
+from .models import (
+    AuditLog,
+    ApplicationQueue,
+    AutoApplyPermission,
+    Company,
+    Job,
+    JobApplication,
+    JobAlert,
+    JobMatchScore,
+    SavedJob,
+)
 from .forms import JobSearchForm, JobApplicationForm, SaveJobForm, JobAlertForm
 
 
@@ -346,3 +356,168 @@ def recommended_jobs(request):
         'jobs': jobs_page,
     }
     return render(request, 'jobs/recommended_jobs.html', context)
+
+
+# ─── Auto-Apply Agent Views ────────────────────────────────────────────────────
+
+def _get_or_create_permission(user):
+    permission, _ = AutoApplyPermission.objects.get_or_create(user=user)
+    return permission
+
+
+@login_required(login_url='login')
+@require_http_methods(["GET", "POST"])
+def auto_apply_settings(request):
+    """Main Auto-Apply control panel (settings + queue + history)."""
+    permission = _get_or_create_permission(request.user)
+
+    if request.method == 'POST':
+        terms_accepted = request.POST.get('terms_accepted') == 'on'
+        allowed = request.POST.get('allowed') == 'on'
+        require_approval = request.POST.get('require_approval') == 'on'
+
+        try:
+            daily_limit = int(request.POST.get('daily_limit', 10))
+            daily_limit = max(1, min(50, daily_limit))
+        except (ValueError, TypeError):
+            daily_limit = 10
+
+        # Terms must be accepted before enabling
+        if allowed and not terms_accepted:
+            messages.error(request, 'You must accept the terms to enable Auto-Apply.')
+            return redirect('auto_apply_settings')
+
+        permission.terms_accepted = terms_accepted
+        permission.allowed = allowed
+        permission.require_approval = require_approval
+        permission.daily_limit = daily_limit
+        if allowed and not permission.granted_at:
+            permission.granted_at = timezone.now()
+        elif not allowed:
+            permission.granted_at = None
+        permission.save()
+
+        AuditLog.objects.create(
+            user=request.user,
+            action='settings_updated',
+            status='success',
+            detail=f'allowed={allowed}, daily_limit={daily_limit}, require_approval={require_approval}',
+        )
+        messages.success(request, 'Auto-Apply settings saved.')
+        return redirect('auto_apply_settings')
+
+    # Stats
+    today = timezone.now().date()
+    applied_today = ApplicationQueue.objects.filter(
+        user=request.user, status='submitted', applied_at__date=today
+    ).count()
+    pending_count = ApplicationQueue.objects.filter(user=request.user, status='pending').count()
+    total_applied = ApplicationQueue.objects.filter(user=request.user, status='submitted').count()
+
+    # Approval queue
+    queue_items = (
+        ApplicationQueue.objects
+        .filter(user=request.user, status='pending')
+        .select_related('job', 'job__company')
+        .order_by('-match_score')
+    )
+
+    # Application history (paginated)
+    history_qs = (
+        ApplicationQueue.objects
+        .filter(user=request.user, status__in=['submitted', 'failed', 'rejected'])
+        .select_related('job', 'job__company')
+    )
+    paginator = Paginator(history_qs, 20)
+    history = paginator.get_page(request.GET.get('page'))
+
+    context = {
+        'permission': permission,
+        'applied_today': applied_today,
+        'pending_count': pending_count,
+        'total_applied': total_applied,
+        'queue_items': queue_items,
+        'history': history,
+    }
+    return render(request, 'jobs/auto_apply.html', context)
+
+
+@login_required(login_url='login')
+@require_http_methods(["GET"])
+def approval_queue(request):
+    """Standalone approval-queue page (redirects to main panel)."""
+    return redirect('auto_apply_settings')
+
+
+@login_required(login_url='login')
+@require_http_methods(["POST"])
+def approve_job(request, pk):
+    """Approve a queued job for auto-application."""
+    item = get_object_or_404(ApplicationQueue, pk=pk, user=request.user)
+    if item.status == 'pending':
+        item.status = 'approved'
+        item.save()
+        AuditLog.objects.create(
+            user=request.user,
+            job=item.job,
+            action='job_approved',
+            status='approved',
+            detail=f'Approved: {item.job.title}',
+        )
+        messages.success(request, f'"{item.job.title}" approved for auto-apply.')
+    return redirect('auto_apply_settings')
+
+
+@login_required(login_url='login')
+@require_http_methods(["POST"])
+def reject_job(request, pk):
+    """Reject a queued job."""
+    item = get_object_or_404(ApplicationQueue, pk=pk, user=request.user)
+    if item.status in ('pending', 'approved'):
+        item.status = 'rejected'
+        item.save()
+        AuditLog.objects.create(
+            user=request.user,
+            job=item.job,
+            action='job_rejected',
+            status='rejected',
+            detail=f'Rejected: {item.job.title}',
+        )
+        messages.info(request, f'"{item.job.title}" rejected.')
+    return redirect('auto_apply_settings')
+
+
+@login_required(login_url='login')
+@require_http_methods(["GET"])
+def application_history(request):
+    """Standalone history page (redirects to main panel)."""
+    return redirect('auto_apply_settings')
+
+
+@login_required(login_url='login')
+@require_http_methods(["POST"])
+def run_apply(request):
+    """Manually trigger the auto-apply agent for the current user."""
+    from .auto_apply import run_auto_apply  # noqa: PLC0415
+
+    permission = _get_or_create_permission(request.user)
+    if not permission.allowed:
+        messages.error(request, 'Auto-Apply is disabled. Enable it in settings first.')
+        return redirect('auto_apply_settings')
+
+    result = run_auto_apply(request.user)
+
+    status = result.get('status')
+    if status == 'limit_reached':
+        messages.warning(request, result.get('message', 'Daily limit reached.'))
+    elif status == 'done':
+        r = result.get('results', {})
+        messages.success(
+            request,
+            f"Auto-Apply run complete: {r.get('submitted', 0)} submitted, "
+            f"{r.get('failed', 0)} failed, {r.get('skipped', 0)} skipped.",
+        )
+    else:
+        messages.error(request, result.get('message', 'Auto-Apply could not run.'))
+
+    return redirect('auto_apply_settings')

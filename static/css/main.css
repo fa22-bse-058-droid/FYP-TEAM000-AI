@@ -167,7 +167,7 @@ body.menu-open{overflow:hidden}
 .section-final-cta h2{font-size:clamp(2rem,6vw,3.5rem);font-weight:800;line-height:1.03}
 .section-final-cta p{color:var(--text-1);margin:.8rem 0}
 .trusted-line{font-size:.9rem;color:var(--text-2)}
-@keyframes ctaGradientGlow{0%{opacity:.26}100%{opacity:.52}}
+@keyframes ctaGradientGlow{0%{opacity:.26}50%{opacity:.39}100%{opacity:.52}}
 .section-final-cta .btn-primary{position:relative;z-index:1}
 .section-final-cta .btn-primary::after{content:'';position:absolute;inset:-6px;border-radius:inherit;background:rgba(47,129,247,0.25);filter:blur(10px);opacity:.08;transform:scale(1);animation:ctaBtnGlow 2.8s ease-in-out infinite;pointer-events:none;z-index:-1}
 @keyframes ctaBtnGlow{0%,100%{opacity:.08;transform:scale(1)}50%{opacity:.24;transform:scale(1.04)}}
@@ -314,5 +314,5 @@ body.menu-open{overflow:hidden}
 }
 
 @media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }

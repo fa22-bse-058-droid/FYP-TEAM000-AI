@@ -169,14 +169,19 @@
       return;
     }
     gsap.registerPlugin(ScrollTrigger);
+    const heroShapeMotions = [
+      { selector: '.hero-shape-one', x: 26, y: -18, duration: 8.5 },
+      { selector: '.hero-shape-two', x: -24, y: 22, duration: 10 },
+      { selector: '.hero-shape-three', x: 20, y: -14, duration: 9 },
+    ];
 
     gsap.fromTo('.hero-glow',
       { opacity: 0.26, scale: 0.95 },
       { opacity: 0.58, scale: 1.08, duration: 5, ease: 'sine.inOut', yoyo: true, repeat: -1 });
 
-    gsap.to('.hero-shape-one', { x: 26, y: -18, duration: 8.5, ease: 'sine.inOut', yoyo: true, repeat: -1 });
-    gsap.to('.hero-shape-two', { x: -24, y: 22, duration: 10, ease: 'sine.inOut', yoyo: true, repeat: -1 });
-    gsap.to('.hero-shape-three', { x: 20, y: -14, duration: 9, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+    heroShapeMotions.forEach(({ selector, x, y, duration }) => {
+      gsap.to(selector, { x, y, duration, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+    });
 
     gsap.fromTo('.hero-content .section-label, .hero-content h1, .hero-content p, .hero-actions, .hero-proof',
       { opacity: 0, y: 28 },

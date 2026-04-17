@@ -73,7 +73,6 @@
                       <p class="job-description">{{ job.description|truncatewords:25 }}</p>
                       <div class="job-tags">
                         <span class="job-tag">{{ job.job_type|title }}</span>
-                        <span class="job-tag">{{ job.experience_level|title }}</span>
                         {% if 'remote' in job.location|lower %}
                           <span class="job-tag">Remote</span>
                         {% endif %}

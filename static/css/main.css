@@ -8,6 +8,8 @@
   --text-1:#8B949E;
   --text-2:#484F58;
   --accent:#2F81F7;
+  --focus-blue:#60A5FA;
+  --nav-border:rgba(240,246,252,.1);
   --accent-glow:rgba(47,129,247,0.08);
   --accent-dim:rgba(47,129,247,0.15);
   --green:#3FB950;
@@ -41,7 +43,7 @@ main{min-height:calc(100vh - 60px)}
 .btn-lg{padding:12px 28px;font-size:1rem}
 .section-label{font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--accent)}
 
-.navbar{--nav-opacity:.72;position:fixed;top:12px;left:50%;transform:translateX(-50%);width:min(1240px,calc(100% - 24px));height:60px;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 4vw;background:linear-gradient(125deg,rgba(17,20,24,var(--nav-opacity)),rgba(10,12,15,calc(var(--nav-opacity) * .88)));border:1px solid rgba(240,246,252,.1);border-radius:18px;transition:.3s background,.3s border-color,.3s backdrop-filter,.3s box-shadow,.3s top,.3s opacity;backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);box-shadow:0 14px 38px rgba(2,6,20,.35)}
+.navbar{--nav-opacity:.72;position:fixed;top:12px;left:50%;transform:translateX(-50%);width:min(1240px,calc(100% - 24px));height:60px;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 4vw;background:linear-gradient(125deg,rgba(17,20,24,var(--nav-opacity)),rgba(10,12,15,calc(var(--nav-opacity) * .88)));border:1px solid var(--nav-border);border-radius:18px;transition:.3s background,.3s border-color,.3s backdrop-filter,.3s box-shadow,.3s top,.3s opacity;backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);box-shadow:0 14px 38px rgba(2,6,20,.35)}
 .navbar::before{content:'';position:absolute;inset:-1px;border-radius:inherit;padding:1px;background:linear-gradient(120deg,rgba(47,129,247,.45),rgba(116,80,255,.18),rgba(63,185,80,.24));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.5;pointer-events:none}
 .navbar.scrolled{--nav-opacity:.92;top:8px;border-color:rgba(47,129,247,.28);box-shadow:0 16px 46px rgba(2,6,20,.45),0 0 24px rgba(47,129,247,.18)}
 .navbar-logo{display:flex;align-items:center;gap:.5rem;font-weight:700;letter-spacing:.01em}
@@ -291,7 +293,7 @@ body.menu-open{overflow:hidden}
 .job-filter-input{width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);border-radius:.7rem;padding:.66rem .78rem;color:#f8fafc;font-size:.84rem;transition:border-color .25s ease,box-shadow .25s ease,background .25s ease,outline-color .25s ease}
 .job-filter-input::placeholder{color:rgba(226,232,240,.52)}
 .job-filter-input:focus{border-color:rgba(59,130,246,.72);box-shadow:0 0 0 2px rgba(59,130,246,.28);background:rgba(255,255,255,.14)}
-.job-filter-input:focus-visible{outline:2px solid #60a5fa;outline-offset:2px}
+.job-filter-input:focus-visible{outline:2px solid var(--focus-blue);outline-offset:2px}
 .jobs-checkbox-group ul{list-style:none;display:grid;gap:.34rem}
 .jobs-checkbox-group li{display:flex;align-items:center;gap:.55rem;padding:.35rem .44rem;border-radius:.6rem;transition:background .22s ease}
 .jobs-checkbox-group li:hover{background:rgba(255,255,255,.06)}

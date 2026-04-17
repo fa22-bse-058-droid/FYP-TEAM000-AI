@@ -54,7 +54,7 @@
     <div class="dashboard-right">
       <article class="card">
         <div class="module-header-inline"><h2>Auto-Apply</h2><label class="switch"><input type="checkbox" checked><span></span></label></div>
-        <p><span class="status-live">● Active</span></p>
+        <p><span class="status-live">Active</span></p>
         <div class="mini-stats"><div><strong>{{ recent_applications|default:'0' }}</strong><span>Today</span></div><div><strong>{{ recent_applications|default:'0' }}</strong><span>Week</span></div><div><strong>{{ recent_applications|default:'0' }}</strong><span>Total</span></div></div>
       </article>
 
@@ -73,7 +73,7 @@
         <div class="module-header-inline"><h2>Profile</h2></div>
         {% with completion=user.profile.get_profile_completion|default:50 %}
           <p class="big-score score-good">{{ completion }}%</p>
-          <div class="bar"><span style="width:{{ completion }}%"></span></div>
+          <div class="bar"><span class="profile-completion-fill" style="width:{{ completion }}%"></span></div>
         {% endwith %}
         <ul class="checklist">
           <li>{% if user.profile.bio %}✓{% else %}○{% endif %} Bio</li>

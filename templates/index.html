@@ -3,9 +3,9 @@
 {% block title %}CareerAI — Build the career you actually want{% endblock %}
 
 {% block content %}
-<section class="landing-hero animate-in" id="top">
-  <div class="hero-grid-texture" aria-hidden="true"></div>
-  <div class="hero-orb" aria-hidden="true"></div>
+<section class="landing-hero hero animate-in" id="top">
+  <div class="hero-bg-grid" aria-hidden="true"></div>
+  <div class="hero-glow" aria-hidden="true"></div>
   <div class="hero-content">
     <span class="section-label">AI-Powered Career Platform</span>
     <h1>Build the career<br>you <em>actually</em> want.</h1>
@@ -31,9 +31,9 @@
 <section class="landing-section section-problem animate-in" id="problem">
   <div class="section-inner split-grid">
     <div class="problem-stats stagger-children">
-      <div><h3><span class="count-up" data-count="73">0</span>%</h3><p>CVs never reach recruiters</p></div>
-      <div><h3><span class="count-up" data-count="8">0</span> sec</h3><p>Avg recruiter scan time</p></div>
-      <div><h3 class="count-up" data-count="500">0</h3><p>Students helped</p></div>
+      <div><h3><span class="stat-number" data-target="73" data-unit="%">0%</span></h3><p>CVs never reach recruiters</p></div>
+      <div><h3><span class="stat-number" data-target="8">0</span> sec</h3><p>Avg recruiter scan time</p></div>
+      <div><h3><span class="stat-number" data-target="500">0</span></h3><p>Students helped</p></div>
     </div>
     <div>
       <h2>The job market is broken for graduates</h2>
@@ -50,9 +50,9 @@
       <h2>From CV to hired in three steps</h2>
     </div>
     <div class="how-steps stagger-children">
-      <article class="card how-step"><span class="step-bg">01</span><div class="step-icon">↑</div><h3>Upload CV</h3><p>Drop your resume once and let AI parse your profile.</p></article>
-      <article class="card how-step"><span class="step-bg">02</span><div class="step-icon">◎</div><h3>AI Analyzes &amp; Benchmarks</h3><p>Get ATS score, skill gaps, and company benchmark comparisons.</p></article>
-      <article class="card how-step"><span class="step-bg">03</span><div class="step-icon">✓</div><h3>Auto-Apply</h3><p>Approve or auto-submit matched roles from your queue.</p></article>
+      <article class="card how-step animate-in"><span class="step-bg">01</span><div class="step-icon">↑</div><h3>Upload CV</h3><p>Drop your resume once and let AI parse your profile.</p></article>
+      <article class="card how-step animate-in"><span class="step-bg">02</span><div class="step-icon">◎</div><h3>AI Analyzes &amp; Benchmarks</h3><p>Get ATS score, skill gaps, and company benchmark comparisons.</p></article>
+      <article class="card how-step animate-in"><span class="step-bg">03</span><div class="step-icon">✓</div><h3>Auto-Apply</h3><p>Approve or auto-submit matched roles from your queue.</p></article>
     </div>
   </div>
 </section>
@@ -64,18 +64,18 @@
       <h2>Everything you need to land your dream role</h2>
     </div>
     <div class="modules-grid stagger-children">
-      <div><h3>Dashboard</h3><p>Career activity command center.</p><span class="status-live">● Live</span></div>
-      <div><h3>CV Analyzer</h3><p>ATS and content optimization.</p><span class="status-live">● Live</span></div>
-      <div><h3>CV Compare</h3><p>Compare resume versions.</p><span class="status-live">● Live</span></div>
-      <div><h3>Job Board</h3><p>Curated and searchable jobs.</p><span class="status-live">● Live</span></div>
-      <div><h3>Auto-Apply Agent</h3><p>Approval queue and one-click runs.</p><span class="status-live">● Live</span></div>
-      <div><h3>Course Advisor</h3><p>Learning resources by skill gaps.</p><span class="status-live">● Live</span></div>
-      <div><h3>AI Chatbot</h3><p>Instant career guidance.</p><span class="status-live">● Live</span></div>
-      <div><h3>Interview Prep</h3><p>Guided mock interviews.</p><span class="status-soon">● Coming Soon</span></div>
-      <div><h3>Forum</h3><p>Peer support and discussion.</p><span class="status-live">● Live</span></div>
-      <div><h3>Resource Hub</h3><p>Courses and learning paths.</p><span class="status-live">● Live</span></div>
-      <div><h3>Notifications</h3><p>Alerts and updates.</p><span class="status-live">● Live</span></div>
-      <div><h3>Career Tips</h3><p>Actionable growth guidance.</p><span class="status-soon">● Coming Soon</span></div>
+      <div class="module-cell animate-in"><div class="module-icon-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3v18M3 12h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div><h3>Dashboard</h3><p>Career activity command center.</p><span class="status-live">Live</span></div>
+      <div class="module-cell animate-in"><div class="module-icon-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div><h3>CV Analyzer</h3><p>ATS and content optimization.</p><span class="status-live">Live</span></div>
+      <div class="module-cell animate-in"><div class="module-icon-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7h14v10H5zM9 3v4M15 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>CV Compare</h3><p>Compare resume versions.</p><span class="status-live">Live</span></div>
+      <div class="module-cell animate-in"><div class="module-icon-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M3 12h18M12 3v18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div><h3>Job Board</h3><p>Curated and searchable jobs.</p><span class="status-live">Live</span></div>
+      <div class="module-cell animate-in"><div class="module-icon-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12h16M12 4l8 8-8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>Auto-Apply Agent</h3><p>Approval queue and one-click runs.</p><span class="status-live">Live</span></div>
+      <div class="module-cell animate-in"><div class="module-icon-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 19h14M7 5h10v10H7z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>Course Advisor</h3><p>Learning resources by skill gaps.</p><span class="status-live">Live</span></div>
+      <div class="module-cell animate-in"><div class="module-icon-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16v12H4zM8 10h8M8 14h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>AI Chatbot</h3><p>Instant career guidance.</p><span class="status-live">Live</span></div>
+      <div class="module-cell animate-in"><div class="module-icon-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3v10M7 8h10M6 20l6-4 6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>Interview Prep</h3><p>Guided mock interviews.</p><span class="status-soon">Coming Soon</span></div>
+      <div class="module-cell animate-in"><div class="module-icon-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 5h16v14H4zM8 9h8M8 13h8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>Forum</h3><p>Peer support and discussion.</p><span class="status-live">Live</span></div>
+      <div class="module-cell animate-in"><div class="module-icon-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M6 4h12v16H6zM9 8h6M9 12h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>Resource Hub</h3><p>Courses and learning paths.</p><span class="status-live">Live</span></div>
+      <div class="module-cell animate-in"><div class="module-icon-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 22a9 9 0 1 0 0-18 9 9 0 0 0 0 18ZM12 8v4l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>Notifications</h3><p>Alerts and updates.</p><span class="status-live">Live</span></div>
+      <div class="module-cell animate-in"><div class="module-icon-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 4 4 8l8 4 8-4-8-4Zm0 8v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>Career Tips</h3><p>Actionable growth guidance.</p><span class="status-soon">Coming Soon</span></div>
     </div>
   </div>
 </section>
@@ -90,10 +90,10 @@
       </ul>
       <a href="{% url 'upload_cv_analysis' %}" class="btn-primary">Analyze my CV</a>
     </div>
-    <div class="card mock-card">
+    <div class="card mock-card animate-in">
       <h3>ATS Score</h3>
-      <p class="big-score">78</p>
-      <div class="mini-bars"><span style="width:78%"></span><span style="width:66%"></span><span style="width:84%"></span><span style="width:59%"></span></div>
+      <p class="big-score stat-positive">78</p>
+      <div class="mini-bars"><span style="width:78%"></span><span style="width:66%"></span><span class="high-progress" style="width:84%"></span><span style="width:59%"></span></div>
       <div class="pill-row"><span class="pill-red">Docker</span><span class="pill-red">Kubernetes</span><span class="pill-red">TypeScript</span></div>
     </div>
   </div>
@@ -101,12 +101,12 @@
 
 <section class="landing-section section-showcase-reverse animate-in">
   <div class="section-inner split-grid">
-    <div class="card mock-card">
+    <div class="card mock-card animate-in">
       <h3>Pending Approval (3)</h3>
-      <div class="queue-item"><p>Motive · Backend Intern</p><span>82%</span><div><button class="btn-primary btn-xs" type="button">Approve</button><button class="btn-ghost btn-xs" type="button">Skip</button></div></div>
+      <div class="queue-item"><p>Motive · Backend Intern</p><span class="stat-positive">82%</span><div><button class="btn-primary btn-xs" type="button">Approve</button><button class="btn-ghost btn-xs" type="button">Skip</button></div></div>
       <div class="queue-item"><p>Systems Ltd · Junior Engineer</p><span>75%</span><div><button class="btn-primary btn-xs" type="button">Approve</button><button class="btn-ghost btn-xs" type="button">Skip</button></div></div>
       <div class="queue-item"><p>10Pearls · Software Trainee</p><span>69%</span><div><button class="btn-primary btn-xs" type="button">Approve</button><button class="btn-ghost btn-xs" type="button">Skip</button></div></div>
-      <p class="agent-live">● Agent is active · 3 applied today</p>
+      <p class="agent-live">Agent is active · 3 applied today</p>
     </div>
     <div>
       <span class="section-label">Auto-Apply Agent</span>
@@ -123,11 +123,11 @@
       <h2>See how you stack up against top Pakistani tech firms</h2>
     </div>
     <div class="bench-row stagger-children">
-      <article class="card bench-card"><h3>Motive 78%</h3><div class="bench-bar"><span style="width:78%"></span></div><p>Python · APIs · SQL</p></article>
-      <article class="card bench-card"><h3>NetSol 65%</h3><div class="bench-bar"><span style="width:65%"></span></div><p>Java · Spring · OOP</p></article>
-      <article class="card bench-card"><h3>Systems Ltd 71%</h3><div class="bench-bar"><span style="width:71%"></span></div><p>Django · REST · Git</p></article>
-      <article class="card bench-card"><h3>DevSinc 82%</h3><div class="bench-bar"><span style="width:82%"></span></div><p>Node · React · Testing</p></article>
-      <article class="card bench-card"><h3>10Pearls 69%</h3><div class="bench-bar"><span style="width:69%"></span></div><p>Cloud · Docker · CI/CD</p></article>
+      <article class="card bench-card animate-in"><h3>Motive 78%</h3><div class="bench-bar"><span style="width:78%"></span></div><p>Python · APIs · SQL</p></article>
+      <article class="card bench-card animate-in"><h3>NetSol 65%</h3><div class="bench-bar"><span style="width:65%"></span></div><p>Java · Spring · OOP</p></article>
+      <article class="card bench-card animate-in"><h3>Systems Ltd 71%</h3><div class="bench-bar"><span style="width:71%"></span></div><p>Django · REST · Git</p></article>
+      <article class="card bench-card animate-in"><h3 class="stat-positive">DevSinc 82%</h3><div class="bench-bar"><span class="high-progress" style="width:82%"></span></div><p>Node · React · Testing</p></article>
+      <article class="card bench-card animate-in"><h3>10Pearls 69%</h3><div class="bench-bar"><span style="width:69%"></span></div><p>Cloud · Docker · CI/CD</p></article>
     </div>
   </div>
 </section>

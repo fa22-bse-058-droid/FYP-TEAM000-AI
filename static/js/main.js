@@ -170,10 +170,6 @@
     }
     gsap.registerPlugin(ScrollTrigger);
 
-    gsap.fromTo('.hero-bg-grid',
-      { backgroundPosition: '0px 0px' },
-      { backgroundPosition: '120px 80px', duration: 24, ease: 'none', repeat: -1 });
-
     gsap.fromTo('.hero-glow',
       { opacity: 0.26, scale: 0.95 },
       { opacity: 0.58, scale: 1.08, duration: 5, ease: 'sine.inOut', yoyo: true, repeat: -1 });

@@ -69,7 +69,7 @@
                       <h3 class="job-role">
                         <a href="{% url 'job_detail' job.pk %}">{{ job.title }}</a>
                       </h3>
-                      <p class="job-meta">{{ job.location }} · {{ job.experience_level|title }}</p>
+                      <p class="job-meta">{{ job.location }} — {{ job.experience_level|title }}</p>
                       <p class="job-description">{{ job.description|truncatewords:25 }}</p>
                       <div class="job-tags">
                         <span class="job-tag">{{ job.job_type|title }}</span>

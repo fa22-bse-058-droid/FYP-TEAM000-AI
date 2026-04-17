@@ -291,7 +291,7 @@ body.menu-open{overflow:hidden}
 .job-filter-input{width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);border-radius:.7rem;padding:.66rem .78rem;color:#f8fafc;font-size:.84rem;transition:border-color .25s ease,box-shadow .25s ease,background .25s ease,outline-color .25s ease}
 .job-filter-input::placeholder{color:rgba(226,232,240,.52)}
 .job-filter-input:focus{border-color:rgba(59,130,246,.72);box-shadow:0 0 0 2px rgba(59,130,246,.28);background:rgba(255,255,255,.14)}
-.job-filter-input:focus-visible{outline:2px solid rgba(147,197,253,.8);outline-offset:1px}
+.job-filter-input:focus-visible{outline:2px solid #dbeafe;outline-offset:2px}
 .jobs-checkbox-group ul{list-style:none;display:grid;gap:.34rem}
 .jobs-checkbox-group li{display:flex;align-items:center;gap:.55rem;padding:.35rem .44rem;border-radius:.6rem;transition:background .22s ease}
 .jobs-checkbox-group li:hover{background:rgba(255,255,255,.06)}

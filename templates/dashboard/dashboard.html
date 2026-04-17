@@ -2,87 +2,397 @@
 
 {% block title %}Dashboard — CareerAI{% endblock %}
 
+{% block extra_head %}
+<style>
+  .dashboard-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    grid-template-rows:auto;
+    gap:12px;
+    max-width:1200px;
+    margin:0 auto;
+    padding:24px max(24px,4vw) 36px;
+  }
+  .widget{
+    background:var(--bg-2);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:16px;
+  }
+  .widget-full{grid-column:span 3}
+  .widget-half{grid-column:span 2}
+  .widget-third{grid-column:span 1}
+  .widget-2x2{grid-column:span 2;grid-row:span 2}
+  .widget-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+  .widget-title{font-size:.9rem;font-weight:600;color:var(--text-0)}
+  .widget-link{font-size:.78rem;color:var(--accent);text-decoration:none}
+  .widget-link:hover{text-decoration:underline}
+
+  .welcome-widget{
+    background:linear-gradient(135deg,var(--bg-2) 0%,rgba(47,129,247,.08) 100%);
+    padding:20px 24px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .welcome-widget h1{font-size:1.5rem;font-weight:700;line-height:1.1}
+  .welcome-widget p{font-size:.8rem;color:var(--text-2);margin-top:4px}
+  .welcome-actions{display:flex;gap:8px;flex-wrap:wrap}
+  .welcome-actions .btn-primary,.welcome-actions .btn-ghost{padding:7px 12px;font-size:.76rem}
+
+  .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .stat-widget{background:var(--bg-2);border:1px solid var(--border);border-radius:10px;padding:18px 20px;transition:.2s}
+  .stat-widget:hover{border-color:var(--border-strong);transform:translateY(-2px)}
+  .stat-top{display:flex;justify-content:space-between;align-items:center}
+  .stat-icon{width:20px;height:20px;color:var(--accent)}
+  .trend-badge{background:var(--green-dim);color:var(--green);font-size:.7rem;font-weight:600;border-radius:20px;padding:2px 8px}
+  .stat-number{font-size:2rem;font-weight:700;color:var(--text-0);margin-top:10px;line-height:1}
+  .stat-label{font-size:.75rem;color:var(--text-1)}
+
+  .score-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+  .score-main{display:flex;align-items:flex-end;gap:8px}
+  .score-main .score{font-size:2.8rem;font-weight:800;line-height:1}
+  .score-main .out-of{font-size:1rem;color:var(--text-2);padding-bottom:6px}
+  .score-good{color:var(--green)} .score-mid{color:var(--amber)} .score-low{color:var(--red)}
+  .ats-badge{font-size:.72rem;border-radius:20px;padding:3px 10px;font-weight:600}
+  .ats-ready{background:var(--green-dim);color:var(--green)}
+  .ats-needs{background:rgba(210,153,34,.15);color:var(--amber)}
+
+  .metric-bars{margin-top:14px;display:grid;gap:8px}
+  .metric-item{display:grid;gap:5px}
+  .metric-head{display:flex;justify-content:space-between;font-size:.75rem;color:var(--text-1)}
+  .metric-bar{height:3px;background:var(--bg-3);border-radius:2px;overflow:hidden}
+  .metric-fill{height:100%;background:var(--accent)}
+  .missing-skills{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+  .missing-pill{background:rgba(248,81,73,.1);color:var(--red);border:1px solid rgba(248,81,73,.2);border-radius:20px;padding:2px 10px;font-size:.7rem}
+  .footer-link{display:inline-block;margin-top:14px;font-size:.78rem;color:var(--accent)}
+  .upload-empty{
+    min-height:170px;
+    display:grid;
+    place-items:center;
+    text-align:center;
+    border:1px dashed var(--border-strong);
+    border-radius:10px;
+    color:var(--text-2);
+    font-size:.82rem;
+    padding:16px;
+  }
+
+  .widget-tall{grid-row:span 2}
+  .switch{position:relative;display:inline-block;width:44px;height:24px}
+  .switch input{opacity:0;width:0;height:0}
+  .switch-slider{position:absolute;inset:0;background:var(--bg-4);border:1px solid var(--border);border-radius:999px}
+  .switch-slider:before{content:'';position:absolute;width:18px;height:18px;left:2px;top:2px;background:var(--text-1);border-radius:50%;transition:transform .2s ease,background .2s ease}
+  .switch input:checked + .switch-slider{background:var(--accent);border-color:var(--accent)}
+  .switch input:checked + .switch-slider:before{transform:translateX(20px);background:#fff}
+  .status-pill{display:inline-flex;align-items:center;border-radius:20px;padding:3px 10px;font-size:.72rem;margin-top:2px}
+  .status-pill.active{background:var(--green-dim);color:var(--green)}
+  .status-pill.paused{background:var(--bg-3);color:var(--text-2)}
+  .auto-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;border-top:1px solid var(--border);margin-top:14px;padding-top:14px}
+  .auto-stats strong{font-size:1.3rem;line-height:1}
+  .auto-stats span{display:block;font-size:.7rem;color:var(--text-2)}
+  .auto-activity{margin-top:14px}
+  .auto-row{padding:8px 8px;border-bottom:1px solid var(--border);font-size:.75rem}
+  .auto-row strong{display:block;color:var(--text-0);font-size:.76rem}
+  .auto-row span{color:var(--text-1)}
+  .auto-row.submitted{border-left:4px solid var(--green)}
+  .auto-row.failed{border-left:4px solid var(--red)}
+  .auto-row.other{border-left:4px solid var(--accent)}
+
+  .progress-row{margin-bottom:12px}
+  .progress-head{display:flex;justify-content:space-between;font-size:.82rem}
+  .progress-head span{font-weight:600;color:var(--text-0)}
+  .tiny-bar{height:3px;border-radius:2px;background:var(--bg-3);margin-top:6px}
+  .tiny-fill{display:block;height:100%;border-radius:2px}
+  .fill-accent{background:var(--accent)}
+  .fill-green{background:var(--green)}
+
+  .actions-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .action-tile{
+    background:var(--bg-3);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:18px 14px;
+    text-align:center;
+    cursor:pointer;
+    transition:all .2s;
+    display:block;
+  }
+  .action-tile:hover{background:var(--bg-4);border-color:var(--border-strong);transform:translateY(-2px)}
+  .action-tile svg{width:22px;height:22px;color:var(--accent);margin:0 auto 8px;display:block}
+  .action-tile span{font-size:.78rem;color:var(--text-1)}
+
+  .goals-list{display:grid;gap:10px}
+  .goal-title{display:flex;justify-content:space-between;font-size:.78rem;color:var(--text-0)}
+  .goal-empty{min-height:150px;display:grid;place-content:center;text-align:center;color:var(--text-2);gap:6px}
+  .goal-empty svg{width:32px;height:32px;color:var(--text-2);opacity:.4;margin:0 auto}
+
+  .profile-score{font-size:2rem;font-weight:800;color:var(--accent);line-height:1}
+  .profile-bar{height:5px;border-radius:3px;background:var(--bg-3);overflow:hidden;margin-top:10px}
+  .profile-bar span{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--green))}
+  .profile-list{list-style:none;margin-top:14px;display:grid;gap:8px}
+  .profile-list li{font-size:.8rem}
+  .profile-list li.done{color:var(--text-0)}
+  .profile-list li.todo{color:var(--text-2)}
+  .profile-list .mark{display:inline-block;width:15px}
+  .profile-list li.done .mark{color:var(--green)}
+
+  @media (max-width:1024px){
+    .widget-half,.widget-third,.widget-2x2,.widget-full{grid-column:span 3}
+    .stats-row{grid-template-columns:repeat(2,1fr)}
+    .widget-tall{grid-row:span 1}
+  }
+  @media (max-width:767px){
+    .dashboard-grid{grid-template-columns:1fr;padding:16px}
+    .widget-half,.widget-third,.widget-2x2,.widget-full{grid-column:span 1}
+    .stats-row{grid-template-columns:1fr}
+  }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="dashboard-wrap animate-in">
-  <div class="dashboard-top">
+<div class="dashboard-grid">
+  <section class="widget welcome-widget widget-full">
     <div>
-      <h1>Good morning, {{ user.first_name|default:user.username }}</h1>
-      <p>{% now "M d, Y" %} · Let’s move your career forward.</p>
+      <h1>Good morning, {{ user.username }}</h1>
+      <p>{{ today_date|default:"Today" }}</p>
     </div>
-    <div class="dashboard-top-actions">
+    <div class="welcome-actions">
       <a href="{% url 'upload_cv_analysis' %}" class="btn-primary">Analyze CV</a>
       <a href="{% url 'job_list' %}" class="btn-ghost">Find Jobs</a>
     </div>
-  </div>
+  </section>
 
-  <div class="stats-grid stagger-children">
-    <article class="card stat-block"><div class="stat-row"><span>📄</span><span class="trend">+{{ cv_analyses|default:'0' }}</span></div><h3 class="count-up" data-count="{{ cv_analyses|default:'0' }}">0</h3><p>CV Analyses</p></article>
-    <article class="card stat-block"><div class="stat-row"><span>✉</span><span class="trend">+{{ recent_applications|default:'0' }}</span></div><h3 class="count-up" data-count="{{ recent_applications|default:'0' }}">0</h3><p>Applications</p></article>
-    <article class="card stat-block"><div class="stat-row"><span>★</span><span class="trend">+{{ saved_jobs|default:'0' }}</span></div><h3 class="count-up" data-count="{{ saved_jobs|default:'0' }}">0</h3><p>Saved Jobs</p></article>
-    <article class="card stat-block"><div class="stat-row"><span>💬</span><span class="trend">+{{ forum_posts|default:'0' }}</span></div><h3 class="count-up" data-count="{{ forum_posts|default:'0' }}">0</h3><p>Forum Posts</p></article>
-  </div>
-
-  <div class="dashboard-main">
-    <div class="dashboard-left">
-      <article class="card">
-        <div class="module-header-inline"><h2>CV Summary</h2></div>
-        {% with score=stats.get_applications_progress|default:0 %}
-          <p class="big-score {% if score >= 75 %}score-good{% elif score >= 60 %}score-mid{% else %}score-low{% endif %}">{{ score }}</p>
-          <div class="mini-bars"><span style="width:{{ score }}%"></span><span style="width:{{ cv_analyses|default:'0' }}%"></span><span style="width:{{ saved_jobs|default:'0' }}%"></span><span style="width:{{ recent_applications|default:'0' }}%"></span></div>
-        {% endwith %}
-        <div class="pill-row"><span class="pill-red">Docker</span><span class="pill-red">Kubernetes</span><span class="pill-red">TypeScript</span></div>
-      </article>
-
-      <article class="card">
-        <div class="module-header-inline"><h2>Progress</h2></div>
-        <div class="progress-item"><p>Applications</p><div class="bar"><span style="width:{{ stats.get_applications_progress|default:'0' }}%"></span></div></div>
-        <div class="progress-item"><p>CV Analyses</p><div class="bar"><span style="width:{{ cv_analyses|default:'0' }}%"></span></div></div>
-        <div class="progress-item"><p>Courses</p><div class="bar"><span style="width:55%"></span></div></div>
-      </article>
-
-      <article class="card">
-        <div class="module-header-inline"><h2>Quick Actions</h2></div>
-        <div class="quick-grid">
-          <a href="{% url 'upload_cv_analysis' %}" class="quick-tile">Analyze CV</a>
-          <a href="{% url 'job_list' %}" class="quick-tile">Search Jobs</a>
-          <a href="{% url 'auto_apply_settings' %}" class="quick-tile">Auto-Apply</a>
-          <a href="{% url 'resource_hub' %}" class="quick-tile">Browse Courses</a>
+  <section class="widget widget-full">
+    <div class="stats-row">
+      <article class="stat-widget">
+        <div class="stat-top">
+          <svg class="stat-icon" viewBox="0 0 24 24" fill="none"><path d="M7 3h7l5 5v13H7z" stroke="currentColor" stroke-width="1.7"/><path d="M14 3v5h5" stroke="currentColor" stroke-width="1.7"/></svg>
+          <span class="trend-badge">+1</span>
         </div>
+        <div class="stat-number count-up" data-count="{{ cv_analyses|default:'0' }}">0</div>
+        <div class="stat-label">CV Analyses</div>
+      </article>
+      <article class="stat-widget">
+        <div class="stat-top">
+          <svg class="stat-icon" viewBox="0 0 24 24" fill="none"><path d="M3 7h18v12H3z" stroke="currentColor" stroke-width="1.7"/><path d="M3 11h18" stroke="currentColor" stroke-width="1.7"/></svg>
+          <span class="trend-badge">+1</span>
+        </div>
+        <div class="stat-number count-up" data-count="{{ recent_applications|default:'0' }}">0</div>
+        <div class="stat-label">Applications</div>
+      </article>
+      <article class="stat-widget">
+        <div class="stat-top">
+          <svg class="stat-icon" viewBox="0 0 24 24" fill="none"><path d="m12 3 2.7 5.4 6 .9-4.3 4.2 1 5.9L12 16.6 6.6 19.4l1-5.9L3.3 9.3l6-.9z" stroke="currentColor" stroke-width="1.7"/></svg>
+          <span class="trend-badge">+1</span>
+        </div>
+        <div class="stat-number count-up" data-count="{{ saved_jobs|default:'0' }}">0</div>
+        <div class="stat-label">Saved Jobs</div>
+      </article>
+      <article class="stat-widget">
+        <div class="stat-top">
+          <svg class="stat-icon" viewBox="0 0 24 24" fill="none"><path d="M5 6h14v9H8l-3 3z" stroke="currentColor" stroke-width="1.7"/></svg>
+          <span class="trend-badge">+1</span>
+        </div>
+        <div class="stat-number count-up" data-count="{{ forum_posts|default:'0' }}">0</div>
+        <div class="stat-label">Forum Posts</div>
       </article>
     </div>
+  </section>
 
-    <div class="dashboard-right">
-      <article class="card">
-        <div class="module-header-inline"><h2>Auto-Apply</h2><label class="switch"><input type="checkbox" checked><span></span></label></div>
-        <p><span class="status-live">Active</span></p>
-        <div class="mini-stats"><div><strong>{{ recent_applications|default:'0' }}</strong><span>Today</span></div><div><strong>{{ recent_applications|default:'0' }}</strong><span>Week</span></div><div><strong>{{ recent_applications|default:'0' }}</strong><span>Total</span></div></div>
-      </article>
-
-      <article class="card">
-        <div class="module-header-inline"><h2>Goals</h2></div>
-        <ul class="simple-list">
-          {% for goal in active_goals|slice:":4" %}
-            <li>{{ goal.title }} · {{ goal.progress_percentage }}%</li>
-          {% empty %}
-            <li>No active goals yet.</li>
-          {% endfor %}
-        </ul>
-      </article>
-
-      <article class="card">
-        <div class="module-header-inline"><h2>Profile</h2></div>
-        {% with completion=user.profile.get_profile_completion|default:50 %}
-          <p class="big-score score-good">{{ completion }}%</p>
-          <div class="bar"><span class="profile-completion-fill" style="width:{{ completion }}%"></span></div>
-        {% endwith %}
-        <ul class="checklist">
-          <li>{% if user.profile.bio %}✓{% else %}○{% endif %} Bio</li>
-          <li>{% if user.email %}✓{% else %}○{% endif %} Email</li>
-          <li>{% if user.profile.skills %}✓{% else %}○{% endif %} Skills</li>
-          <li>{% if user.profile.cv %}✓{% else %}○{% endif %} CV Uploaded</li>
-        </ul>
-      </article>
+  <section class="widget widget-half">
+    <div class="widget-header">
+      <h2 class="widget-title">CV Summary</h2>
+      <a href="{% url 'upload_cv_analysis' %}" class="widget-link">View details</a>
     </div>
-  </div>
+    {% if latest_cv_analysis %}
+      <div class="score-row">
+        <div class="score-main">
+          <span class="score {% if cv_score >= 80 %}score-good{% elif cv_score >= 60 %}score-mid{% else %}score-low{% endif %}">{{ cv_score|default:"0" }}</span>
+          <span class="out-of">/ 100</span>
+        </div>
+        <span class="ats-badge {% if cv_score >= 80 %}ats-ready{% else %}ats-needs{% endif %}">
+          {% if cv_score >= 80 %}ATS Ready{% else %}Needs Work{% endif %}
+        </span>
+      </div>
+      <div class="metric-bars">
+        <div class="metric-item">
+          <div class="metric-head"><span>ATS Compat</span><span>{{ cv_metrics.ats_compat|default:"0" }}%</span></div>
+          <div class="metric-bar"><span class="metric-fill" style="width:min({{ cv_metrics.ats_compat|default:'0' }}%, 100%);"></span></div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-head"><span>Keyword Match</span><span>{{ cv_metrics.keyword_match|default:"0" }}%</span></div>
+          <div class="metric-bar"><span class="metric-fill" style="width:min({{ cv_metrics.keyword_match|default:'0' }}%, 100%);"></span></div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-head"><span>Completeness</span><span>{{ cv_metrics.completeness|default:"0" }}%</span></div>
+          <div class="metric-bar"><span class="metric-fill" style="width:min({{ cv_metrics.completeness|default:'0' }}%, 100%);"></span></div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-head"><span>Formatting</span><span>{{ cv_metrics.formatting|default:"0" }}%</span></div>
+          <div class="metric-bar"><span class="metric-fill" style="width:min({{ cv_metrics.formatting|default:'0' }}%, 100%);"></span></div>
+        </div>
+      </div>
+      <div class="missing-skills">
+        {% for skill in missing_skills|slice:":4" %}
+          <span class="missing-pill">{{ skill }}</span>
+        {% empty %}
+          <span class="missing-pill">No major skill gaps</span>
+        {% endfor %}
+        {% if missing_skills|length > 4 %}
+          <span class="missing-pill">+{{ missing_skills|length|add:"-4" }} more</span>
+        {% endif %}
+      </div>
+      <a href="{% url 'job_list' %}" class="footer-link">Find matching jobs →</a>
+    {% else %}
+      <a href="{% url 'upload_cv_analysis' %}" class="upload-empty">
+        <span>Upload your CV to get started</span>
+      </a>
+    {% endif %}
+  </section>
+
+  <section class="widget widget-third widget-tall">
+    <div class="widget-header">
+      <h2 class="widget-title">Auto-Apply</h2>
+      <label class="switch" aria-label="Auto-apply status">
+        <input type="checkbox" {% if auto_apply_allowed %}checked{% endif %} disabled>
+        <span class="switch-slider"></span>
+      </label>
+    </div>
+    <span class="status-pill {% if auto_apply_allowed %}active{% else %}paused{% endif %}">
+      {% if auto_apply_allowed %}● Active{% else %}● Paused{% endif %}
+    </span>
+    <div class="auto-stats">
+      <div><strong class="count-up" data-count="{{ auto_apply_today|default:'0' }}">0</strong><span>Today</span></div>
+      <div><strong class="count-up" data-count="{{ auto_apply_week|default:'0' }}">0</strong><span>Week</span></div>
+      <div><strong class="count-up" data-count="{{ auto_apply_total|default:'0' }}">0</strong><span>Total</span></div>
+    </div>
+    <div class="auto-activity">
+      {% for item in recent_auto_apply %}
+        <div class="auto-row {% if item.status == 'submitted' %}submitted{% elif item.status == 'failed' %}failed{% else %}other{% endif %}">
+          <strong>{{ item.job.company.name|default:"Unknown Company" }}</strong>
+          <span>{{ item.job.title|default:"Application" }}</span>
+        </div>
+      {% empty %}
+        <div class="auto-row other"><span>No recent activity yet</span></div>
+      {% endfor %}
+    </div>
+    <a href="{% url 'auto_apply_settings' %}" class="footer-link">Manage →</a>
+  </section>
+
+  <section class="widget widget-third">
+    <div class="widget-header"><h2 class="widget-title">This Month</h2></div>
+    <div class="progress-row">
+      <div class="progress-head"><p>Applications</p><span>{{ this_month_applications|default:"0" }}/{{ stats.monthly_applications_goal|default:"10" }}</span></div>
+      <div class="tiny-bar"><span class="tiny-fill fill-accent" style="width:min({{ stats.get_applications_progress|default:'0' }}%, 100%);"></span></div>
+    </div>
+    <div class="progress-row">
+      <div class="progress-head"><p>CV Analyses</p><span>{{ cv_analyses|default:"0" }}/4</span></div>
+      <div class="tiny-bar"><span class="tiny-fill fill-green" style="width:min({{ cv_analyses|default:'0' }}%, 100%);"></span></div>
+    </div>
+    <div class="progress-row">
+      <div class="progress-head"><p>Courses</p><span>0/3</span></div>
+      <div class="tiny-bar"><span class="tiny-fill fill-accent" style="width:0%;"></span></div>
+    </div>
+  </section>
+
+  <section class="widget widget-third">
+    <div class="widget-header"><h2 class="widget-title">Quick Actions</h2></div>
+    <div class="actions-grid">
+      <a href="{% url 'upload_cv_analysis' %}" class="action-tile">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l5 5v13H7z" stroke="currentColor" stroke-width="1.7"/><path d="M14 3v5h5" stroke="currentColor" stroke-width="1.7"/></svg>
+        <span>Analyze CV</span>
+      </a>
+      <a href="{% url 'job_list' %}" class="action-tile">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.7"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="1.7"/></svg>
+        <span>Search Jobs</span>
+      </a>
+      <a href="{% url 'auto_apply_settings' %}" class="action-tile">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M13 2 4 14h7l-1 8 10-13h-7z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+        <span>Auto-Apply</span>
+      </a>
+      <a href="{% url 'resource_hub' %}" class="action-tile">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 5h7a4 4 0 0 1 4 4v10H8a4 4 0 0 0-4 4z" stroke="currentColor" stroke-width="1.7"/><path d="M20 5h-7a4 4 0 0 0-4 4v10h7a4 4 0 0 1 4 4z" stroke="currentColor" stroke-width="1.7"/></svg>
+        <span>Browse Courses</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="widget widget-third">
+    <div class="widget-header"><h2 class="widget-title">Goals</h2></div>
+    {% if active_goals %}
+      <div class="goals-list">
+        {% for goal in active_goals|slice:":4" %}
+          <div>
+            <div class="goal-title"><span>{{ goal.title }}</span><span>{{ goal.progress_percentage|default:"0" }}%</span></div>
+            <div class="tiny-bar"><span class="tiny-fill fill-accent" style="width:min({{ goal.progress_percentage|default:'0' }}%, 100%);"></span></div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="goal-empty">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2v20M2 12h20" stroke="currentColor" stroke-width="1.6"/></svg>
+        <p>No active goals yet</p>
+        <a href="{% url 'goal_tracker' %}" class="widget-link">Add a goal →</a>
+      </div>
+    {% endif %}
+  </section>
+
+  <section class="widget widget-third">
+    <div class="widget-header">
+      <h2 class="widget-title">Profile</h2>
+      <a href="{% url 'profile' %}" class="widget-link">Edit →</a>
+    </div>
+    <div class="profile-score">{{ profile_completion|default:"50" }}%</div>
+    <div class="profile-bar"><span style="width:min({{ profile_completion|default:'50' }}%, 100%);"></span></div>
+    <ul class="profile-list">
+      <li class="{% if profile and profile.bio %}done{% else %}todo{% endif %}"><span class="mark">{% if profile and profile.bio %}✓{% else %}○{% endif %}</span> Bio</li>
+      <li class="{% if user.email %}done{% else %}todo{% endif %}"><span class="mark">{% if user.email %}✓{% else %}○{% endif %}</span> Email</li>
+      <li class="{% if profile and profile.skills %}done{% else %}todo{% endif %}"><span class="mark">{% if profile and profile.skills %}✓{% else %}○{% endif %}</span> Skills</li>
+      <li class="{% if profile and profile.cv %}done{% else %}todo{% endif %}"><span class="mark">{% if profile and profile.cv %}✓{% else %}○{% endif %}</span> CV Uploaded</li>
+    </ul>
+  </section>
 </div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  (function () {
+    const runDashboardCountUp = () => {
+      document.querySelectorAll('.dashboard-grid .count-up').forEach((el) => {
+        const target = parseInt(el.dataset.count || '0', 10);
+        if (Number.isNaN(target)) return;
+        if (typeof gsap !== 'undefined') {
+          gsap.fromTo({ value: 0 }, { value: target, duration: 1.1, ease: 'power2.out', onUpdate() {
+            el.textContent = Math.round(this.targets()[0].value);
+          }});
+          return;
+        }
+        let n = 0;
+        const step = Math.max(1, Math.ceil(target / 32));
+        const timer = setInterval(() => {
+          n += step;
+          if (n >= target) { n = target; clearInterval(timer); }
+          el.textContent = n;
+        }, 24);
+      });
+    };
+
+    const animateWidgets = () => {
+      if (typeof gsap === 'undefined') return;
+      gsap.fromTo('.dashboard-grid > *',
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', stagger: 0.06, delay: 0.1 });
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => { animateWidgets(); runDashboardCountUp(); });
+    } else {
+      animateWidgets();
+      runDashboardCountUp();
+    }
+  })();
+</script>
 {% endblock %}

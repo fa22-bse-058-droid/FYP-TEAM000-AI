@@ -6,10 +6,19 @@
   const hamburger = document.querySelector('.hamburger');
   const mobileMenu = document.querySelector('.mobile-menu');
   const mobileClose = document.querySelector('.mobile-menu-close');
+  const NAV_OPACITY_MIN = 0.72;
+  const NAV_OPACITY_MAX = 0.96;
+  const NAV_OPACITY_SCROLL_RANGE = 420;
+  const RIPPLE_DURATION_MS = 600;
+  const rippleTimeoutIds = new Set();
 
   const setNavbarState = () => {
     if (!navbar) return;
-    navbar.classList.toggle('scrolled', window.scrollY > 40);
+    const scrolled = window.scrollY > 40;
+    navbar.classList.toggle('scrolled', scrolled);
+    const dynamicOpacity = Math.min(NAV_OPACITY_MAX,
+      NAV_OPACITY_MIN + (window.scrollY / NAV_OPACITY_SCROLL_RANGE) * (NAV_OPACITY_MAX - NAV_OPACITY_MIN));
+    navbar.style.setProperty('--nav-opacity', dynamicOpacity.toFixed(2));
   };
 
   const closeMenu = () => {
@@ -29,7 +38,15 @@
   };
 
   setNavbarState();
-  window.addEventListener('scroll', setNavbarState, { passive: true });
+  let navTicking = false;
+  window.addEventListener('scroll', () => {
+    if (navTicking) return;
+    navTicking = true;
+    window.requestAnimationFrame(() => {
+      setNavbarState();
+      navTicking = false;
+    });
+  }, { passive: true });
 
   if (hamburger && mobileMenu) {
     hamburger.addEventListener('click', () => {
@@ -70,6 +87,28 @@
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
+
+  const initRipples = () => {
+    document.querySelectorAll('.ripple-target').forEach((el) => {
+      el.addEventListener('click', (e) => {
+        const rect = el.getBoundingClientRect();
+        const ripple = document.createElement('span');
+        ripple.className = 'ripple';
+        ripple.style.left = `${e.clientX - rect.left}px`;
+        ripple.style.top = `${e.clientY - rect.top}px`;
+        el.appendChild(ripple);
+        const timeoutId = window.setTimeout(() => {
+          ripple.remove();
+          rippleTimeoutIds.delete(timeoutId);
+        }, RIPPLE_DURATION_MS);
+        rippleTimeoutIds.add(timeoutId);
+      });
+    });
+  };
+  window.addEventListener('beforeunload', () => {
+    rippleTimeoutIds.forEach((id) => window.clearTimeout(id));
+    rippleTimeoutIds.clear();
+  }, { once: true });
 
   const uploadZone = document.querySelector('.upload-zone');
   if (uploadZone) {
@@ -224,10 +263,12 @@
       markHighProgressBars();
       initGSAP();
       initCountUp();
+      initRipples();
     });
   } else {
     markHighProgressBars();
     initGSAP();
     initCountUp();
+    initRipples();
   }
 })();

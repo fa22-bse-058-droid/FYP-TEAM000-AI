@@ -6,11 +6,17 @@
 <style>
   .futuristic-dashboard{
     position:relative;
-    overflow:hidden;
     min-height:100vh;
-    isolation:isolate;
+    z-index:10;
   }
-  .futuristic-dashboard::before{
+  .dashboard-background{
+    position:fixed;
+    inset:0;
+    z-index:-10;
+    pointer-events:none;
+    overflow:hidden;
+  }
+  .dashboard-background::before{
     content:'';
     position:absolute;
     inset:-10% -8% auto;
@@ -21,15 +27,14 @@
       radial-gradient(circle at 50% 76%, rgba(63,185,80,.14), transparent 40%);
     filter:blur(12px);
     animation:meshFloat 16s ease-in-out infinite alternate;
-    pointer-events:none;
-    z-index:0;
+    z-index:-2;
   }
   @keyframes meshFloat{0%{transform:translate3d(0,0,0) scale(1)}100%{transform:translate3d(0,-26px,0) scale(1.03)}}
   .dashboard-particle-layer,.dashboard-grid-overlay,.dashboard-dot-matrix{
     position:absolute;
     inset:0;
     pointer-events:none;
-    z-index:0;
+    z-index:-1;
   }
   .dashboard-grid-overlay{
     background-image:linear-gradient(rgba(116,80,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(47,129,247,.05) 1px,transparent 1px);
@@ -50,7 +55,7 @@
   }
   .dashboard-grid{
     position:relative;
-    z-index:1;
+    z-index:10;
     display:grid;
     grid-template-columns:1fr 1fr 1fr;
     grid-template-rows:auto;
@@ -234,7 +239,7 @@
   .profile-list .mark{display:inline-block;width:15px}
   .profile-list li.done .mark{color:var(--green)}
 
-  .dashboard-grid > section{opacity:0;transform:translate3d(0,16px,0)}
+  .dashboard-grid > section{opacity:1;transform:none}
 
   @media (max-width:1024px){
     .widget-half,.widget-third,.widget-2x2,.widget-full{grid-column:span 3}
@@ -252,9 +257,11 @@
 
 {% block content %}
 <div class="futuristic-dashboard">
-  <canvas class="dashboard-particle-layer" id="dashboardParticleLayer" aria-hidden="true"></canvas>
-  <div class="dashboard-grid-overlay" aria-hidden="true"></div>
-  <div class="dashboard-dot-matrix" id="dashboardDotMatrix" aria-hidden="true"></div>
+  <div class="dashboard-background" aria-hidden="true">
+    <canvas class="dashboard-particle-layer" id="dashboardParticleLayer"></canvas>
+    <div class="dashboard-grid-overlay"></div>
+    <div class="dashboard-dot-matrix" id="dashboardDotMatrix"></div>
+  </div>
 
   <div class="dashboard-grid">
     <section class="widget welcome-widget widget-full">
@@ -612,8 +619,8 @@
         return;
       }
       if (typeof gsap === 'undefined') return;
-      gsap.fromTo('.dashboard-grid > *',
-        { opacity: 0, y: 16 },
+      gsap.set('.dashboard-grid > *', { opacity: 0, y: 16 });
+      gsap.to('.dashboard-grid > *',
         { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', stagger: 0.06, delay: 0.1 });
     };
 

@@ -21,7 +21,7 @@
 
         <aside class="jobs-sidebar-panel animate-in-left">
           <p class="jobs-panel-title">Filters</p>
-          <form method="GET" class="jobs-filter-form">
+          <form method="GET" class="jobs-filter-form space-y-6">
             <div class="jobs-filter-group">
               <label class="jobs-filter-label" for="{{ form.keyword.id_for_label }}">Keyword</label>
               {{ form.keyword }}
@@ -30,16 +30,26 @@
               <label class="jobs-filter-label" for="{{ form.location.id_for_label }}">Location</label>
               {{ form.location }}
             </div>
-            <div class="jobs-filter-group">
+            <div class="jobs-filter-group space-y-2">
               <p class="jobs-filter-label" id="job-type-group-label">Job Type</p>
-              <div class="jobs-checkbox-group" role="group" aria-labelledby="job-type-group-label">
-                {{ form.job_type }}
+              <div class="jobs-checkbox-group space-y-2" role="group" aria-labelledby="job-type-group-label">
+                {% for checkbox in form.job_type %}
+                  <label class="jobs-checkbox-row flex items-center gap-2">
+                    {{ checkbox.tag }}
+                    <span>{{ checkbox.choice_label }}</span>
+                  </label>
+                {% endfor %}
               </div>
             </div>
-            <div class="jobs-filter-group">
+            <div class="jobs-filter-group space-y-2">
               <p class="jobs-filter-label" id="experience-level-group-label">Experience Level</p>
-              <div class="jobs-checkbox-group" role="group" aria-labelledby="experience-level-group-label">
-                {{ form.experience_level }}
+              <div class="jobs-checkbox-group space-y-2" role="group" aria-labelledby="experience-level-group-label">
+                {% for checkbox in form.experience_level %}
+                  <label class="jobs-checkbox-row flex items-center gap-2">
+                    {{ checkbox.tag }}
+                    <span>{{ checkbox.choice_label }}</span>
+                  </label>
+                {% endfor %}
               </div>
             </div>
             <div class="jobs-filter-group">

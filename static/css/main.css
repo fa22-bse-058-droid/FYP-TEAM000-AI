@@ -294,10 +294,12 @@ body.menu-open{overflow:hidden}
 .job-filter-input::placeholder{color:rgba(226,232,240,.52)}
 .job-filter-input:focus{border-color:rgba(59,130,246,.72);box-shadow:0 0 0 2px rgba(59,130,246,.28);background:rgba(255,255,255,.14)}
 .job-filter-input:focus-visible{outline:2px solid var(--focus-blue);outline-offset:2px}
-.jobs-checkbox-group ul{list-style:none;display:grid;gap:.34rem}
-.jobs-checkbox-group li{display:flex;align-items:center;gap:.55rem;padding:.35rem .44rem;border-radius:.6rem;transition:background .22s ease}
-.jobs-checkbox-group li:hover{background:rgba(255,255,255,.06)}
-.jobs-checkbox-group input[type='checkbox'],.job-filter-checkbox{width:20px;height:20px;accent-color:#3b82f6}
+.jobs-checkbox-group ul{list-style:none;display:grid;gap:.5rem;padding:0;margin:0}
+.jobs-checkbox-group li{display:flex;align-items:center;gap:.55rem;padding:0}
+.jobs-checkbox-group > div{display:grid;gap:.5rem}
+.jobs-checkbox-row{display:flex;align-items:center;gap:.55rem;padding:.35rem .44rem;border-radius:.6rem;font-size:.8rem;color:rgba(226,232,240,.84);cursor:pointer;transition:background .22s ease}
+.jobs-checkbox-row:hover{background:rgba(255,255,255,.06)}
+.jobs-checkbox-group input[type='checkbox'],.job-filter-checkbox{width:20px;height:20px;accent-color:#3b82f6;flex-shrink:0}
 .jobs-checkbox-group label{font-size:.8rem;color:rgba(226,232,240,.84);cursor:pointer}
 .jobs-salary-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
 .job-btn-primary{display:inline-flex;align-items:center;justify-content:center;width:100%;padding:.74rem 1rem;border-radius:.8rem;border:1px solid transparent;background:linear-gradient(90deg,#2563eb,#4f46e5);color:#fff;font-size:.86rem;font-weight:600;transition:transform .3s ease,box-shadow .3s ease,filter .3s ease}

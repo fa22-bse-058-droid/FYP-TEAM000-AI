@@ -1,260 +1,150 @@
 {% extends 'base.html' %}
-{% load static %}
 
 {% block title %}CareerAI — Build the career you actually want{% endblock %}
 
 {% block content %}
-
-<!-- ══ HERO ══ -->
-<section class="hero-section">
-  <!-- Aurora -->
-  <div class="aurora" aria-hidden="true"></div>
-  <div class="aurora-green" aria-hidden="true"></div>
-
+<section class="landing-hero animate-in" id="top">
+  <div class="hero-grid-texture" aria-hidden="true"></div>
+  <div class="hero-orb" aria-hidden="true"></div>
   <div class="hero-content">
-    <!-- Eyebrow label -->
-    <span class="hero-eyebrow">AI-Powered · Career Platform</span>
-
-    <!-- Headline -->
-    <h1 class="hero-headline">
-      Build the career<br>
-      you <em>actually</em> want.
-    </h1>
-
-    <!-- Subtext -->
-    <p class="hero-sub">
-      AI-driven CV analysis, skill gap detection, and smart job matching
-      — built for Pakistani graduates.
-    </p>
-
-    <!-- CTA Buttons -->
-    <div class="hero-ctas">
+    <span class="section-label">AI-Powered Career Platform</span>
+    <h1>Build the career<br>you <em>actually</em> want.</h1>
+    <p>CareerAI helps Pakistani graduates optimize CVs, benchmark skills, discover jobs, and apply faster with guided AI workflows.</p>
+    <div class="hero-actions">
       {% if user.is_authenticated %}
         <a href="{% url 'dashboard' %}" class="btn-primary">Go to Dashboard →</a>
-        <a href="{% url 'upload_cv_analysis' %}" class="btn-ghost">Analyze My CV</a>
       {% else %}
         <a href="{% url 'register' %}" class="btn-primary">Get Started Free →</a>
-        <a href="#how-it-works" class="btn-ghost">See How It Works</a>
       {% endif %}
+      <a href="#how-it-works" class="btn-ghost">See how it works</a>
     </div>
-
-    <!-- Social proof -->
-    <div class="hero-social-proof">
+    <div class="hero-proof">
       <div class="avatar-stack">
-        <div class="avatar avatar-a">AK</div>
-        <div class="avatar avatar-b">SM</div>
-        <div class="avatar avatar-c">FS</div>
-        <div class="avatar avatar-d">RH</div>
+        <span>AK</span><span>SM</span><span>FS</span><span>RH</span>
       </div>
-      <p class="social-proof-text">
-        Trusted by <strong>500+ students</strong> across Pakistan
-      </p>
+      <p>Trusted by 500+ students</p>
+    </div>
+  </div>
+  <a href="#problem" class="scroll-chevron" aria-label="Scroll to next section">⌄</a>
+</section>
+
+<section class="landing-section section-problem animate-in" id="problem">
+  <div class="section-inner split-grid">
+    <div class="problem-stats stagger-children">
+      <div><h3 class="count-up" data-count="73">0</h3><p>CVs never reach recruiter</p></div>
+      <div><h3><span class="count-up" data-count="8">0</span> sec</h3><p>Avg recruiter scan time</p></div>
+      <div><h3 class="count-up" data-count="500">0</h3><p>Students helped</p></div>
+    </div>
+    <div>
+      <h2>The job market is broken for graduates</h2>
+      <p>Students apply everywhere, get ignored by ATS filters, and never receive meaningful improvement feedback.</p>
+      <p>CareerAI closes that gap by combining CV intelligence, benchmark insights, and smart application workflows into one system.</p>
     </div>
   </div>
 </section>
 
-<!-- ══ FEATURES ══ -->
-<section class="features-section">
-  <div class="container-xl">
-    <div class="section-header animate-on-scroll">
-      <span class="section-label">What We Do</span>
-      <h2 class="section-heading">
-        Everything you need to land your <span class="highlight-green">dream</span> job
-      </h2>
+<section class="landing-section section-how animate-in" id="how-it-works">
+  <div class="section-inner">
+    <div class="section-heading-center">
+      <span class="section-label">How it works</span>
+      <h2>From CV to hired in three steps</h2>
     </div>
-
-    <div class="features-grid features-grid-full">
-      <!-- Card 1 — CV Analyzer -->
-      <div class="feature-card feature-card-large animate-on-scroll">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-            <polyline points="14,2 14,8 20,8"/>
-            <line x1="16" y1="13" x2="8" y2="13"/>
-            <line x1="16" y1="17" x2="8" y2="17"/>
-            <polyline points="10,9 9,9 8,9"/>
-          </svg>
-        </div>
-        <h3 class="feature-title">CV Analyzer</h3>
-        <p class="feature-desc">
-          Upload your CV and receive instant AI-powered feedback on formatting, content quality,
-          ATS keywords, and readability. Get a detailed score with actionable improvement suggestions
-          tailored for the Pakistani job market.
-        </p>
-        <span class="feature-tag tag-green">AI Powered</span>
-      </div>
-
-      <!-- Card 2 — Smart Job Matching -->
-      <div class="feature-card animate-on-scroll">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
-            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-          </svg>
-        </div>
-        <h3 class="feature-title">Smart Job Matching</h3>
-        <p class="feature-desc">
-          Discover roles perfectly aligned with your skills and experience using live scraped
-          listings and AI match scores.
-        </p>
-        <span class="feature-tag tag-indigo">Live Scraping</span>
-      </div>
-
-      <!-- Card 3 — Auto-Apply -->
-      <div class="feature-card animate-on-scroll">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-            <polyline points="22 4 12 14.01 9 11.01"/>
-          </svg>
-        </div>
-        <h3 class="feature-title">Auto-Apply</h3>
-        <p class="feature-desc">
-          Submit applications to multiple matching roles in one click using your saved CV
-          and profile data.
-        </p>
-        <span class="feature-tag tag-blue">Automated</span>
-      </div>
-
-      <!-- Card 4 — AI Mock Interview -->
-      <div class="feature-card animate-on-scroll">
-        <div class="feature-icon" style="background:rgba(74,222,128,0.08);">
-          <svg viewBox="0 0 24 24" aria-hidden="true" style="stroke:var(--accent-green)">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-            <circle cx="9" cy="7" r="4"/>
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-          </svg>
-        </div>
-        <h3 class="feature-title">AI Mock Interview</h3>
-        <p class="feature-desc">
-          Practice with our AI interviewer. Get role-specific questions, real-time scoring,
-          and detailed feedback to sharpen your answers.
-        </p>
-        <span class="feature-tag tag-green">Interactive</span>
-      </div>
-
-      <!-- Card 5 — AI Career Chatbot -->
-      <div class="feature-card animate-on-scroll">
-        <div class="feature-icon" style="background:rgba(0,212,255,0.08);">
-          <svg viewBox="0 0 24 24" aria-hidden="true" style="stroke:var(--accent-blue)">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-          </svg>
-        </div>
-        <h3 class="feature-title">AI Career Chatbot</h3>
-        <p class="feature-desc">
-          Ask career questions anytime. Get instant, context-aware guidance on CVs, interviews,
-          salary negotiation, and job searching in Pakistan.
-        </p>
-        <span class="feature-tag tag-blue">24/7 Support</span>
-      </div>
-
-      <!-- Card 6 — Resource Hub -->
-      <div class="feature-card animate-on-scroll">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-          </svg>
-        </div>
-        <h3 class="feature-title">Resource Hub</h3>
-        <p class="feature-desc">
-          Access curated courses, certifications, and skill-building content recommended
-          based on your career goals and identified skill gaps.
-        </p>
-        <span class="feature-tag tag-indigo">Curated</span>
-      </div>
-
-      <!-- Card 7 — Community Forum -->
-      <div class="feature-card animate-on-scroll">
-        <div class="feature-icon" style="background:rgba(245,158,11,0.08);">
-          <svg viewBox="0 0 24 24" aria-hidden="true" style="stroke:#F59E0B">
-            <path d="M17 20h5v-2a3 3 0 0 0-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 0 1 5.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 0 1 9.288 0"/>
-          </svg>
-        </div>
-        <h3 class="feature-title">Community Forum</h3>
-        <p class="feature-desc">
-          Connect with 500+ peers, share experiences, get advice, and learn from other
-          students and professionals navigating Pakistan's job market.
-        </p>
-        <span class="feature-tag" style="background:rgba(245,158,11,0.1);color:#FCD34D;border:1px solid rgba(245,158,11,0.2);">Community</span>
-      </div>
-
-      <!-- Card 8 — Goal Tracker -->
-      <div class="feature-card animate-on-scroll">
-        <div class="feature-icon" style="background:rgba(168,85,247,0.1);">
-          <svg viewBox="0 0 24 24" aria-hidden="true" style="stroke:#A855F7">
-            <circle cx="12" cy="12" r="10"/>
-            <circle cx="12" cy="12" r="6"/>
-            <circle cx="12" cy="12" r="2"/>
-          </svg>
-        </div>
-        <h3 class="feature-title">Goal Tracker</h3>
-        <p class="feature-desc">
-          Set career milestones, track your application progress, and stay motivated
-          with visual progress dashboards and achievement badges.
-        </p>
-        <span class="feature-tag" style="background:rgba(168,85,247,0.1);color:#C084FC;border:1px solid rgba(168,85,247,0.2);">Analytics</span>
-      </div>
-
+    <div class="how-steps stagger-children">
+      <article class="card how-step"><span class="step-bg">01</span><div class="step-icon">↑</div><h3>Upload CV</h3><p>Drop your resume once and let AI parse your profile.</p></article>
+      <article class="card how-step"><span class="step-bg">02</span><div class="step-icon">◎</div><h3>AI Analyzes &amp; Benchmarks</h3><p>Get ATS score, skill gaps, and company benchmark comparisons.</p></article>
+      <article class="card how-step"><span class="step-bg">03</span><div class="step-icon">✓</div><h3>Auto-Apply</h3><p>Approve or auto-submit matched roles from your queue.</p></article>
     </div>
   </div>
 </section>
 
-<!-- ══ HOW IT WORKS ══ -->
-<section class="howto-section" id="how-it-works">
-  <div class="aurora-green" aria-hidden="true"></div>
-  <div class="container-xl">
-    <div class="section-header animate-on-scroll">
-      <span class="section-label">The Process</span>
-      <h2 class="section-heading">
-        From CV to hired in <span class="highlight-green">three</span> steps
-      </h2>
+<section class="landing-section section-modules animate-in">
+  <div class="section-inner">
+    <div class="section-heading-center">
+      <span class="section-label">Modules</span>
+      <h2>Everything you need to land your dream role</h2>
     </div>
-
-    <div class="howto-steps">
-      <div class="howto-step">
-        <div class="step-number">01</div>
-        <h3 class="step-title">Upload your CV</h3>
-        <p class="step-desc">
-          Drop your PDF or DOCX and our AI instantly parses your experience, skills, and
-          education to build a detailed profile.
-        </p>
-      </div>
-      <div class="howto-step">
-        <div class="step-number">02</div>
-        <h3 class="step-title">Get your score</h3>
-        <p class="step-desc">
-          Receive an ATS compatibility score, skill gap analysis, and keyword optimisation
-          suggestions ranked by impact.
-        </p>
-      </div>
-      <div class="howto-step">
-        <div class="step-number">03</div>
-        <h3 class="step-title">Apply with <span class="highlight-green">confidence</span></h3>
-        <p class="step-desc">
-          Browse matched jobs, prep for interviews with our AI coach, and apply — all from
-          one unified dashboard.
-        </p>
-      </div>
+    <div class="modules-grid stagger-children">
+      <div><h3>Dashboard</h3><p>Career activity command center.</p><span class="status-live">● Live</span></div>
+      <div><h3>CV Analyzer</h3><p>ATS and content optimization.</p><span class="status-live">● Live</span></div>
+      <div><h3>CV Compare</h3><p>Compare resume versions.</p><span class="status-live">● Live</span></div>
+      <div><h3>Job Board</h3><p>Curated and searchable jobs.</p><span class="status-live">● Live</span></div>
+      <div><h3>Auto-Apply Agent</h3><p>Approval queue and one-click runs.</p><span class="status-live">● Live</span></div>
+      <div><h3>Course Advisor</h3><p>Learning resources by skill gaps.</p><span class="status-live">● Live</span></div>
+      <div><h3>AI Chatbot</h3><p>Instant career guidance.</p><span class="status-live">● Live</span></div>
+      <div><h3>Interview Prep</h3><p>Guided mock interviews.</p><span class="status-soon">● Coming Soon</span></div>
+      <div><h3>Forum</h3><p>Peer support and discussion.</p><span class="status-live">● Live</span></div>
+      <div><h3>Resource Hub</h3><p>Courses and learning paths.</p><span class="status-live">● Live</span></div>
+      <div><h3>Notifications</h3><p>Alerts and updates.</p><span class="status-live">● Live</span></div>
+      <div><h3>Career Tips</h3><p>Actionable growth guidance.</p><span class="status-soon">● Coming Soon</span></div>
     </div>
   </div>
 </section>
 
-<!-- ══ CTA BAND ══ -->
-<section class="cta-section">
-  <div class="aurora" aria-hidden="true"></div>
-  <div class="container-xl" style="position:relative;z-index:1;">
-    <h2 class="cta-heading animate-on-scroll">Ready to supercharge your career?</h2>
-    <p class="cta-sub animate-on-scroll">
-      Join thousands of Pakistani graduates already using CareerAI.
-    </p>
-    {% if user.is_authenticated %}
-      <a href="{% url 'dashboard' %}" class="btn-primary">Go to Dashboard →</a>
-    {% else %}
-      <a href="{% url 'register' %}" class="btn-primary">Get Started Free →</a>
-    {% endif %}
+<section class="landing-section section-showcase animate-in">
+  <div class="section-inner split-grid">
+    <div>
+      <span class="section-label">CV Analyzer</span>
+      <h2>Know exactly what your CV is missing</h2>
+      <ul class="check-list">
+        <li>ATS compatibility scoring</li><li>Keyword gap detection</li><li>Content quality feedback</li><li>Readability benchmarking</li>
+      </ul>
+      <a href="{% url 'upload_cv_analysis' %}" class="btn-primary">Analyze my CV</a>
+    </div>
+    <div class="card mock-card">
+      <h3>ATS Score</h3>
+      <p class="big-score">78</p>
+      <div class="mini-bars"><span style="width:78%"></span><span style="width:66%"></span><span style="width:84%"></span><span style="width:59%"></span></div>
+      <div class="pill-row"><span class="pill-red">Docker</span><span class="pill-red">Kubernetes</span><span class="pill-red">TypeScript</span></div>
+    </div>
   </div>
 </section>
 
+<section class="landing-section section-showcase-reverse animate-in">
+  <div class="section-inner split-grid">
+    <div class="card mock-card">
+      <h3>Pending Approval (3)</h3>
+      <div class="queue-item"><p>Motive · Backend Intern</p><span>82%</span><div><button class="btn-primary btn-xs" type="button">Approve</button><button class="btn-ghost btn-xs" type="button">Skip</button></div></div>
+      <div class="queue-item"><p>Systems Ltd · Junior Engineer</p><span>75%</span><div><button class="btn-primary btn-xs" type="button">Approve</button><button class="btn-ghost btn-xs" type="button">Skip</button></div></div>
+      <div class="queue-item"><p>10Pearls · Software Trainee</p><span>69%</span><div><button class="btn-primary btn-xs" type="button">Approve</button><button class="btn-ghost btn-xs" type="button">Skip</button></div></div>
+      <p class="agent-live">● Agent is active · 3 applied today</p>
+    </div>
+    <div>
+      <span class="section-label">Auto-Apply Agent</span>
+      <h2>Review once, apply faster at scale</h2>
+      <p>Set daily limits, require approvals, and let CareerAI continuously match and submit aligned opportunities.</p>
+    </div>
+  </div>
+</section>
+
+<section class="landing-section section-benchmarks animate-in">
+  <div class="section-inner">
+    <div class="section-heading-center">
+      <span class="section-label">Benchmarks</span>
+      <h2>See how you stack up against top Pakistani tech firms</h2>
+    </div>
+    <div class="bench-row stagger-children">
+      <article class="card bench-card"><h3>Motive 78%</h3><div class="bench-bar"><span style="width:78%"></span></div><p>Python · APIs · SQL</p></article>
+      <article class="card bench-card"><h3>NetSol 65%</h3><div class="bench-bar"><span style="width:65%"></span></div><p>Java · Spring · OOP</p></article>
+      <article class="card bench-card"><h3>Systems Ltd 71%</h3><div class="bench-bar"><span style="width:71%"></span></div><p>Django · REST · Git</p></article>
+      <article class="card bench-card"><h3>DevSinc 82%</h3><div class="bench-bar"><span style="width:82%"></span></div><p>Node · React · Testing</p></article>
+      <article class="card bench-card"><h3>10Pearls 69%</h3><div class="bench-bar"><span style="width:69%"></span></div><p>Cloud · Docker · CI/CD</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="landing-section section-final-cta animate-in">
+  <div class="section-inner center">
+    <h2>Ready to build the career you actually want?</h2>
+    <p>Start free, improve your profile with AI, and move from uncertainty to offers.</p>
+    <div class="hero-actions">
+      {% if user.is_authenticated %}
+        <a href="{% url 'dashboard' %}" class="btn-primary btn-lg">Open Dashboard</a>
+      {% else %}
+        <a href="{% url 'register' %}" class="btn-primary btn-lg">Get Started Free</a>
+      {% endif %}
+      <a href="{% url 'job_list' %}" class="btn-ghost btn-lg">Browse Jobs</a>
+    </div>
+    <p class="trusted-line">Trusted by graduates at: Motive · NetSol · Systems Ltd · DevSinc · 10Pearls</p>
+  </div>
+</section>
 {% endblock %}

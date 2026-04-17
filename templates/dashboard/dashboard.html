@@ -1,235 +1,88 @@
 {% extends 'base.html' %}
-{% load static %}
 
 {% block title %}Dashboard — CareerAI{% endblock %}
 
 {% block content %}
-<div class="dashboard-page">
-
-  <!-- Welcome -->
-  <div class="animate-on-scroll" style="margin-bottom:2.5rem;">
-    <h1 class="dashboard-welcome">
-      Good morning, {{ user.first_name|default:user.username }} 👋
-    </h1>
-    <p class="dashboard-welcome-sub">Here's what's happening with your career journey.</p>
+<div class="dashboard-wrap animate-in">
+  <div class="dashboard-top">
+    <div>
+      <h1>Good morning, {{ user.username }}</h1>
+      <p>{{ now|default:"Today" }} · Let’s move your career forward.</p>
+    </div>
+    <div class="dashboard-top-actions">
+      <a href="{% url 'upload_cv_analysis' %}" class="btn-primary">Analyze CV</a>
+      <a href="{% url 'job_list' %}" class="btn-ghost">Find Jobs</a>
+    </div>
   </div>
 
-  <!-- Stats -->
-  <div class="stats-grid">
-    <a href="{% url 'cv_analysis_list' %}" class="stat-card">
-      <div class="stat-icon">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-          <polyline points="14,2 14,8 20,8"/>
-          <line x1="16" y1="13" x2="8" y2="13"/>
-          <line x1="16" y1="17" x2="8" y2="17"/>
-        </svg>
-      </div>
-      <p class="stat-label">CV Analyses</p>
-      <p class="stat-value">{{ cv_analyses|default:"0" }}</p>
-      <p class="stat-change">↑ AI-reviewed</p>
-    </a>
-
-    <a href="{% url 'my_applications' %}" class="stat-card">
-      <div class="stat-icon" style="background:rgba(0,212,255,0.1);">
-        <svg viewBox="0 0 24 24" aria-hidden="true" style="stroke:var(--accent-blue)">
-          <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
-          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-        </svg>
-      </div>
-      <p class="stat-label">Applications</p>
-      <p class="stat-value" style="color:var(--accent-blue)">{{ recent_applications|default:"0" }}</p>
-      <p class="stat-change">This month</p>
-    </a>
-
-    <a href="{% url 'saved_jobs' %}" class="stat-card">
-      <div class="stat-icon" style="background:rgba(74,222,128,0.08);">
-        <svg viewBox="0 0 24 24" aria-hidden="true" style="stroke:var(--accent-green);opacity:0.8">
-          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-        </svg>
-      </div>
-      <p class="stat-label">Saved Jobs</p>
-      <p class="stat-value" style="color:var(--accent-green);opacity:0.85;">{{ saved_jobs|default:"0" }}</p>
-      <p class="stat-change">↑ Bookmarked</p>
-    </a>
-
-    <a href="{% url 'forum_home' %}" class="stat-card">
-      <div class="stat-icon" style="background:rgba(91,91,214,0.12);">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-        </svg>
-      </div>
-      <p class="stat-label">Forum Posts</p>
-      <p class="stat-value">{{ forum_posts|default:"0" }}</p>
-      <p class="stat-change">Community</p>
-    </a>
+  <div class="stats-grid stagger-children">
+    <article class="card stat-block"><div class="stat-row"><span>📄</span><span class="trend">+{{ cv_analyses|default:'0' }}</span></div><h3 class="count-up" data-count="{{ cv_analyses|default:'0' }}">0</h3><p>CV Analyses</p></article>
+    <article class="card stat-block"><div class="stat-row"><span>✉</span><span class="trend">+{{ recent_applications|default:'0' }}</span></div><h3 class="count-up" data-count="{{ recent_applications|default:'0' }}">0</h3><p>Applications</p></article>
+    <article class="card stat-block"><div class="stat-row"><span>★</span><span class="trend">+{{ saved_jobs|default:'0' }}</span></div><h3 class="count-up" data-count="{{ saved_jobs|default:'0' }}">0</h3><p>Saved Jobs</p></article>
+    <article class="card stat-block"><div class="stat-row"><span>💬</span><span class="trend">+{{ forum_posts|default:'0' }}</span></div><h3 class="count-up" data-count="{{ forum_posts|default:'0' }}">0</h3><p>Forum Posts</p></article>
   </div>
 
-  <!-- Main grid -->
-  <div class="dashboard-grid">
-
-    <!-- Left column -->
-    <div style="display:flex;flex-direction:column;gap:24px;">
-
-      <!-- Monthly progress -->
-      <div class="dash-card animate-on-scroll">
-        <div class="dash-card-title">
-          This Month's Progress
-          <a href="{% url 'analytics' %}">View Analytics →</a>
-        </div>
-        <div>
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-            <span style="font-family:'DM Sans',sans-serif;font-size:0.82rem;color:var(--text-muted);">
-              Job Applications
-            </span>
-            <span style="font-family:'Syne',sans-serif;font-size:0.9rem;color:var(--text-primary);">
-              {{ this_month_applications|default:"0" }} / {{ stats.monthly_applications_goal|default:"10" }}
-            </span>
-          </div>
-          <div class="progress-bar-wrap">
-            <div class="progress-bar-fill" style="width:{{ stats.get_applications_progress|default:'0' }}%;"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Quick actions -->
-      <div class="dash-card animate-on-scroll">
-        <div class="dash-card-title">Quick Actions</div>
-        <div class="quick-actions">
-          <a href="{% url 'upload_cv_analysis' %}" class="quick-action-card">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-              <polyline points="17,8 12,3 7,8"/>
-              <line x1="12" y1="3" x2="12" y2="15"/>
-            </svg>
-            <span>Analyze CV</span>
-          </a>
-          <a href="{% url 'job_list' %}" class="quick-action-card">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <circle cx="11" cy="11" r="8"/>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-            </svg>
-            <span>Find Jobs</span>
-          </a>
-          <a href="{% url 'chat' %}" class="quick-action-card">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-            </svg>
-            <span>AI Chat</span>
-          </a>
-          <a href="{% url 'profile' %}" class="quick-action-card">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-              <circle cx="12" cy="7" r="4"/>
-            </svg>
-            <span>My Profile</span>
-          </a>
-        </div>
-      </div>
-
-      <!-- Recent Activity -->
-      <div class="dash-card animate-on-scroll">
-        <div class="dash-card-title">
-          Recent Activity
-          <a href="{% url 'activity_log' %}">View All →</a>
-        </div>
-        {% if activities %}
-          <div style="display:flex;flex-direction:column;gap:1rem;">
-            {% for activity in activities %}
-              <div style="padding-bottom:1rem;border-bottom:1px solid var(--border);">
-                <div style="display:flex;justify-content:space-between;align-items:center;">
-                  <span style="font-family:'Syne',sans-serif;font-size:0.85rem;font-weight:700;color:var(--text-primary);">
-                    {{ activity.get_activity_type_display }}
-                  </span>
-                  <span style="font-family:'DM Sans',sans-serif;font-size:0.72rem;color:var(--text-muted);">
-                    {{ activity.created_at|date:"M d, Y" }}
-                  </span>
-                </div>
-                <p style="font-family:'DM Sans',sans-serif;font-size:0.82rem;color:var(--text-muted);margin-top:4px;">
-                  {{ activity.description }}
-                </p>
-              </div>
-            {% endfor %}
-          </div>
-        {% else %}
-          <p style="font-family:'DM Sans',sans-serif;font-size:0.85rem;color:var(--text-muted);">
-            No activities yet. Start by analyzing your CV.
-          </p>
-        {% endif %}
-      </div>
-
-    </div><!-- /left column -->
-
-    <!-- Right column -->
-    <div style="display:flex;flex-direction:column;gap:24px;">
-
-      <!-- Active Goals -->
-      <div class="dash-card animate-on-scroll">
-        <div class="dash-card-title">
-          Active Goals
-          <a href="{% url 'goal_tracker' %}">Manage →</a>
-        </div>
-        {% if active_goals %}
-          {% for goal in active_goals %}
-            <div style="margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border);">
-              <p style="font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;color:var(--text-primary);margin-bottom:4px;">
-                {{ goal.title }}
-              </p>
-              <p style="font-family:'DM Sans',sans-serif;font-size:0.72rem;color:var(--text-muted);margin-bottom:8px;">
-                Target: {{ goal.target_date|date:"M d, Y" }}
-              </p>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar-fill" style="width:{{ goal.progress_percentage }}%;"></div>
-              </div>
-              <p style="font-family:'DM Sans',sans-serif;font-size:0.72rem;color:var(--accent-green);opacity:0.8;margin-top:4px;">
-                {{ goal.progress_percentage }}% complete
-              </p>
-            </div>
-          {% endfor %}
-        {% else %}
-          <p style="font-family:'DM Sans',sans-serif;font-size:0.85rem;color:var(--text-muted);">
-            No active goals.
-            <a href="{% url 'goal_tracker' %}" style="color:var(--accent-indigo);">Create one →</a>
-          </p>
-        {% endif %}
-      </div>
-
-      <!-- Profile Completion -->
-      <div class="dash-card animate-on-scroll">
-        <div class="dash-card-title">
-          Profile Completion
-          <a href="{% url 'profile' %}">Edit →</a>
-        </div>
-        {% with completion=user.profile.get_profile_completion|default:50 %}
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-            <span style="font-family:'DM Sans',sans-serif;font-size:0.82rem;color:var(--text-muted);">Overall</span>
-            <span style="font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--accent-indigo);">{{ completion }}%</span>
-          </div>
-          <div class="progress-bar-wrap" style="height:8px;">
-            <div class="progress-bar-fill" style="width:{{ completion }}%;"></div>
-          </div>
+  <div class="dashboard-main">
+    <div class="dashboard-left">
+      <article class="card">
+        <div class="module-header-inline"><h2>CV Summary</h2></div>
+        {% with score=stats.get_applications_progress|default:78 %}
+          <p class="big-score {% if score >= 75 %}score-good{% elif score >= 60 %}score-mid{% else %}score-low{% endif %}">{{ score }}</p>
+          <div class="mini-bars"><span style="width:{{ score }}%"></span><span style="width:{{ cv_analyses|default:'50' }}%"></span><span style="width:{{ saved_jobs|default:'40' }}%"></span><span style="width:{{ recent_applications|default:'35' }}%"></span></div>
         {% endwith %}
-        <div style="margin-top:16px;display:flex;flex-direction:column;gap:8px;">
-          <div style="display:flex;align-items:center;gap:8px;font-family:'DM Sans',sans-serif;font-size:0.8rem;color:var(--text-muted);">
-            {% if user.profile.bio %}
-              <span style="color:var(--accent-green);opacity:0.8;">✓</span> Bio added
-            {% else %}
-              <span style="color:#EF4444;">✗</span> Add bio
-            {% endif %}
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;font-family:'DM Sans',sans-serif;font-size:0.8rem;color:var(--text-muted);">
-            {% if user.email %}
-              <span style="color:var(--accent-green);opacity:0.8;">✓</span> Email verified
-            {% else %}
-              <span style="color:#EF4444;">✗</span> Add email
-            {% endif %}
-          </div>
+        <div class="pill-row"><span class="pill-red">Docker</span><span class="pill-red">Kubernetes</span><span class="pill-red">TypeScript</span></div>
+      </article>
+
+      <article class="card">
+        <div class="module-header-inline"><h2>Progress</h2></div>
+        <div class="progress-item"><p>Applications</p><div class="bar"><span style="width:{{ stats.get_applications_progress|default:'0' }}%"></span></div></div>
+        <div class="progress-item"><p>CV Analyses</p><div class="bar"><span style="width:{{ cv_analyses|default:'0' }}%"></span></div></div>
+        <div class="progress-item"><p>Courses</p><div class="bar"><span style="width:55%"></span></div></div>
+      </article>
+
+      <article class="card">
+        <div class="module-header-inline"><h2>Quick Actions</h2></div>
+        <div class="quick-grid">
+          <a href="{% url 'upload_cv_analysis' %}" class="quick-tile">Analyze CV</a>
+          <a href="{% url 'job_list' %}" class="quick-tile">Search Jobs</a>
+          <a href="{% url 'auto_apply_settings' %}" class="quick-tile">Auto-Apply</a>
+          <a href="{% url 'resource_hub' %}" class="quick-tile">Browse Courses</a>
         </div>
-      </div>
+      </article>
+    </div>
 
-    </div><!-- /right column -->
+    <div class="dashboard-right">
+      <article class="card">
+        <div class="module-header-inline"><h2>Auto-Apply</h2><label class="switch"><input type="checkbox" checked><span></span></label></div>
+        <p><span class="status-live">● Active</span></p>
+        <div class="mini-stats"><div><strong>{{ recent_applications|default:'0' }}</strong><span>Today</span></div><div><strong>{{ recent_applications|default:'0' }}</strong><span>Week</span></div><div><strong>{{ recent_applications|default:'0' }}</strong><span>Total</span></div></div>
+      </article>
 
-  </div><!-- /dashboard-grid -->
+      <article class="card">
+        <div class="module-header-inline"><h2>Goals</h2></div>
+        <ul class="simple-list">
+          {% for goal in active_goals|slice:":4" %}
+            <li>{{ goal.title }} · {{ goal.progress_percentage }}%</li>
+          {% empty %}
+            <li>No active goals yet.</li>
+          {% endfor %}
+        </ul>
+      </article>
 
-</div><!-- /dashboard-page -->
+      <article class="card">
+        <div class="module-header-inline"><h2>Profile</h2></div>
+        {% with completion=user.profile.get_profile_completion|default:50 %}
+          <p class="big-score score-good">{{ completion }}%</p>
+          <div class="bar"><span style="width:{{ completion }}%"></span></div>
+        {% endwith %}
+        <ul class="checklist">
+          <li>{% if user.profile.bio %}✓{% else %}○{% endif %} Bio</li>
+          <li>{% if user.email %}✓{% else %}○{% endif %} Email</li>
+          <li>{% if user.profile.skills %}✓{% else %}○{% endif %} Skills</li>
+          <li>{% if user.profile.cv %}✓{% else %}○{% endif %} CV Uploaded</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</div>
 {% endblock %}

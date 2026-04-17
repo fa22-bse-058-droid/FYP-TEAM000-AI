@@ -7,135 +7,103 @@
   <title>{% block title %}CareerAI — AI Career Assistant{% endblock %}</title>
   <meta name="description" content="AI-powered CV analysis, skill gap detection, and smart job matching for Pakistani graduates.">
 
-  <!-- Google Fonts: Syne + DM Sans + DM Serif Display -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-  <!-- TailwindCSS CDN (utility classes supplement) -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    tailwind.config = {
-      corePlugins: { preflight: false },
-      theme: { extend: {} }
-    };
+    tailwind.config = { corePlugins: { preflight: false }, theme: { extend: {} } };
   </script>
 
-  <!-- Main CSS -->
-  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
 
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
   {% block extra_head %}{% endblock %}
 </head>
 <body>
 
-<!-- ══ NAVBAR ══ -->
 {% block navbar %}
 <nav class="navbar" role="navigation" aria-label="Main navigation">
-  <!-- Logo -->
-  <a href="{% url 'home' %}" class="navbar-logo">
-    <svg class="logo-icon" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M21 9.5C19.2 7.3 16.7 6 14 6C8.5 6 4 10.5 4 16C4 21.5 8.5 26 14 26" stroke="url(#navG1)" stroke-width="2.5" stroke-linecap="round"/>
-      <path d="M17 2L14 8H18L15 14" stroke="url(#navG2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      <defs>
-        <linearGradient id="navG1" x1="4" y1="16" x2="21" y2="16" gradientUnits="userSpaceOnUse">
-          <stop stop-color="#5B5BD6"/><stop offset="1" stop-color="#00D4FF"/>
-        </linearGradient>
-        <linearGradient id="navG2" x1="14" y1="2" x2="18" y2="14" gradientUnits="userSpaceOnUse">
-          <stop stop-color="#00D4FF"/><stop offset="1" stop-color="#4ADE80"/>
-        </linearGradient>
-      </defs>
+  <a href="{% url 'home' %}" class="navbar-logo" aria-label="CareerAI home">
+    <svg class="logo-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M4 16C4 10.477 8.477 6 14 6C16.768 6 19.273 7.124 21.084 8.94" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M16 2L13 8H17L14 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
-    CareerAI
+    <span>Career<span class="logo-accent">AI</span></span>
   </a>
 
-  <!-- Center links (desktop) -->
   <ul class="navbar-links" role="list">
     <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
     <li><a href="{% url 'upload_cv_analysis' %}">CV Analyzer</a></li>
     <li><a href="{% url 'job_list' %}">Jobs</a></li>
     <li><a href="{% url 'resource_hub' %}">Courses</a></li>
+    <li><a href="{% url 'forum_home' %}">Forum</a></li>
   </ul>
 
-  <!-- Right actions -->
   <div class="navbar-actions">
     {% if user.is_authenticated %}
-      <span class="navbar-user">
-        {{ user.username }}
-        <a href="{% url 'logout' %}">Logout</a>
-      </span>
+      <span class="navbar-user">{{ user.username }}</span>
+      <a href="{% url 'logout' %}" class="btn-ghost btn-sm">Logout</a>
     {% else %}
-      <a href="{% url 'login' %}" class="btn-signin">Sign In</a>
-      <a href="{% url 'register' %}" class="btn-nav-cta">Get Started →</a>
+      <a href="{% url 'login' %}" class="btn-ghost btn-sm">Sign in</a>
+      <a href="{% url 'register' %}" class="btn-primary btn-sm">Get Started</a>
     {% endif %}
 
-    <!-- Hamburger (mobile) -->
-    <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
-      <span></span>
-      <span></span>
-      <span></span>
+    <button class="hamburger" aria-label="Toggle mobile menu" aria-expanded="false" aria-controls="mobileMenu" type="button">
+      <span></span><span></span><span></span>
     </button>
   </div>
 </nav>
 
-<!-- Mobile menu -->
-<div class="mobile-menu" role="menu" aria-label="Mobile navigation">
-  <a href="{% url 'dashboard' %}">Dashboard</a>
-  <a href="{% url 'upload_cv_analysis' %}">CV Analyzer</a>
-  <a href="{% url 'job_list' %}">Jobs</a>
-  <a href="{% url 'resource_hub' %}">Courses</a>
-  {% if user.is_authenticated %}
-    <a href="{% url 'logout' %}">Logout</a>
-  {% else %}
-    <a href="{% url 'login' %}">Sign In</a>
-    <a href="{% url 'register' %}">Get Started →</a>
-  {% endif %}
+<div class="mobile-menu" id="mobileMenu" role="menu" aria-label="Mobile navigation">
+  <button class="mobile-menu-close" type="button" aria-label="Close menu">×</button>
+  <div class="mobile-menu-links">
+    <a href="{% url 'dashboard' %}">Dashboard</a>
+    <a href="{% url 'upload_cv_analysis' %}">CV Analyzer</a>
+    <a href="{% url 'job_list' %}">Jobs</a>
+    <a href="{% url 'resource_hub' %}">Courses</a>
+    <a href="{% url 'forum_home' %}">Forum</a>
+    {% if user.is_authenticated %}
+      <a href="{% url 'logout' %}">Logout</a>
+    {% else %}
+      <a href="{% url 'login' %}">Sign in</a>
+      <a href="{% url 'register' %}">Get Started</a>
+    {% endif %}
+  </div>
 </div>
 {% endblock navbar %}
 
-<!-- ══ PAGE CONTENT ══ -->
 <main>
   {% block content %}{% endblock %}
 </main>
 
-<!-- ══ FOOTER ══ -->
 {% block footer %}
 <footer class="site-footer">
   <div class="footer-inner">
-    <div class="footer-row1">
+    <div class="footer-row">
       <a href="{% url 'home' %}" class="navbar-logo">
-        <svg class="logo-icon" width="24" height="24" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M21 9.5C19.2 7.3 16.7 6 14 6C8.5 6 4 10.5 4 16C4 21.5 8.5 26 14 26" stroke="url(#ftG1)" stroke-width="2.5" stroke-linecap="round"/>
-          <path d="M17 2L14 8H18L15 14" stroke="url(#ftG2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <defs>
-            <linearGradient id="ftG1" x1="4" y1="16" x2="21" y2="16" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#5B5BD6"/><stop offset="1" stop-color="#00D4FF"/>
-            </linearGradient>
-            <linearGradient id="ftG2" x1="14" y1="2" x2="18" y2="14" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#00D4FF"/><stop offset="1" stop-color="#4ADE80"/>
-            </linearGradient>
-          </defs>
+        <svg class="logo-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M4 16C4 10.477 8.477 6 14 6C16.768 6 19.273 7.124 21.084 8.94" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M16 2L13 8H17L14 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        CareerAI
+        <span>Career<span class="logo-accent">AI</span></span>
       </a>
       <ul class="footer-nav" role="list">
         <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
         <li><a href="{% url 'upload_cv_analysis' %}">CV Analyzer</a></li>
         <li><a href="{% url 'job_list' %}">Jobs</a></li>
         <li><a href="{% url 'resource_hub' %}">Courses</a></li>
+        <li><a href="{% url 'forum_home' %}">Forum</a></li>
       </ul>
     </div>
-    <p class="footer-copyright">© 2026 CareerAI · Built for Pakistani graduates</p>
+    <p class="footer-copy">© 2026 CareerAI · Built for Pakistani graduates</p>
   </div>
 </footer>
 {% endblock footer %}
 
-<!-- GSAP (served from static) -->
-<script src="{% static 'js/gsap.min.js' %}"></script>
-<script src="{% static 'js/ScrollTrigger.min.js' %}"></script>
-
-<!-- Main JS -->
 <script src="{% static 'js/main.js' %}"></script>
-
 {% block extra_scripts %}{% endblock %}
 </body>
 </html>

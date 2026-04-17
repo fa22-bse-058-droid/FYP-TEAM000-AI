@@ -84,7 +84,7 @@
                         <p class="job-salary">${{ job.salary_min|floatformat:0 }}–${{ job.salary_max|floatformat:0 }}</p>
                       {% endif %}
                       <p class="job-deadline">
-                        {% if job.days_until_deadline is not None %}
+                        {% if job.days_until_deadline != None %}
                           {{ job.days_until_deadline }} days left
                         {% else %}
                           Open until filled

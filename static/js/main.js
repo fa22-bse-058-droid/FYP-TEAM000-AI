@@ -9,7 +9,10 @@
 
   const setNavbarState = () => {
     if (!navbar) return;
-    navbar.classList.toggle('scrolled', window.scrollY > 40);
+    const scrolled = window.scrollY > 40;
+    navbar.classList.toggle('scrolled', scrolled);
+    const dynamicOpacity = Math.min(0.96, 0.72 + (window.scrollY / 420) * 0.24);
+    navbar.style.setProperty('--nav-opacity', dynamicOpacity.toFixed(2));
   };
 
   const closeMenu = () => {
@@ -70,6 +73,20 @@
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
+
+  const initRipples = () => {
+    document.querySelectorAll('.ripple-target').forEach((el) => {
+      el.addEventListener('click', (e) => {
+        const rect = el.getBoundingClientRect();
+        const ripple = document.createElement('span');
+        ripple.className = 'ripple';
+        ripple.style.left = `${e.clientX - rect.left}px`;
+        ripple.style.top = `${e.clientY - rect.top}px`;
+        el.appendChild(ripple);
+        window.setTimeout(() => ripple.remove(), 650);
+      });
+    });
+  };
 
   const uploadZone = document.querySelector('.upload-zone');
   if (uploadZone) {
@@ -224,10 +241,12 @@
       markHighProgressBars();
       initGSAP();
       initCountUp();
+      initRipples();
     });
   } else {
     markHighProgressBars();
     initGSAP();
     initCountUp();
+    initRipples();
   }
 })();

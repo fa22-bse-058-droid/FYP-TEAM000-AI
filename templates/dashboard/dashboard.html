@@ -242,7 +242,7 @@
           <span class="missing-pill">No major skill gaps</span>
         {% endfor %}
         {% if missing_skills|length > 4 %}
-          <span class="missing-pill">+{{ missing_skills|length|add:"-4" }} more</span>
+          <span class="missing-pill">+{{ missing_skills|length|add:-4 }} more</span>
         {% endif %}
       </div>
       <a href="{% url 'job_list' %}" class="footer-link">Find matching jobs →</a>
@@ -256,7 +256,7 @@
   <section class="widget widget-third widget-tall">
     <div class="widget-header">
       <h2 class="widget-title">Auto-Apply</h2>
-      <label class="switch" aria-label="Auto-apply status">
+      <label class="switch" aria-label="Auto-apply status (view only)">
         <input type="checkbox" {% if auto_apply_allowed %}checked{% endif %} disabled>
         <span class="switch-slider"></span>
       </label>
@@ -289,8 +289,8 @@
       <div class="tiny-bar"><span class="tiny-fill fill-accent" style="width:min({{ stats.get_applications_progress|default:'0' }}%, 100%);"></span></div>
     </div>
     <div class="progress-row">
-      <div class="progress-head"><p>CV Analyses</p><span>{{ cv_analyses|default:"0" }}/4</span></div>
-      <div class="tiny-bar"><span class="tiny-fill fill-green" style="width:min({{ cv_analyses|default:'0' }}%, 100%);"></span></div>
+      <div class="progress-head"><p>CV Analyses</p><span>{{ cv_analyses|default:"0" }}/{{ cv_analyses_goal|default:"4" }}</span></div>
+      <div class="tiny-bar"><span class="tiny-fill fill-green" style="width:min({{ cv_analyses_progress|default:'0' }}%, 100%);"></span></div>
     </div>
     <div class="progress-row">
       <div class="progress-head"><p>Courses</p><span>0/3</span></div>
@@ -363,11 +363,15 @@
     const runDashboardCountUp = () => {
       document.querySelectorAll('.dashboard-grid .count-up').forEach((el) => {
         const target = parseInt(el.dataset.count || '0', 10);
-        if (Number.isNaN(target)) return;
+        if (isNaN(target) || target < 0) return;
         if (typeof gsap !== 'undefined') {
-          gsap.fromTo({ value: 0 }, { value: target, duration: 1.1, ease: 'power2.out', onUpdate() {
-            el.textContent = Math.round(this.targets()[0].value);
-          }});
+          const counter = { value: 0 };
+          gsap.to(counter, {
+            value: target,
+            duration: 1.1,
+            ease: 'power2.out',
+            onUpdate() { el.textContent = Math.round(counter.value); }
+          });
           return;
         }
         let n = 0;

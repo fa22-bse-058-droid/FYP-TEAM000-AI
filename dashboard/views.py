@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.views.decorators.http import require_http_methods
 from django.utils import timezone
 from django.db.models import Count, Q
+from django.core.exceptions import ObjectDoesNotExist
 from datetime import timedelta
 import json
 
@@ -16,6 +17,8 @@ from jobs.models import (
 from cv_analyzer.models import CVAnalysis
 from forum.models import ForumThread
 from .models import UserActivity, UserStats, GoalTracker
+
+CV_ANALYSES_MONTHLY_GOAL = 4
 
 
 @login_required(login_url='login')
@@ -59,14 +62,19 @@ def dashboard(request):
     active_goals = GoalTracker.objects.filter(user=user, status='active')
 
     # Latest CV analysis (for compact summary widget)
-    latest_cv_analysis = CVAnalysis.objects.filter(user=user, is_analyzed=True).first()
+    latest_cv_analysis = CVAnalysis.objects.filter(user=user, is_analyzed=True).order_by('-created_at').first()
     cv_score = latest_cv_analysis.overall_score if latest_cv_analysis else 0
     cv_metrics = {
-        'ats_compat': latest_cv_analysis.overall_score if latest_cv_analysis else 0,
+        'ats_compat': latest_cv_analysis.readability_score if latest_cv_analysis else 0,
         'keyword_match': latest_cv_analysis.keyword_score if latest_cv_analysis else 0,
         'completeness': latest_cv_analysis.content_score if latest_cv_analysis else 0,
         'formatting': latest_cv_analysis.format_score if latest_cv_analysis else 0,
     }
+    cv_analyses_progress = (
+        min(int((cv_analyses / CV_ANALYSES_MONTHLY_GOAL) * 100), 100)
+        if cv_analyses and CV_ANALYSES_MONTHLY_GOAL > 0
+        else 0
+    )
     missing_skills = []
     if latest_cv_analysis:
         try:
@@ -92,7 +100,13 @@ def dashboard(request):
     queue_items = ApplicationQueue.objects.filter(user=user).select_related('job__company')
     now = timezone.now()
     week_ago = now - timedelta(days=7)
-    auto_apply_today = queue_items.filter(status='submitted', queued_at__date=now.date()).count()
+    start_of_day = now.replace(hour=0, minute=0, second=0, microsecond=0)
+    end_of_day = start_of_day + timedelta(days=1)
+    auto_apply_today = queue_items.filter(
+        status='submitted',
+        queued_at__gte=start_of_day,
+        queued_at__lt=end_of_day
+    ).count()
     auto_apply_week = queue_items.filter(status='submitted', queued_at__gte=week_ago).count()
     auto_apply_total = queue_items.filter(status='submitted').count()
     recent_auto_apply = queue_items[:3]
@@ -100,7 +114,7 @@ def dashboard(request):
     # Safe profile access
     try:
         profile = user.profile
-    except Exception:
+    except (ObjectDoesNotExist, AttributeError):
         profile = None
     completion_items = [
         bool(profile and profile.bio),
@@ -123,6 +137,7 @@ def dashboard(request):
         'latest_cv_analysis': latest_cv_analysis,
         'cv_score': cv_score,
         'cv_metrics': cv_metrics,
+        'cv_analyses_progress': cv_analyses_progress,
         'missing_skills': missing_skills,
         'auto_apply_allowed': auto_apply_allowed,
         'auto_apply_today': auto_apply_today,
@@ -131,6 +146,7 @@ def dashboard(request):
         'recent_auto_apply': recent_auto_apply,
         'profile': profile,
         'profile_completion': profile_completion,
+        'cv_analyses_goal': CV_ANALYSES_MONTHLY_GOAL,
     }
     return render(request, 'dashboard/dashboard.html', context)
 

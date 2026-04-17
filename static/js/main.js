@@ -1,6 +1,7 @@
 (function () {
   'use strict';
 
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const navbar = document.querySelector('.navbar');
   const hamburger = document.querySelector('.hamburger');
   const mobileMenu = document.querySelector('.mobile-menu');
@@ -100,6 +101,10 @@
       const target = parseFloat(el.dataset.target || el.dataset.count);
       if (Number.isNaN(target)) return;
       const unit = el.dataset.unit || '';
+      if (prefersReducedMotion) {
+        el.textContent = `${Math.round(target)}${unit}`;
+        return;
+      }
 
       if (typeof ScrollTrigger !== 'undefined' && typeof gsap !== 'undefined') {
         ScrollTrigger.create({
@@ -154,25 +159,34 @@
     });
   };
 
-  const initCardHoverEffects = () => {
-    if (typeof gsap === 'undefined') return;
-    document.querySelectorAll('.card, .module-cell').forEach((card) => {
-      card.addEventListener('mouseenter', () => gsap.to(card, { y: -4, duration: 0.25, ease: 'power2.out' }));
-      card.addEventListener('mouseleave', () => gsap.to(card, { y: 0, duration: 0.25, ease: 'power2.out' }));
-    });
-  };
-
   const initGSAP = () => {
     if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+    if (prefersReducedMotion) {
+      document.querySelectorAll('.animate-in').forEach((el) => {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+      });
+      return;
+    }
     gsap.registerPlugin(ScrollTrigger);
+    // Gentle multi-direction drift values for decorative hero glow shapes.
+    const heroShapeMotions = [
+      { selector: '.hero-shape-one', x: 26, y: -18, duration: 8.5 },
+      { selector: '.hero-shape-two', x: -24, y: 22, duration: 10 },
+      { selector: '.hero-shape-three', x: 20, y: -14, duration: 9 },
+    ];
 
     gsap.fromTo('.hero-glow',
-      { opacity: 0.3, scale: 0.95 },
-      { opacity: 0.6, scale: 1.05, duration: 4, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+      { opacity: 0.26, scale: 0.95 },
+      { opacity: 0.58, scale: 1.08, duration: 5, ease: 'sine.inOut', yoyo: true, repeat: -1 });
 
-    gsap.fromTo('.hero-content > *',
+    heroShapeMotions.forEach(({ selector, x, y, duration }) => {
+      gsap.to(selector, { x, y, duration, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+    });
+
+    gsap.fromTo('.hero-content .section-label, .hero-content h1, .hero-content p, .hero-actions, .hero-proof',
       { opacity: 0, y: 28 },
-      { opacity: 1, y: 0, duration: 0.9, ease: 'power2.out', stagger: 0.18, delay: 0.2 });
+      { opacity: 1, y: 0, duration: 0.9, ease: 'power2.out', stagger: 0.14, delay: 0.18 });
 
     gsap.utils.toArray('.animate-in').forEach((el) => {
       gsap.fromTo(el,
@@ -188,6 +202,21 @@
         { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', stagger: 0.09, scrollTrigger: { trigger: container, start: 'top 82%' } });
     });
 
+    gsap.fromTo('.how-steps .how-step',
+      { opacity: 0, x: -26 },
+      { opacity: 1, x: 0, duration: 0.72, stagger: 0.16, ease: 'power2.out', scrollTrigger: { trigger: '.how-steps', start: 'top 82%' } });
+
+    gsap.fromTo('.problem-stats > .problem-stat-card',
+      { opacity: 0, y: 22 },
+      { opacity: 1, y: 0, duration: 0.6, stagger: 0.12, ease: 'power2.out', scrollTrigger: { trigger: '.problem-stats', start: 'top 84%' } });
+
+    gsap.fromTo('.modules-grid .module-cell',
+      { opacity: 0, y: 28 },
+      { opacity: 1, y: 0, duration: 0.58, stagger: 0.05, ease: 'power2.out', scrollTrigger: { trigger: '.modules-grid', start: 'top 85%' } });
+
+    gsap.to('.step-icon',
+      { y: -4, duration: 1.8, ease: 'sine.inOut', stagger: 0.12, yoyo: true, repeat: -1 });
+
   };
 
   if (document.readyState === 'loading') {
@@ -195,12 +224,10 @@
       markHighProgressBars();
       initGSAP();
       initCountUp();
-      initCardHoverEffects();
     });
   } else {
     markHighProgressBars();
     initGSAP();
     initCountUp();
-    initCardHoverEffects();
   }
 })();

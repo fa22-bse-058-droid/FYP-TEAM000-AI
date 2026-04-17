@@ -1,185 +1,96 @@
 {% extends 'base.html' %}
-{% load static %}
 
 {% block title %}Create Account — CareerAI{% endblock %}
-
 {% block navbar %}{% endblock navbar %}
 {% block footer %}{% endblock footer %}
 
 {% block content %}
-<div class="auth-page">
-
-  <!-- ── Left panel (desktop only) ── -->
-  <div class="auth-left" aria-hidden="true">
-    <div class="auth-aurora-primary"></div>
-    <div class="auth-aurora-green"></div>
-    <div class="auth-left-content">
-      <a href="{% url 'home' %}" class="auth-left-logo">
-        <svg width="24" height="24" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="vertical-align:middle;margin-right:6px;">
-          <path d="M21 9.5C19.2 7.3 16.7 6 14 6C8.5 6 4 10.5 4 16C4 21.5 8.5 26 14 26" stroke="url(#regG1)" stroke-width="2.5" stroke-linecap="round"/>
-          <path d="M17 2L14 8H18L15 14" stroke="url(#regG2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <defs>
-            <linearGradient id="regG1" x1="4" y1="16" x2="21" y2="16" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#5B5BD6"/><stop offset="1" stop-color="#00D4FF"/>
-            </linearGradient>
-            <linearGradient id="regG2" x1="14" y1="2" x2="18" y2="14" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#00D4FF"/><stop offset="1" stop-color="#4ADE80"/>
-            </linearGradient>
-          </defs>
-        </svg>CareerAI
-      </a>
-
-      <div class="auth-left-middle">
-        <p class="auth-left-eyebrow">AI-Powered Career Platform</p>
-        <h2 class="auth-left-headline">
-          Join 500+ students building their <em>careers.</em>
-        </h2>
-        <div class="auth-features">
-          <p class="auth-feature-item"><span class="star">✦</span>AI-powered CV analysis</p>
-          <p class="auth-feature-item"><span class="star">✦</span>Smart job matching</p>
-          <p class="auth-feature-item"><span class="star">✦</span>Auto-apply in one click</p>
-        </div>
-      </div>
-
-      <p class="auth-left-footer">Trusted by 500+ students across Pakistan</p>
+<div class="auth-shell">
+  <aside class="auth-left-panel animate-in" aria-hidden="true">
+    <div class="hero-grid-texture"></div>
+    <div class="hero-orb auth-orb"></div>
+    <a href="{% url 'home' %}" class="navbar-logo auth-brand">Career<span class="logo-accent">AI</span></a>
+    <div class="auth-copy">
+      <span class="section-label">AI-Powered Career Platform</span>
+      <h2>Build a career you actually want.</h2>
+      <ul>
+        <li>CV analysis with ATS scoring</li>
+        <li>Job-fit benchmarking</li>
+        <li>Personalized learning recommendations</li>
+      </ul>
     </div>
-  </div>
+    <p class="auth-trust">Trusted by 500+ students</p>
+  </aside>
 
-  <!-- ── Right panel (form) ── -->
-  <div class="auth-right">
-    <div class="auth-form-container">
-      <a href="{% url 'home' %}" class="auth-form-icon">
-        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M21 9.5C19.2 7.3 16.7 6 14 6C8.5 6 4 10.5 4 16C4 21.5 8.5 26 14 26" stroke="url(#regIconG1)" stroke-width="2.5" stroke-linecap="round"/>
-          <path d="M17 2L14 8H18L15 14" stroke="url(#regIconG2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <defs>
-            <linearGradient id="regIconG1" x1="4" y1="16" x2="21" y2="16" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#5B5BD6"/><stop offset="1" stop-color="#00D4FF"/>
-            </linearGradient>
-            <linearGradient id="regIconG2" x1="14" y1="2" x2="18" y2="14" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#00D4FF"/><stop offset="1" stop-color="#4ADE80"/>
-            </linearGradient>
-          </defs>
-        </svg>
-      </a>
-      <h1 class="auth-form-heading">Create account</h1>
-      <p class="auth-form-subheading">Start your AI-powered career journey</p>
+  <section class="auth-right-panel animate-in">
+    <div class="auth-form-box">
+      <h1>Create account</h1>
+      <p>Start your AI-powered journey in minutes.</p>
 
       {% if messages %}
-        <div class="messages-container">
-          {% for message in messages %}
-            <div class="message-item {{ message.tags }}">{{ message }}</div>
-          {% endfor %}
-        </div>
+      <div class="messages-container">
+        {% for message in messages %}<div class="message-item {{ message.tags }}">{{ message }}</div>{% endfor %}
+      </div>
       {% endif %}
 
-      <form method="POST" novalidate>
+      <form method="POST" class="auth-form-fields" novalidate>
         {% csrf_token %}
-        <div class="auth-form-fields">
 
-          <!-- Username -->
-          <div class="form-field">
-            <label for="{{ form.username.id_for_label }}">Username</label>
-            <div class="field-wrapper">
-              {{ form.username }}
-            </div>
-            {% if form.username.errors %}
-              <span style="font-size:0.75rem;color:#FCA5A5;margin-top:4px;">{{ form.username.errors.0 }}</span>
-            {% endif %}
-          </div>
-
-          <!-- Email -->
-          <div class="form-field">
-            <label for="{{ form.email.id_for_label }}">Email</label>
-            <div class="field-wrapper">
-              {{ form.email }}
-            </div>
-            {% if form.email.errors %}
-              <span style="font-size:0.75rem;color:#FCA5A5;margin-top:4px;">{{ form.email.errors.0 }}</span>
-            {% endif %}
-          </div>
-
-          <!-- First + Last name row -->
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-            <div class="form-field">
-              <label for="{{ form.first_name.id_for_label }}">First Name</label>
-              <div class="field-wrapper">{{ form.first_name }}</div>
-            </div>
-            <div class="form-field">
-              <label for="{{ form.last_name.id_for_label }}">Last Name</label>
-              <div class="field-wrapper">{{ form.last_name }}</div>
-            </div>
-          </div>
-
-          <!-- Role -->
-          {% if form.role %}
-          <div class="form-field">
-            <label for="{{ form.role.id_for_label }}">I am a:</label>
-            {{ form.role }}
-          </div>
-          {% endif %}
-
-          <!-- Password -->
-          <div class="form-field">
-            <label for="{{ form.password1.id_for_label }}">Password</label>
-            <div class="field-wrapper">
-              {{ form.password1 }}
-              <button type="button" class="field-toggle" aria-label="Toggle password visibility">
-                <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                  <circle cx="12" cy="12" r="3"/>
-                </svg>
-                <svg class="eye-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="display:none">
-                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
-                  <line x1="1" y1="1" x2="23" y2="23"/>
-                </svg>
-              </button>
-            </div>
-            <span style="font-size:0.72rem;color:var(--text-muted);margin-top:4px;">
-              At least 8 characters · Mix of letters and numbers
-            </span>
-          </div>
-
-          <!-- Confirm Password -->
-          <div class="form-field">
-            <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
-            <div class="field-wrapper">
-              {{ form.password2 }}
-              <button type="button" class="field-toggle" aria-label="Toggle confirm password visibility">
-                <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                  <circle cx="12" cy="12" r="3"/>
-                </svg>
-                <svg class="eye-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="display:none">
-                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
-                  <line x1="1" y1="1" x2="23" y2="23"/>
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          <!-- Submit -->
-          <button type="submit" class="auth-submit-btn">Create account</button>
-
+        <div class="form-field">
+          <label for="{{ form.username.id_for_label }}">Username</label>
+          <div class="field-wrapper">{{ form.username }}</div>
+          {% if form.username.errors %}<span class="field-error">{{ form.username.errors.0 }}</span>{% endif %}
         </div>
+
+        <div class="form-field">
+          <label for="{{ form.email.id_for_label }}">Email</label>
+          <div class="field-wrapper">{{ form.email }}</div>
+          {% if form.email.errors %}<span class="field-error">{{ form.email.errors.0 }}</span>{% endif %}
+        </div>
+
+        <div class="form-field">
+          <label for="{{ form.role.id_for_label }}">I am a:</label>
+          <div class="field-wrapper">{{ form.role }}</div>
+          {% if form.role.errors %}<span class="field-error">{{ form.role.errors.0 }}</span>{% endif %}
+        </div>
+
+        <div class="split-two">
+          <div class="form-field">
+            <label for="{{ form.first_name.id_for_label }}">First Name</label>
+            <div class="field-wrapper">{{ form.first_name }}</div>
+            {% if form.first_name.errors %}<span class="field-error">{{ form.first_name.errors.0 }}</span>{% endif %}
+          </div>
+          <div class="form-field">
+            <label for="{{ form.last_name.id_for_label }}">Last Name</label>
+            <div class="field-wrapper">{{ form.last_name }}</div>
+            {% if form.last_name.errors %}<span class="field-error">{{ form.last_name.errors.0 }}</span>{% endif %}
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="{{ form.password1.id_for_label }}">Password</label>
+          <div class="field-wrapper">
+            {{ form.password1 }}
+            <button type="button" class="field-toggle" aria-label="Toggle password visibility">Show</button>
+          </div>
+          <span class="field-help">At least 8 characters · Mix of letters and numbers</span>
+          {% if form.password1.errors %}<span class="field-error">{{ form.password1.errors.0 }}</span>{% endif %}
+        </div>
+
+        <div class="form-field">
+          <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
+          <div class="field-wrapper">
+            {{ form.password2 }}
+            <button type="button" class="field-toggle" aria-label="Toggle password visibility">Show</button>
+          </div>
+          {% if form.password2.errors %}<span class="field-error">{{ form.password2.errors.0 }}</span>{% endif %}
+        </div>
+
+        <button type="submit" class="btn-primary auth-submit">Create account</button>
       </form>
 
-      <p class="auth-switch-link">
-        Already have an account? <a href="{% url 'login' %}">Sign in →</a>
-      </p>
+      <p class="auth-switch-link">Already have an account? <a href="{% url 'login' %}">Sign in</a></p>
     </div>
-  </div>
-
+  </section>
 </div>
-{% endblock %}
-
-{% block extra_scripts %}
-<script>
-  document.querySelectorAll('.auth-form-fields input, .auth-form-fields select').forEach(function(el) {
-    if (!el.classList.contains('styled')) {
-      el.style.cssText = 'width:100%;padding:11px 14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;color:#F8FAFC;font-family:"DM Sans",sans-serif;font-size:0.9rem;transition:border-color 0.2s;outline:none;';
-      el.classList.add('styled');
-    }
-  });
-</script>
 {% endblock %}

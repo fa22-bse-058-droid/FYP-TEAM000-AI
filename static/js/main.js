@@ -48,6 +48,7 @@
       const show = input.type === 'password';
       input.type = show ? 'text' : 'password';
       button.textContent = show ? 'Hide' : 'Show';
+      button.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
     });
   });
 
@@ -81,8 +82,9 @@
       uploadZone.classList.remove('dragover');
     }));
     uploadZone.addEventListener('drop', (e) => {
-      if (!input || !e.dataTransfer || !e.dataTransfer.files || !e.dataTransfer.files.length) return;
-      input.files = e.dataTransfer.files;
+      const droppedFiles = e.dataTransfer && e.dataTransfer.files ? e.dataTransfer.files : null;
+      if (!input || !droppedFiles || !droppedFiles.length) return;
+      input.files = droppedFiles;
       input.dispatchEvent(new Event('change', { bubbles: true }));
     });
     if (input) {
@@ -95,10 +97,14 @@
 
   const initCountUp = () => {
     document.querySelectorAll('.count-up').forEach((el) => {
-      const end = Number(el.dataset.count || '0');
+      const rawCount = el.dataset.count;
+      const end = Number(rawCount);
       if (Number.isNaN(end)) return;
       const duration = 1200;
+      let started = false;
       const trigger = () => {
+        if (started) return;
+        started = true;
         const startTime = performance.now();
         const frame = (now) => {
           const p = Math.min((now - startTime) / duration, 1);
@@ -109,6 +115,16 @@
       };
       if (typeof ScrollTrigger !== 'undefined' && typeof gsap !== 'undefined') {
         ScrollTrigger.create({ trigger: el, start: 'top 85%', once: true, onEnter: trigger });
+      } else if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              trigger();
+              observer.disconnect();
+            }
+          });
+        }, { threshold: 0.25 });
+        observer.observe(el);
       } else {
         trigger();
       }
@@ -154,12 +170,15 @@
       });
     });
 
-    initCountUp();
   };
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initGSAP);
+    document.addEventListener('DOMContentLoaded', () => {
+      initGSAP();
+      initCountUp();
+    });
   } else {
     initGSAP();
+    initCountUp();
   }
 })();

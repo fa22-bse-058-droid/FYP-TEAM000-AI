@@ -167,6 +167,12 @@ body.menu-open{overflow:hidden}
 .auth-submit{width:100%}
 .auth-switch-link{font-size:.88rem;color:var(--text-1);margin-top:.3rem}
 
+.field-error{display:block;color:var(--red);font-size:.78rem;margin-top:.3rem}
+.field-help{display:block;color:var(--text-1);font-size:.76rem;margin-top:.3rem}
+.split-two{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+.remember-me-row{display:flex;align-items:center;gap:.5rem;color:var(--text-1);font-size:.85rem}
+.remember-me-row input[type='checkbox']{width:15px;height:15px;accent-color:var(--accent)}
+
 .messages-container{display:grid;gap:.5rem;margin:.6rem 0}
 .message-item{padding:.6rem .7rem;border-radius:6px;border:1px solid var(--border);font-size:.82rem}
 .message-item.success{color:var(--green)}

@@ -6,8 +6,8 @@
 <div class="dashboard-wrap animate-in">
   <div class="dashboard-top">
     <div>
-      <h1>Good morning, {{ user.username }}</h1>
-      <p>{{ now|default:"Today" }} · Let’s move your career forward.</p>
+      <h1>Good morning, {{ user.first_name|default:user.username }}</h1>
+      <p>{% now "M d, Y" %} · Let’s move your career forward.</p>
     </div>
     <div class="dashboard-top-actions">
       <a href="{% url 'upload_cv_analysis' %}" class="btn-primary">Analyze CV</a>
@@ -26,9 +26,9 @@
     <div class="dashboard-left">
       <article class="card">
         <div class="module-header-inline"><h2>CV Summary</h2></div>
-        {% with score=stats.get_applications_progress|default:78 %}
+        {% with score=stats.get_applications_progress|default:0 %}
           <p class="big-score {% if score >= 75 %}score-good{% elif score >= 60 %}score-mid{% else %}score-low{% endif %}">{{ score }}</p>
-          <div class="mini-bars"><span style="width:{{ score }}%"></span><span style="width:{{ cv_analyses|default:'50' }}%"></span><span style="width:{{ saved_jobs|default:'40' }}%"></span><span style="width:{{ recent_applications|default:'35' }}%"></span></div>
+          <div class="mini-bars"><span style="width:{{ score }}%"></span><span style="width:{{ cv_analyses|default:'0' }}%"></span><span style="width:{{ saved_jobs|default:'0' }}%"></span><span style="width:{{ recent_applications|default:'0' }}%"></span></div>
         {% endwith %}
         <div class="pill-row"><span class="pill-red">Docker</span><span class="pill-red">Kubernetes</span><span class="pill-red">TypeScript</span></div>
       </article>

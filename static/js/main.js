@@ -6,12 +6,17 @@
   const hamburger = document.querySelector('.hamburger');
   const mobileMenu = document.querySelector('.mobile-menu');
   const mobileClose = document.querySelector('.mobile-menu-close');
+  const NAV_OPACITY_MIN = 0.72;
+  const NAV_OPACITY_MAX = 0.96;
+  const NAV_OPACITY_SCROLL_RANGE = 420;
+  const RIPPLE_DURATION_MS = 600;
 
   const setNavbarState = () => {
     if (!navbar) return;
     const scrolled = window.scrollY > 40;
     navbar.classList.toggle('scrolled', scrolled);
-    const dynamicOpacity = Math.min(0.96, 0.72 + (window.scrollY / 420) * 0.24);
+    const dynamicOpacity = Math.min(NAV_OPACITY_MAX,
+      NAV_OPACITY_MIN + (window.scrollY / NAV_OPACITY_SCROLL_RANGE) * (NAV_OPACITY_MAX - NAV_OPACITY_MIN));
     navbar.style.setProperty('--nav-opacity', dynamicOpacity.toFixed(2));
   };
 
@@ -83,7 +88,7 @@
         ripple.style.left = `${e.clientX - rect.left}px`;
         ripple.style.top = `${e.clientY - rect.top}px`;
         el.appendChild(ripple);
-        window.setTimeout(() => ripple.remove(), 650);
+        window.setTimeout(() => ripple.remove(), RIPPLE_DURATION_MS);
       });
     });
   };

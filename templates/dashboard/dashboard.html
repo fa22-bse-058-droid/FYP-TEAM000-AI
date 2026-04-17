@@ -159,9 +159,10 @@
   .switch input:checked + .switch-slider{background:linear-gradient(90deg,#2F81F7,#7b61ff);border-color:rgba(116,80,255,.75)}
   .switch input:checked + .switch-slider:before{transform:translateX(20px);background:#fff}
   .status-pill{display:inline-flex;align-items:center;border-radius:20px;padding:3px 10px;font-size:.72rem;margin-top:2px;gap:6px}
+  .status-pill::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--text-2)}
   .status-pill.active{background:var(--green-dim);color:var(--green);box-shadow:0 0 0 1px rgba(63,185,80,.2),0 0 14px rgba(63,185,80,.35)}
   .status-pill.paused{background:var(--bg-3);color:var(--text-2)}
-  .status-pill.active::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(63,185,80,.5);animation:statusPing 2.1s ease-out infinite}
+  .status-pill.active::before{background:var(--green);box-shadow:0 0 0 0 rgba(63,185,80,.5);animation:statusPing 2.1s ease-out infinite}
   @keyframes statusPing{70%{box-shadow:0 0 0 10px rgba(63,185,80,0)}100%{box-shadow:0 0 0 0 rgba(63,185,80,0)}}
   .auto-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;border-top:1px solid var(--border);margin-top:14px;padding-top:14px}
   .auto-stats strong{font-size:1.3rem;line-height:1}
@@ -503,7 +504,7 @@
 
     const animateBars = () => {
       const animateFill = (el, index) => {
-        const target = Math.max(0, Math.min(parseFloat(el.dataset.progress || el.style.width || '0'), 100));
+        const target = Math.max(0, Math.min(parseFloat(el.dataset.progress || '0'), 100));
         const scale = target / 100;
         if (prefersReducedMotion) {
           el.style.transform = `scaleX(${scale})`;

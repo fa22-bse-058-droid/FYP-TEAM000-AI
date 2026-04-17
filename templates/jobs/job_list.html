@@ -31,19 +31,19 @@
               {{ form.location }}
             </div>
             <div class="jobs-filter-group">
-              <label class="jobs-filter-label" id="job-type-group-label">Job Type</label>
+              <p class="jobs-filter-label" id="job-type-group-label">Job Type</p>
               <div class="jobs-checkbox-group" role="group" aria-labelledby="job-type-group-label">
                 {{ form.job_type }}
               </div>
             </div>
             <div class="jobs-filter-group">
-              <label class="jobs-filter-label" id="experience-level-group-label">Experience Level</label>
+              <p class="jobs-filter-label" id="experience-level-group-label">Experience Level</p>
               <div class="jobs-checkbox-group" role="group" aria-labelledby="experience-level-group-label">
                 {{ form.experience_level }}
               </div>
             </div>
             <div class="jobs-filter-group">
-              <label class="jobs-filter-label">Salary Range</label>
+              <label class="jobs-filter-label" for="{{ form.salary_min.id_for_label }}">Salary Range</label>
               <div class="jobs-salary-grid">
                 {{ form.salary_min }}
                 {{ form.salary_max }}

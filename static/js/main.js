@@ -169,6 +169,7 @@
       return;
     }
     gsap.registerPlugin(ScrollTrigger);
+    // Gentle multi-direction drift values for decorative hero glow shapes.
     const heroShapeMotions = [
       { selector: '.hero-shape-one', x: 26, y: -18, duration: 8.5 },
       { selector: '.hero-shape-two', x: -24, y: 22, duration: 10 },

@@ -31,14 +31,14 @@
               {{ form.location }}
             </div>
             <div class="jobs-filter-group">
-              <label class="jobs-filter-label">Job Type</label>
-              <div class="jobs-checkbox-group">
+              <label class="jobs-filter-label" id="job-type-group-label">Job Type</label>
+              <div class="jobs-checkbox-group" role="group" aria-labelledby="job-type-group-label">
                 {{ form.job_type }}
               </div>
             </div>
             <div class="jobs-filter-group">
-              <label class="jobs-filter-label">Experience Level</label>
-              <div class="jobs-checkbox-group">
+              <label class="jobs-filter-label" id="experience-level-group-label">Experience Level</label>
+              <div class="jobs-checkbox-group" role="group" aria-labelledby="experience-level-group-label">
                 {{ form.experience_level }}
               </div>
             </div>

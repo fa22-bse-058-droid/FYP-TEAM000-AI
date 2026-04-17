@@ -10,6 +10,7 @@
   const NAV_OPACITY_MAX = 0.96;
   const NAV_OPACITY_SCROLL_RANGE = 420;
   const RIPPLE_DURATION_MS = 600;
+  const rippleTimeoutIds = new Set();
 
   const setNavbarState = () => {
     if (!navbar) return;
@@ -37,7 +38,15 @@
   };
 
   setNavbarState();
-  window.addEventListener('scroll', setNavbarState, { passive: true });
+  let navTicking = false;
+  window.addEventListener('scroll', () => {
+    if (navTicking) return;
+    navTicking = true;
+    window.requestAnimationFrame(() => {
+      setNavbarState();
+      navTicking = false;
+    });
+  }, { passive: true });
 
   if (hamburger && mobileMenu) {
     hamburger.addEventListener('click', () => {
@@ -88,10 +97,18 @@
         ripple.style.left = `${e.clientX - rect.left}px`;
         ripple.style.top = `${e.clientY - rect.top}px`;
         el.appendChild(ripple);
-        window.setTimeout(() => ripple.remove(), RIPPLE_DURATION_MS);
+        const timeoutId = window.setTimeout(() => {
+          ripple.remove();
+          rippleTimeoutIds.delete(timeoutId);
+        }, RIPPLE_DURATION_MS);
+        rippleTimeoutIds.add(timeoutId);
       });
     });
   };
+  window.addEventListener('beforeunload', () => {
+    rippleTimeoutIds.forEach((id) => window.clearTimeout(id));
+    rippleTimeoutIds.clear();
+  }, { once: true });
 
   const uploadZone = document.querySelector('.upload-zone');
   if (uploadZone) {

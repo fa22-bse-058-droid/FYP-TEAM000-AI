@@ -364,7 +364,7 @@
           <span class="switch-slider"></span>
         </label>
       </div>
-      <span class="status-pill {% if auto_apply_allowed %}active{% else %}paused{% endif %}">
+      <span class="status-pill {% if auto_apply_allowed %}active{% else %}paused{% endif %}" role="status" aria-live="polite">
         {% if auto_apply_allowed %}Active{% else %}Paused{% endif %}
       </span>
       <div class="auto-stats">

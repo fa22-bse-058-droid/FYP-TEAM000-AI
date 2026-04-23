@@ -31,125 +31,128 @@
                         </div>
                     {% endif %}
 
-                    <form method="POST" enctype="multipart/form-data" novalidate>
+                    <form method="POST" enctype="multipart/form-data" novalidate class="dark-ui-form">
                         {% csrf_token %}
 
-                        <h4 class="form-subsection-title">Basic Information</h4>
-                        <div class="form-two-col">
-                            <div>
-                                <label for="{{ user_form.first_name.id_for_label }}" class="form-label">First Name</label>
+                        <section class="profile-form-section dark-ui-card">
+                            <h4 class="form-subsection-title">Basic Information</h4>
+                            <div class="form-two-col">
+                                <div>
+                                    <label for="{{ user_form.first_name.id_for_label }}" class="form-label">First Name</label>
+                                    <input
+                                        id="{{ user_form.first_name.id_for_label }}"
+                                        type="text"
+                                        name="{{ user_form.first_name.html_name }}"
+                                        value="{{ user_form.first_name.value|default:'' }}"
+                                        class="form-input dark-ui-input"
+                                        placeholder="First name"
+                                    >
+                                </div>
+                                <div>
+                                    <label for="{{ user_form.last_name.id_for_label }}" class="form-label">Last Name</label>
+                                    <input
+                                        id="{{ user_form.last_name.id_for_label }}"
+                                        type="text"
+                                        name="{{ user_form.last_name.html_name }}"
+                                        value="{{ user_form.last_name.value|default:'' }}"
+                                        class="form-input dark-ui-input"
+                                        placeholder="Last name"
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="form-field-block">
+                                <label for="{{ user_form.email.id_for_label }}" class="form-label">Email</label>
                                 <input
-                                    id="{{ user_form.first_name.id_for_label }}"
-                                    type="text"
-                                    name="{{ user_form.first_name.html_name }}"
-                                    value="{{ user_form.first_name.value|default:'' }}"
-                                    class="form-input"
-                                    placeholder="First name"
+                                    id="{{ user_form.email.id_for_label }}"
+                                    type="email"
+                                    name="{{ user_form.email.html_name }}"
+                                    value="{{ user_form.email.value|default:'' }}"
+                                    class="form-input dark-ui-input"
+                                    placeholder="Email"
                                 >
                             </div>
-                            <div>
-                                <label for="{{ user_form.last_name.id_for_label }}" class="form-label">Last Name</label>
+                        </section>
+
+                        <section class="profile-form-section dark-ui-card">
+                            <h4 class="form-subsection-title">Extended Profile</h4>
+                            <div class="form-two-col">
+                                <div>
+                                    <label for="{{ profile_form.role.id_for_label }}" class="form-label">Role</label>
+                                    <select id="{{ profile_form.role.id_for_label }}" name="{{ profile_form.role.html_name }}" class="form-input dark-ui-input">
+                                        {% for value, label in profile_form.role.field.choices %}
+                                            <option value="{{ value }}" {% if profile_form.role.value == value %}selected{% endif %}>{{ label }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="{{ profile_form.location.id_for_label }}" class="form-label">Location</label>
+                                    <input
+                                        id="{{ profile_form.location.id_for_label }}"
+                                        type="text"
+                                        name="{{ profile_form.location.html_name }}"
+                                        value="{{ profile_form.location.value|default:'' }}"
+                                        class="form-input dark-ui-input"
+                                        placeholder="City, Country"
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="form-field-block">
+                                <label for="{{ profile_form.phone.id_for_label }}" class="form-label">Phone Number</label>
                                 <input
-                                    id="{{ user_form.last_name.id_for_label }}"
+                                    id="{{ profile_form.phone.id_for_label }}"
                                     type="text"
-                                    name="{{ user_form.last_name.html_name }}"
-                                    value="{{ user_form.last_name.value|default:'' }}"
-                                    class="form-input"
-                                    placeholder="Last name"
+                                    name="{{ profile_form.phone.html_name }}"
+                                    value="{{ profile_form.phone.value|default:'' }}"
+                                    class="form-input dark-ui-input"
+                                    placeholder="Phone number"
                                 >
                             </div>
-                        </div>
 
-                        <div class="form-field-block">
-                            <label for="{{ user_form.email.id_for_label }}" class="form-label">Email</label>
-                            <input
-                                id="{{ user_form.email.id_for_label }}"
-                                type="email"
-                                name="{{ user_form.email.html_name }}"
-                                value="{{ user_form.email.value|default:'' }}"
-                                class="form-input"
-                                placeholder="Email"
-                            >
-                        </div>
-
-                        <div class="form-divider"></div>
-
-                        <h4 class="form-subsection-title">Extended Profile</h4>
-                        <div class="form-two-col">
-                            <div>
-                                <label for="{{ profile_form.role.id_for_label }}" class="form-label">Role</label>
-                                <select id="{{ profile_form.role.id_for_label }}" name="{{ profile_form.role.html_name }}" class="form-input">
-                                    {% for value, label in profile_form.role.field.choices %}
-                                        <option value="{{ value }}" {% if profile_form.role.value == value %}selected{% endif %}>{{ label }}</option>
-                                    {% endfor %}
-                                </select>
+                            <div class="form-field-block">
+                                <label for="{{ profile_form.bio.id_for_label }}" class="form-label">Bio</label>
+                                <textarea id="{{ profile_form.bio.id_for_label }}" name="{{ profile_form.bio.html_name }}" class="form-input dark-ui-input dark-ui-textarea" rows="4" placeholder="Tell us about yourself">{{ profile_form.bio.value|default:'' }}</textarea>
                             </div>
-                            <div>
-                                <label for="{{ profile_form.location.id_for_label }}" class="form-label">Location</label>
-                                <input
-                                    id="{{ profile_form.location.id_for_label }}"
-                                    type="text"
-                                    name="{{ profile_form.location.html_name }}"
-                                    value="{{ profile_form.location.value|default:'' }}"
-                                    class="form-input"
-                                    placeholder="City, Country"
-                                >
-                            </div>
-                        </div>
 
-                        <div class="form-field-block">
-                            <label for="{{ profile_form.phone.id_for_label }}" class="form-label">Phone Number</label>
-                            <input
-                                id="{{ profile_form.phone.id_for_label }}"
-                                type="text"
-                                name="{{ profile_form.phone.html_name }}"
-                                value="{{ profile_form.phone.value|default:'' }}"
-                                class="form-input"
-                                placeholder="Phone number"
-                            >
-                        </div>
-
-                        <div class="form-field-block">
-                            <label for="{{ profile_form.bio.id_for_label }}" class="form-label">Bio</label>
-                            <textarea id="{{ profile_form.bio.id_for_label }}" name="{{ profile_form.bio.html_name }}" class="form-input" rows="4" placeholder="Tell us about yourself">{{ profile_form.bio.value|default:'' }}</textarea>
-                        </div>
-
-                        <div class="form-two-col">
-                            <div>
-                                <label for="{{ profile_form.job_preference.id_for_label }}" class="form-label">Job Preference</label>
-                                <input
-                                    id="{{ profile_form.job_preference.id_for_label }}"
-                                    type="text"
-                                    name="{{ profile_form.job_preference.html_name }}"
-                                    value="{{ profile_form.job_preference.value|default:'' }}"
-                                    class="form-input"
-                                    placeholder="e.g. Software Engineer, Data Scientist"
-                                >
+                            <div class="form-two-col">
+                                <div>
+                                    <label for="{{ profile_form.job_preference.id_for_label }}" class="form-label">Job Preference</label>
+                                    <input
+                                        id="{{ profile_form.job_preference.id_for_label }}"
+                                        type="text"
+                                        name="{{ profile_form.job_preference.html_name }}"
+                                        value="{{ profile_form.job_preference.value|default:'' }}"
+                                        class="form-input dark-ui-input"
+                                        placeholder="e.g. Software Engineer, Data Scientist"
+                                    >
+                                </div>
+                                <div>
+                                    <label for="{{ profile_form.skills.id_for_label }}" class="form-label">Skills</label>
+                                    <input
+                                        id="{{ profile_form.skills.id_for_label }}"
+                                        type="text"
+                                        name="{{ profile_form.skills.html_name }}"
+                                        value="{{ profile_form.skills.value|default:'' }}"
+                                        class="form-input dark-ui-input"
+                                        placeholder="Comma-separated: Python, Django, React"
+                                    >
+                                </div>
                             </div>
-                            <div>
-                                <label for="{{ profile_form.skills.id_for_label }}" class="form-label">Skills</label>
-                                <input
-                                    id="{{ profile_form.skills.id_for_label }}"
-                                    type="text"
-                                    name="{{ profile_form.skills.html_name }}"
-                                    value="{{ profile_form.skills.value|default:'' }}"
-                                    class="form-input"
-                                    placeholder="Comma-separated: Python, Django, React"
-                                >
-                            </div>
-                        </div>
 
-                        <div class="form-field-block">
-                            <label class="form-label" for="{{ profile_form.profile_picture.id_for_label }}">Profile Picture</label>
-                            <div class="upload-area" role="button" tabindex="0">
-                                <svg viewBox="0 0 24 24" aria-hidden="true">
-                                    <path d="M12 16V5m0 0 4 4m-4-4-4 4M5 19h14"></path>
-                                </svg>
-                                <p>Click to upload a profile image</p>
-                                <span class="file-label">{% if profile.profile_picture %}{{ profile.profile_picture.name }}{% else %}No file selected{% endif %}</span>
+                            <div class="form-field-block">
+                                <label class="form-label" for="{{ profile_form.profile_picture.id_for_label }}">Profile Picture</label>
+                                <div class="upload-area" role="button" tabindex="0">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M12 16V5m0 0 4 4m-4-4-4 4M5 19h14"></path>
+                                    </svg>
+                                    <p class="upload-area-title">Click to upload profile image</p>
+                                    <span class="upload-area-hint">PNG, JPG up to 5MB</span>
+                                    <span class="file-label">{% if profile.profile_picture %}{{ profile.profile_picture.name }}{% else %}No file selected{% endif %}</span>
+                                </div>
+                                <input id="{{ profile_form.profile_picture.id_for_label }}" type="file" name="{{ profile_form.profile_picture.html_name }}" class="profile-file-input" accept="image/*">
                             </div>
-                            <input id="{{ profile_form.profile_picture.id_for_label }}" type="file" name="{{ profile_form.profile_picture.html_name }}" class="profile-file-input" accept="image/*">
-                        </div>
+                        </section>
 
                         <div class="profile-form-actions">
                             <button type="submit" class="job-btn-primary">Save Changes</button>

@@ -20,35 +20,36 @@
                 <button type="button" class="job-btn-primary new-goal-btn">Create New Goal</button>
             </header>
 
-            <div class="goals-theme-layout">
-                <section class="jobs-sidebar-panel goal-form-panel" aria-live="polite">
-                    <div class="goal-form-head">
-                        <h2>Create New Goal</h2>
-                        <button type="button" class="goal-form-close cancel-goal-btn" aria-label="Close goal form">×</button>
+            <div class="goal-modal-overlay" aria-hidden="true"></div>
+            <section class="goal-modal goal-form-panel dark-ui-card" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="goal-modal-title">
+                <div class="goal-form-head">
+                    <h2 id="goal-modal-title">Create New Goal</h2>
+                    <button type="button" class="goal-form-close cancel-goal-btn" aria-label="Close goal form">×</button>
+                </div>
+                <form method="POST" class="dark-ui-form">
+                    {% csrf_token %}
+                    <div class="goal-form-grid">
+                        <div>
+                            <label for="goal-title" class="form-label">Goal Title</label>
+                            <input id="goal-title" type="text" name="title" class="form-input dark-ui-input" placeholder="e.g. Land a Django Developer role" required>
+                        </div>
+                        <div>
+                            <label for="goal-description" class="form-label">Description</label>
+                            <textarea id="goal-description" name="description" class="form-input dark-ui-input dark-ui-textarea" rows="4" placeholder="Describe your goal and what success looks like"></textarea>
+                        </div>
+                        <div>
+                            <label for="goal-target-date" class="form-label">Target Date</label>
+                            <input id="goal-target-date" type="date" name="target_date" class="form-input dark-ui-input dark-ui-date-input" required>
+                        </div>
                     </div>
-                    <form method="POST">
-                        {% csrf_token %}
-                        <div class="goal-form-grid">
-                            <div>
-                                <label for="goal-title" class="form-label">Goal Title</label>
-                                <input id="goal-title" type="text" name="title" class="form-input" placeholder="e.g. Land a Django Developer role" required>
-                            </div>
-                            <div>
-                                <label for="goal-description" class="form-label">Description</label>
-                                <textarea id="goal-description" name="description" class="form-input" rows="4" placeholder="Describe your goal and what success looks like"></textarea>
-                            </div>
-                            <div>
-                                <label for="goal-target-date" class="form-label">Target Date</label>
-                                <input id="goal-target-date" type="date" name="target_date" class="form-input" required>
-                            </div>
-                        </div>
-                        <div class="goal-form-actions">
-                            <button type="submit" class="job-btn-primary">Create Goal</button>
-                            <button type="button" class="btn-ghost cancel-goal-btn">Cancel</button>
-                        </div>
-                    </form>
-                </section>
+                    <div class="goal-form-actions">
+                        <button type="submit" class="job-btn-primary">Create Goal</button>
+                        <button type="button" class="btn-ghost cancel-goal-btn">Cancel</button>
+                    </div>
+                </form>
+            </section>
 
+            <div class="goals-theme-layout">
                 <section class="jobs-results-panel goals-results-panel">
                     <h2 class="goals-section-title">Active Goals</h2>
                     {% if goals %}

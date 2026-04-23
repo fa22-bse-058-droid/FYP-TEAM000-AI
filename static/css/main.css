@@ -301,7 +301,7 @@ body.menu-open{overflow:hidden}
 .goal-form-actions .job-btn-primary{width:auto}
 .goals-results-panel{padding:1.2rem}
 .goals-section-title{font-size:1.02rem;font-weight:700;color:#fff;margin-bottom:14px}
-.goals-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.goals-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
 .goal-item-card h3{font-size:1rem;font-weight:600;color:#fff}
 .goal-item-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .goal-status-badge{display:inline-flex;align-items:center;font-size:.72rem;padding:3px 10px;border-radius:999px;border:1px solid}

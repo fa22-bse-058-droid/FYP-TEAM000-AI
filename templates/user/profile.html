@@ -4,197 +4,209 @@
 {% block title %}My Profile - AI Career Assistant{% endblock %}
 
 {% block content %}
-<div class="inner-page-wrap profile-page">
-    <header class="page-header-block">
-        <span class="section-label">Your Profile</span>
-        <h1 class="page-title">Profile Settings</h1>
-        <p class="page-subtitle">Manage your personal details and career preferences</p>
-    </header>
+<div class="page-content">
+    <div class="jobs-page-shell profile-page-shell">
+        <div class="jobs-bg-grid"></div>
+        <div class="jobs-bg-glow jobs-bg-glow-blue"></div>
+        <div class="jobs-bg-glow jobs-bg-glow-purple"></div>
 
-    <section class="card profile-header-card">
-        <div class="profile-avatar-wrap">
-            {% if profile.profile_picture %}
-                <img src="{{ profile.profile_picture.url }}" alt="Profile picture" class="profile-avatar-image">
-            {% else %}
-                <div class="profile-avatar-initial">{{ user.username|first|upper }}</div>
-            {% endif %}
+        <div class="jobs-shell-content">
+            <header class="jobs-header-block">
+                <span class="section-label">Your Profile</span>
+                <h1 class="jobs-title">Profile Settings</h1>
+                <p class="jobs-subtitle">Manage your personal details, preferences, and CV from one place.</p>
+            </header>
+
+            <div class="profile-theme-layout">
+                <section class="jobs-results-panel profile-edit-card">
+                    <div class="card-header-line">
+                        <h3>Edit Profile</h3>
+                    </div>
+
+                    {% if messages %}
+                        <div class="messages-container">
+                            {% for message in messages %}
+                                <div class="message-item {{ message.tags }}">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <form method="POST" enctype="multipart/form-data" novalidate>
+                        {% csrf_token %}
+
+                        <h4 class="form-subsection-title">Basic Information</h4>
+                        <div class="form-two-col">
+                            <div>
+                                <label for="{{ user_form.first_name.id_for_label }}" class="form-label">First Name</label>
+                                <input
+                                    id="{{ user_form.first_name.id_for_label }}"
+                                    type="text"
+                                    name="{{ user_form.first_name.html_name }}"
+                                    value="{{ user_form.first_name.value|default:'' }}"
+                                    class="form-input"
+                                    placeholder="First name"
+                                >
+                            </div>
+                            <div>
+                                <label for="{{ user_form.last_name.id_for_label }}" class="form-label">Last Name</label>
+                                <input
+                                    id="{{ user_form.last_name.id_for_label }}"
+                                    type="text"
+                                    name="{{ user_form.last_name.html_name }}"
+                                    value="{{ user_form.last_name.value|default:'' }}"
+                                    class="form-input"
+                                    placeholder="Last name"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-field-block">
+                            <label for="{{ user_form.email.id_for_label }}" class="form-label">Email</label>
+                            <input
+                                id="{{ user_form.email.id_for_label }}"
+                                type="email"
+                                name="{{ user_form.email.html_name }}"
+                                value="{{ user_form.email.value|default:'' }}"
+                                class="form-input"
+                                placeholder="Email"
+                            >
+                        </div>
+
+                        <div class="form-divider"></div>
+
+                        <h4 class="form-subsection-title">Extended Profile</h4>
+                        <div class="form-two-col">
+                            <div>
+                                <label for="{{ profile_form.role.id_for_label }}" class="form-label">Role</label>
+                                <select id="{{ profile_form.role.id_for_label }}" name="{{ profile_form.role.html_name }}" class="form-input">
+                                    {% for value, label in profile_form.role.field.choices %}
+                                        <option value="{{ value }}" {% if profile_form.role.value == value %}selected{% endif %}>{{ label }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div>
+                                <label for="{{ profile_form.location.id_for_label }}" class="form-label">Location</label>
+                                <input
+                                    id="{{ profile_form.location.id_for_label }}"
+                                    type="text"
+                                    name="{{ profile_form.location.html_name }}"
+                                    value="{{ profile_form.location.value|default:'' }}"
+                                    class="form-input"
+                                    placeholder="City, Country"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-field-block">
+                            <label for="{{ profile_form.phone.id_for_label }}" class="form-label">Phone Number</label>
+                            <input
+                                id="{{ profile_form.phone.id_for_label }}"
+                                type="text"
+                                name="{{ profile_form.phone.html_name }}"
+                                value="{{ profile_form.phone.value|default:'' }}"
+                                class="form-input"
+                                placeholder="Phone number"
+                            >
+                        </div>
+
+                        <div class="form-field-block">
+                            <label for="{{ profile_form.bio.id_for_label }}" class="form-label">Bio</label>
+                            <textarea id="{{ profile_form.bio.id_for_label }}" name="{{ profile_form.bio.html_name }}" class="form-input" rows="4" placeholder="Tell us about yourself">{{ profile_form.bio.value|default:'' }}</textarea>
+                        </div>
+
+                        <div class="form-two-col">
+                            <div>
+                                <label for="{{ profile_form.job_preference.id_for_label }}" class="form-label">Job Preference</label>
+                                <input
+                                    id="{{ profile_form.job_preference.id_for_label }}"
+                                    type="text"
+                                    name="{{ profile_form.job_preference.html_name }}"
+                                    value="{{ profile_form.job_preference.value|default:'' }}"
+                                    class="form-input"
+                                    placeholder="e.g. Software Engineer, Data Scientist"
+                                >
+                            </div>
+                            <div>
+                                <label for="{{ profile_form.skills.id_for_label }}" class="form-label">Skills</label>
+                                <input
+                                    id="{{ profile_form.skills.id_for_label }}"
+                                    type="text"
+                                    name="{{ profile_form.skills.html_name }}"
+                                    value="{{ profile_form.skills.value|default:'' }}"
+                                    class="form-input"
+                                    placeholder="Comma-separated: Python, Django, React"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-field-block">
+                            <label class="form-label" for="{{ profile_form.profile_picture.id_for_label }}">Profile Picture</label>
+                            <div class="upload-area" role="button" tabindex="0">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M12 16V5m0 0 4 4m-4-4-4 4M5 19h14"></path>
+                                </svg>
+                                <p>Click to upload a profile image</p>
+                                <span class="file-label">{% if profile.profile_picture %}{{ profile.profile_picture.name }}{% else %}No file selected{% endif %}</span>
+                            </div>
+                            <input id="{{ profile_form.profile_picture.id_for_label }}" type="file" name="{{ profile_form.profile_picture.html_name }}" class="profile-file-input" accept="image/*">
+                        </div>
+
+                        <div class="profile-form-actions">
+                            <button type="submit" class="job-btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </section>
+
+                <aside class="profile-side-stack">
+                    <section class="jobs-sidebar-panel profile-header-card">
+                        <div class="profile-avatar-wrap">
+                            {% if profile.profile_picture %}
+                                <img src="{{ profile.profile_picture.url }}" alt="Profile picture" class="profile-avatar-image">
+                            {% else %}
+                                <div class="profile-avatar-initial">{{ user.username|first|upper }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="profile-user-meta">
+                            <h2>{{ user.get_full_name|default:user.username }}</h2>
+                            <p>@{{ user.username }}</p>
+                            <span class="profile-role-pill">{{ profile.get_role_display }}</span>
+                        </div>
+                        <a href="{% url 'change_password' %}" class="btn-ghost btn-sm profile-password-btn">Change Password</a>
+                    </section>
+
+                    <section class="jobs-sidebar-panel cv-card">
+                        <div class="card-header-line">
+                            <h3>CV Management</h3>
+                        </div>
+                        {% if profile.cv %}
+                            <div class="cv-file-row">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M7 3.5h7l4.5 4.5V20a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 5.5 20V5A1.5 1.5 0 0 1 7 3.5Z"></path>
+                                    <path d="M14 3.5V9h4.5"></path>
+                                </svg>
+                                <div>
+                                    <p class="cv-file-name">{{ profile.cv.name }}</p>
+                                    <p class="cv-file-date">Uploaded {{ profile.cv_uploaded_at|date:"M d, Y" }}</p>
+                                </div>
+                            </div>
+                            <div class="cv-actions">
+                                <a href="{% url 'upload_cv' %}" class="btn-ghost btn-sm">Replace CV</a>
+                                <a href="{{ profile.cv.url }}" target="_blank" rel="noopener noreferrer" class="btn-ghost btn-sm">Download</a>
+                            </div>
+                        {% else %}
+                            <div class="cv-empty-state">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M7 3.5h7l4.5 4.5V20a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 5.5 20V5A1.5 1.5 0 0 1 7 3.5Z"></path>
+                                    <path d="M14 3.5V9h4.5"></path>
+                                </svg>
+                                <p>No CV uploaded yet.</p>
+                                <a href="{% url 'upload_cv' %}" class="job-btn-primary">Upload CV</a>
+                            </div>
+                        {% endif %}
+                    </section>
+                </aside>
+            </div>
         </div>
-        <div class="profile-user-meta">
-            <h2>{{ user.get_full_name|default:user.username }}</h2>
-            <p>@{{ user.username }}</p>
-            <span class="profile-role-pill">{{ profile.get_role_display }}</span>
-        </div>
-        <a href="{% url 'change_password' %}" class="btn-ghost btn-sm profile-password-btn">Change Password</a>
-    </section>
-
-    <section class="card profile-edit-card">
-        <div class="card-header-line">
-            <h3>Edit Profile</h3>
-        </div>
-
-        {% if messages %}
-            <div class="messages-container">
-                {% for message in messages %}
-                    <div class="message-item {{ message.tags }}">{{ message }}</div>
-                {% endfor %}
-            </div>
-        {% endif %}
-
-        <form method="POST" enctype="multipart/form-data" novalidate>
-            {% csrf_token %}
-
-            <h4 class="form-subsection-title">Basic Information</h4>
-            <div class="form-two-col">
-                <div>
-                    <label for="{{ user_form.first_name.id_for_label }}" class="form-label">First Name</label>
-                    <input
-                        id="{{ user_form.first_name.id_for_label }}"
-                        type="text"
-                        name="{{ user_form.first_name.html_name }}"
-                        value="{{ user_form.first_name.value|default:'' }}"
-                        class="form-input"
-                        placeholder="First name"
-                    >
-                </div>
-                <div>
-                    <label for="{{ user_form.last_name.id_for_label }}" class="form-label">Last Name</label>
-                    <input
-                        id="{{ user_form.last_name.id_for_label }}"
-                        type="text"
-                        name="{{ user_form.last_name.html_name }}"
-                        value="{{ user_form.last_name.value|default:'' }}"
-                        class="form-input"
-                        placeholder="Last name"
-                    >
-                </div>
-            </div>
-
-            <div class="form-field-block">
-                <label for="{{ user_form.email.id_for_label }}" class="form-label">Email</label>
-                <input
-                    id="{{ user_form.email.id_for_label }}"
-                    type="email"
-                    name="{{ user_form.email.html_name }}"
-                    value="{{ user_form.email.value|default:'' }}"
-                    class="form-input"
-                    placeholder="Email"
-                >
-            </div>
-
-            <div class="form-divider"></div>
-
-            <h4 class="form-subsection-title">Extended Profile</h4>
-            <div class="form-two-col">
-                <div>
-                    <label for="{{ profile_form.role.id_for_label }}" class="form-label">Role</label>
-                    <select id="{{ profile_form.role.id_for_label }}" name="{{ profile_form.role.html_name }}" class="form-input">
-                        {% for value, label in profile_form.role.field.choices %}
-                            <option value="{{ value }}" {% if profile_form.role.value == value %}selected{% endif %}>{{ label }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div>
-                    <label for="{{ profile_form.location.id_for_label }}" class="form-label">Location</label>
-                    <input
-                        id="{{ profile_form.location.id_for_label }}"
-                        type="text"
-                        name="{{ profile_form.location.html_name }}"
-                        value="{{ profile_form.location.value|default:'' }}"
-                        class="form-input"
-                        placeholder="City, Country"
-                    >
-                </div>
-            </div>
-
-            <div class="form-field-block">
-                <label for="{{ profile_form.phone.id_for_label }}" class="form-label">Phone Number</label>
-                <input
-                    id="{{ profile_form.phone.id_for_label }}"
-                    type="text"
-                    name="{{ profile_form.phone.html_name }}"
-                    value="{{ profile_form.phone.value|default:'' }}"
-                    class="form-input"
-                    placeholder="Phone number"
-                >
-            </div>
-
-            <div class="form-field-block">
-                <label for="{{ profile_form.bio.id_for_label }}" class="form-label">Bio</label>
-                <textarea id="{{ profile_form.bio.id_for_label }}" name="{{ profile_form.bio.html_name }}" class="form-input" rows="4" placeholder="Tell us about yourself">{{ profile_form.bio.value|default:'' }}</textarea>
-            </div>
-
-            <div class="form-two-col">
-                <div>
-                    <label for="{{ profile_form.job_preference.id_for_label }}" class="form-label">Job Preference</label>
-                    <input
-                        id="{{ profile_form.job_preference.id_for_label }}"
-                        type="text"
-                        name="{{ profile_form.job_preference.html_name }}"
-                        value="{{ profile_form.job_preference.value|default:'' }}"
-                        class="form-input"
-                        placeholder="e.g. Software Engineer, Data Scientist"
-                    >
-                </div>
-                <div>
-                    <label for="{{ profile_form.skills.id_for_label }}" class="form-label">Skills</label>
-                    <input
-                        id="{{ profile_form.skills.id_for_label }}"
-                        type="text"
-                        name="{{ profile_form.skills.html_name }}"
-                        value="{{ profile_form.skills.value|default:'' }}"
-                        class="form-input"
-                        placeholder="Comma-separated: Python, Django, React"
-                    >
-                </div>
-            </div>
-
-            <div class="form-field-block">
-                <label class="form-label" for="{{ profile_form.profile_picture.id_for_label }}">Profile Picture</label>
-                <div class="upload-area" role="button" tabindex="0">
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M12 16V5m0 0 4 4m-4-4-4 4M5 19h14"></path>
-                    </svg>
-                    <p>Click to upload</p>
-                    <span class="file-label">{% if profile.profile_picture %}{{ profile.profile_picture.name }}{% else %}No file selected{% endif %}</span>
-                </div>
-                <input id="{{ profile_form.profile_picture.id_for_label }}" type="file" name="{{ profile_form.profile_picture.html_name }}" class="profile-file-input" accept="image/*">
-            </div>
-
-            <div class="profile-form-actions">
-                <button type="submit" class="btn-primary">Save Changes</button>
-            </div>
-        </form>
-    </section>
-
-    <section class="card cv-card">
-        <div class="card-header-line">
-            <h3>CV Management</h3>
-        </div>
-        {% if profile.cv %}
-            <div class="cv-file-row">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M7 3.5h7l4.5 4.5V20a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 5.5 20V5A1.5 1.5 0 0 1 7 3.5Z"></path>
-                    <path d="M14 3.5V9h4.5"></path>
-                </svg>
-                <div>
-                    <p class="cv-file-name">{{ profile.cv.name }}</p>
-                    <p class="cv-file-date">Uploaded {{ profile.cv_uploaded_at|date:"M d, Y" }}</p>
-                </div>
-            </div>
-            <div class="cv-actions">
-                <a href="{% url 'upload_cv' %}" class="btn-ghost btn-sm">Replace CV</a>
-                <a href="{{ profile.cv.url }}" target="_blank" rel="noopener noreferrer" class="btn-ghost btn-sm">Download</a>
-            </div>
-        {% else %}
-            <div class="cv-empty-state">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M7 3.5h7l4.5 4.5V20a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 5.5 20V5A1.5 1.5 0 0 1 7 3.5Z"></path>
-                    <path d="M14 3.5V9h4.5"></path>
-                </svg>
-                <p>No CV uploaded yet.</p>
-                <a href="{% url 'upload_cv' %}" class="btn-primary btn-sm">Upload CV</a>
-            </div>
-        {% endif %}
-    </section>
+    </div>
 </div>
 {% endblock %}

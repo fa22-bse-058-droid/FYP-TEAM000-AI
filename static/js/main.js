@@ -157,24 +157,26 @@
   const profileFileInput = document.querySelector('.profile-file-input');
   const uploadArea = document.querySelector('.upload-area');
   const fileLabel = document.querySelector('.file-label');
-  uploadArea?.addEventListener('click', () => profileFileInput?.click());
-  uploadArea?.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      profileFileInput?.click();
-    }
-  });
-  profileFileInput?.addEventListener('change', (e) => {
-    const target = e.target;
-    if (!target || !fileLabel) return;
-    if (target.files && target.files[0]) {
-      fileLabel.textContent = target.files[0].name;
-      fileLabel.classList.add('file-selected');
-      return;
-    }
-    fileLabel.textContent = 'No file selected';
-    fileLabel.classList.remove('file-selected');
-  });
+  if (profileFileInput && uploadArea && fileLabel) {
+    uploadArea.addEventListener('click', () => profileFileInput.click());
+    uploadArea.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        profileFileInput.click();
+      }
+    });
+    profileFileInput.addEventListener('change', (e) => {
+      const target = e.target;
+      if (!target) return;
+      if (target.files && target.files[0]) {
+        fileLabel.textContent = target.files[0].name;
+        fileLabel.classList.add('file-selected');
+        return;
+      }
+      fileLabel.textContent = 'No file selected';
+      fileLabel.classList.remove('file-selected');
+    });
+  }
 
   const initCountUp = () => {
     const animateStat = (el) => {

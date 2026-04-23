@@ -155,7 +155,7 @@
                         <path d="M12 16V5m0 0 4 4m-4-4-4 4M5 19h14"></path>
                     </svg>
                     <p>Click to upload</p>
-                    <span class="file-label">{% if profile.profile_picture %}{{ profile.profile_picture.name|cut:'profile_pics/' }}{% else %}No file selected{% endif %}</span>
+                    <span class="file-label">{% if profile.profile_picture %}{{ profile.profile_picture.name }}{% else %}No file selected{% endif %}</span>
                 </div>
                 <input id="{{ profile_form.profile_picture.id_for_label }}" type="file" name="{{ profile_form.profile_picture.html_name }}" class="profile-file-input" accept="image/*">
             </div>
@@ -177,7 +177,7 @@
                     <path d="M14 3.5V9h4.5"></path>
                 </svg>
                 <div>
-                    <p class="cv-file-name">{{ profile.cv.name|cut:'cvs/' }}</p>
+                    <p class="cv-file-name">{{ profile.cv.name }}</p>
                     <p class="cv-file-date">Uploaded {{ profile.cv_uploaded_at|date:"M d, Y" }}</p>
                 </div>
             </div>

@@ -135,6 +135,49 @@
     }
   }
 
+  const newGoalBtn = document.querySelector('.new-goal-btn');
+  const goalForm = document.querySelector('.goal-form-panel');
+  const cancelGoalButtons = document.querySelectorAll('.cancel-goal-btn');
+  const addGoalLink = document.querySelector('.add-goal-link');
+  if (newGoalBtn && goalForm) {
+    const showGoalForm = () => {
+      goalForm.style.display = 'block';
+      goalForm.classList.add('is-open');
+      goalForm.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    };
+    const hideGoalForm = () => {
+      goalForm.style.display = 'none';
+      goalForm.classList.remove('is-open');
+    };
+    newGoalBtn.addEventListener('click', showGoalForm);
+    addGoalLink?.addEventListener('click', showGoalForm);
+    cancelGoalButtons.forEach((button) => button.addEventListener('click', hideGoalForm));
+  }
+
+  const profileFileInput = document.querySelector('.profile-file-input');
+  const uploadArea = document.querySelector('.upload-area');
+  const fileLabel = document.querySelector('.file-label');
+  if (profileFileInput && uploadArea && fileLabel) {
+    uploadArea.addEventListener('click', () => profileFileInput.click());
+    uploadArea.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        profileFileInput.click();
+      }
+    });
+    profileFileInput.addEventListener('change', (e) => {
+      const target = e.target;
+      if (!target) return;
+      if (target.files && target.files[0]) {
+        fileLabel.textContent = target.files[0].name;
+        fileLabel.classList.add('file-selected');
+        return;
+      }
+      fileLabel.textContent = 'No file selected';
+      fileLabel.classList.remove('file-selected');
+    });
+  }
+
   const initCountUp = () => {
     const animateStat = (el) => {
       const target = parseFloat(el.dataset.target || el.dataset.count);

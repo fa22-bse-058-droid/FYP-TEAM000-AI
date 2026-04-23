@@ -26,7 +26,7 @@
 
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{overflow-x:hidden}
-body{background:var(--bg-1);color:var(--text-0);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.7;padding-top:60px}
+body{background:var(--bg-1);color:var(--text-0);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.55;padding-top:60px}
 a{text-decoration:none;color:inherit}
 main{min-height:calc(100vh - 60px)}
 
@@ -333,6 +333,7 @@ body.menu-open{overflow:hidden}
 .upload-area svg{width:20px;height:20px;stroke:var(--text-2);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin:0 auto 6px}
 .upload-area p{font-size:.8rem;color:var(--text-2)}
 .file-label{display:block;margin-top:6px;font-size:.8rem;color:var(--text-2)}
+.file-label.file-selected{color:var(--accent)}
 .profile-file-input{display:none}
 .profile-form-actions{margin-top:24px}
 .cv-file-row{display:flex;align-items:center;gap:12px}

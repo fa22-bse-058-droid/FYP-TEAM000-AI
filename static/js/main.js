@@ -166,9 +166,14 @@
   });
   profileFileInput?.addEventListener('change', (e) => {
     const target = e.target;
-    if (!target || !target.files || !target.files[0] || !fileLabel) return;
-    fileLabel.textContent = target.files[0].name;
-    fileLabel.style.color = 'var(--accent)';
+    if (!target || !fileLabel) return;
+    if (target.files && target.files[0]) {
+      fileLabel.textContent = target.files[0].name;
+      fileLabel.classList.add('file-selected');
+      return;
+    }
+    fileLabel.textContent = 'No file selected';
+    fileLabel.classList.remove('file-selected');
   });
 
   const initCountUp = () => {
